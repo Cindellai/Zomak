@@ -1,0 +1,156 @@
+import Link from 'next/link'
+import { notFound } from 'next/navigation'
+
+import { articles } from '@/data/articles'
+
+type BlogPageProps = {
+  params: Promise<{
+    slug: string
+  }>
+}
+
+export function generateStaticParams() {
+  return articles.map((article) => ({ slug: article.slug }))
+}
+
+export async function generateMetadata({ params }: BlogPageProps) {
+  const { slug } = await params
+  const article = articles.find((item) => item.slug === slug)
+
+  if (!article) {
+    return {}
+  }
+
+  return {
+    title: `${article.title} | ZOMAK Medical`,
+    description: article.summary
+  }
+}
+
+export default async function BlogPage({ params }: BlogPageProps) {
+  const { slug } = await params
+  const article = articles.find((item) => item.slug === slug)
+  const relatedArticles = articles
+    .filter((item) => item.slug !== slug)
+    .slice(0, 3)
+
+  if (!article) {
+    notFound()
+  }
+
+  return (
+    <article className="min-h-screen bg-[#ededed] text-black antialiased">
+      {/* 1. Immersive Full-Bleed Top Banner Layer */}
+      <header className="relative h-[58vh] min-h-[360px] w-full overflow-hidden bg-neutral-950">
+        <img
+          src={article.image}
+          alt=""
+          className="absolute inset-0 h-full w-full object-cover opacity-80"
+        />
+        <div className="absolute inset-0 bg-black/48" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/48 via-black/10 to-black/20" />
+
+        {/* Dynamic Absolute Metadata Labels Grid */}
+        <div className="absolute bottom-6 left-0 right-0 z-10 mx-auto flex max-w-[1440px] items-end justify-between px-6 sm:px-10 lg:px-14">
+          <div className="flex items-center gap-1.5">
+            <span className="rounded bg-white px-3 py-2 text-[12px] font-semibold leading-none text-neutral-900 shadow-sm">
+              {article.readTime}
+            </span>
+          </div>
+
+          {/* Clean Timestamp Print */}
+          <span className="pb-1 text-[15px] font-medium tracking-wide text-white/90">
+            {article.date}
+          </span>
+        </div>
+      </header>
+
+      {/* 2. Main Content Frame Area */}
+      <div className="mx-auto max-w-[1120px] px-6 py-12 sm:px-10 lg:px-14">
+        <header className="mx-auto max-w-[900px] text-center">
+          <h1 className="text-[42px] font-normal leading-[1.12] tracking-[-0.045em] text-[#202020] sm:text-[56px] lg:text-[68px]">
+            {article.title}
+          </h1>
+
+          <p className="mx-auto mt-7 max-w-[760px] text-[18px] font-normal leading-8 tracking-[-0.02em] text-neutral-500">
+            {article.summary}
+          </p>
+
+          <div className="mt-10 flex items-center justify-center gap-3">
+            <div className="flex size-11 items-center justify-center rounded-full bg-[#1a1a1a] text-[14px] font-semibold text-white">
+              ZM
+            </div>
+            <div className="text-left">
+              <p className="text-[14px] font-semibold leading-tight text-[#202020]">
+                ZOMAK Medical
+              </p>
+              <p className="mt-1 text-[12px] font-medium leading-tight text-neutral-400">
+                {article.date} / {article.readTime}
+              </p>
+            </div>
+          </div>
+        </header>
+
+        <div className="mx-auto mt-24 max-w-[760px]">
+          <div className="space-y-8 text-[19px] font-normal leading-9 tracking-[-0.025em] text-neutral-800">
+            {article.body.map((paragraph, index) => (
+              <p
+                key={paragraph}
+                className={
+                  index === 0
+                    ? 'first-letter:float-left first-letter:mr-3 first-letter:text-[72px] first-letter:font-semibold first-letter:leading-[0.85] first-letter:text-[#202020]'
+                    : undefined
+                }
+              >
+                {paragraph}
+              </p>
+            ))}
+          </div>
+
+          <div className="mt-12 border-t border-neutral-300/60 pt-8">
+              <Link
+                href="/contact"
+                className="inline-flex rounded-xl bg-black px-6 py-3.5 text-[14px] font-semibold text-white no-underline transition hover:bg-neutral-800"
+              >
+                Contact
+              </Link>
+          </div>
+        </div>
+
+        {/* Bottom Carousel Grid Context */}
+        <section className="mt-24 pt-12 border-t border-neutral-300/60">
+          <h2 className="text-[26px] font-bold tracking-tight text-neutral-900">
+            More articles
+          </h2>
+
+          <div className="mt-8 grid gap-6 md:grid-cols-3">
+            {relatedArticles.map((relatedArticle) => (
+              <Link
+                key={relatedArticle.slug}
+                href={`/blog/${relatedArticle.slug}`}
+                className="group flex flex-col justify-between rounded-xl bg-white p-4 text-black no-underline transition-all shadow-sm hover:shadow-md"
+              >
+                <div>
+                  <div className="aspect-[1.5/1] overflow-hidden rounded-lg bg-neutral-100">
+                    <img
+                      src={relatedArticle.image}
+                      alt=""
+                      className="h-full w-full object-cover"
+                    />
+                  </div>
+                  <h3 className="mt-4 text-[17px] font-bold leading-snug text-neutral-900">
+                    {relatedArticle.title}
+                  </h3>
+                </div>
+                <p className="mt-6 text-[12px] font-medium text-neutral-400 tracking-wide">
+                  {relatedArticle.date}
+                </p>
+              </Link>
+            ))}
+          </div>
+        </section>
+
+      </div>
+    </article>
+  )
+}

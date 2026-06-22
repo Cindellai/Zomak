@@ -1,0 +1,8 @@
+.env
+.env.local
+.env.*.local
+.next
+node_modules
+payload-types.ts
+*.log
+.DS_Store
