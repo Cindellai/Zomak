@@ -14,7 +14,7 @@ export default function Navbar() {
     null
   )
   const isArticleDetail = pathname.startsWith('/blog/')
-  const usesDarkImageHero = pathname === '/' || isArticleDetail
+  const usesDarkImageHero = pathname === '/' || pathname === '/doctors' || isArticleDetail
   const isOverlayNav = !isScrolled
   const usesLightText = isOverlayNav && usesDarkImageHero
   const linkTone = usesLightText ? 'text-white' : 'text-[#111]'
