@@ -21,11 +21,11 @@ const items = [
 export function FuturePlatform() {
   return (
     <section className="bg-mint py-14">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-[1400px] px-6 sm:px-10 lg:px-16">
         <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
           <div>
-            <p className="text-sm font-bold uppercase text-teal">Built beyond launch</p>
-            <h2 className="mt-2 text-3xl font-black text-ink">Ready for CMS growth and future app integration</h2>
+            <p className="text-sm font-bold text-teal">Built beyond launch</p>
+            <h2 className="mt-2 text-3xl font-normal text-ink">Ready for CMS growth and future app integration</h2>
           </div>
           <div className="grid gap-4 md:grid-cols-3">
             {items.map((item) => {
@@ -34,7 +34,7 @@ export function FuturePlatform() {
               return (
                 <div className="rounded-md bg-white p-5" key={item.title}>
                   <Icon className="text-coral" size={24} />
-                  <h3 className="mt-4 font-black text-ink">{item.title}</h3>
+                  <h3 className="mt-4 font-normal text-ink">{item.title}</h3>
                   <p className="mt-2 text-sm leading-6 text-ink/65">{item.body}</p>
                 </div>
               )

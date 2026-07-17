@@ -1,13 +1,18 @@
 import Link from 'next/link'
 import type { ReactNode } from 'react'
 
-import { locations, services } from '@/data/site'
+import {
+  getServiceCategorySlug,
+  locations,
+  serviceCategoryOrder
+} from '@/data/site'
 import { cta } from '@/lib/routes'
 
 const resourceLinks = [
   { label: 'About', href: '/about' },
   { label: 'Contact', href: '/contact' },
   { label: 'Doctors', href: '/doctors' },
+  { label: 'Visa Medicals', href: '/visa-medicals' },
   { label: 'Patient FAQ', href: '/#faq' }
 ]
 
@@ -19,11 +24,11 @@ const followLinks = [
 
 export function Footer() {
   return (
-    <footer className="bg-[#103134] text-white">
-      <div className="mx-auto max-w-[1500px] px-6 py-12 sm:px-8 lg:px-10 lg:py-14">
-        <div className="flex flex-col gap-8 sm:flex-row sm:items-center sm:justify-between">
+    <footer className="bg-[#333333] text-white">
+      <div className="mx-auto max-w-[1400px] px-6 py-10 sm:px-10 lg:px-16 lg:py-14">
+        <div className="flex flex-col gap-7 md:flex-row md:items-center md:justify-between">
           <p
-            className="max-w-[620px] text-[19px] font-normal leading-tight text-white sm:text-[22px]"
+            className="max-w-[620px] text-[24px] font-normal leading-tight text-white sm:text-[30px] md:text-[22px]"
             style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
           >
             Coordinated healthcare across ZOMAK Medical clinics.
@@ -31,7 +36,7 @@ export function Footer() {
 
           <Link
             href="/contact"
-            className="inline-flex h-11 w-fit items-center justify-center rounded-md bg-white px-6 text-[13px] font-semibold text-pine no-underline transition hover:bg-white/90"
+            className="inline-flex h-11 w-full items-center justify-center rounded-md bg-white px-6 text-[13px] font-normal text-[#333333] no-underline transition hover:bg-[#BFEAE7] sm:w-fit"
           >
             Contact
           </Link>
@@ -39,38 +44,41 @@ export function Footer() {
 
         <div className="mt-12 h-px bg-white/20" />
 
-        <div className="grid gap-12 pt-11 md:grid-cols-[1.35fr_3.2fr] lg:gap-20">
-          <div className="flex flex-col justify-between gap-16">
+        <div className="grid gap-10 pt-10 lg:grid-cols-[1.05fr_3fr] lg:gap-16">
+          <div className="flex flex-col justify-between gap-8 lg:gap-16">
             <Link href="/" className="w-fit text-white no-underline">
-              <span className="block text-[38px] font-normal leading-none tracking-[0.02em] text-white">
+              <span className="block text-[34px] font-normal leading-none text-white sm:text-[38px]">
                 Zomak Medical
               </span>
               
             </Link>
 
-            <p className="max-w-[230px] text-[12px] leading-[1.45] text-white">
+            <p className="max-w-[260px] text-[12px] leading-[1.55] text-white/80">
               Copyright © 2026 ZOMAK Medical.
               <br />
               All rights reserved.
             </p>
           </div>
 
-          <div className="grid grid-cols-2 gap-x-9 gap-y-11 sm:grid-cols-3 lg:grid-cols-5">
+          <div className="grid gap-x-8 gap-y-9 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5">
             <FooterColumn title="Clinics">
               {locations.map((location) => (
                 <FooterLink
                   href={`/locations/${location.slug}`}
                   key={location.slug}
                 >
-                  {location.name.replace('ZOMAK ', '').replace(' Medical Clinic', '')}
+                  {location.name}
                 </FooterLink>
               ))}
             </FooterColumn>
 
             <FooterColumn title="Services">
-              {services.slice(0, 5).map((service) => (
-                <FooterLink href={`/services/${service.slug}`} key={service.slug}>
-                  {service.title}
+              {serviceCategoryOrder.map((category) => (
+                <FooterLink
+                  href={`/services/${getServiceCategorySlug(category)}`}
+                  key={category}
+                >
+                  {category}
                 </FooterLink>
               ))}
             </FooterColumn>
@@ -113,8 +121,10 @@ function FooterColumn({
 }) {
   return (
     <div>
-      <p className="text-[12px] font-medium text-white">{title}</p>
-      <div className="mt-4 grid gap-4 text-[13px] leading-none text-white">
+      <p className="text-xs font-normal text-[#BFEAE7]">
+        {title}
+      </p>
+      <div className="mt-4 grid gap-3 text-[14px] leading-snug text-white sm:text-[13px]">
         {children}
       </div>
     </div>
@@ -131,7 +141,7 @@ function FooterLink({
   return (
     <Link
       href={href}
-      className="w-fit text-white no-underline transition hover:opacity-75"
+      className="w-fit max-w-full break-words text-white/82 no-underline transition hover:text-white"
     >
       {children}
     </Link>

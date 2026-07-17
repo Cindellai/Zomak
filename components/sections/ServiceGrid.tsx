@@ -1,80 +1,96 @@
 import { ArrowRight } from 'lucide-react'
 import Link from 'next/link'
+import { getServiceCategorySlug, services } from '@/data/site'
+
+const getService = (title: string) =>
+  services.find((service) => service.title === title)
+
+const serviceHref = (title: string) => {
+  const service = getService(title)
+  return service ? `/services/${getServiceCategorySlug(service.category)}` : '/services/family-practice'
+}
+
+const serviceImage = (title: string) =>
+  getService(title)?.image ||
+  'https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=1200&q=85'
 
 export function ServiceGrid() {
   return (
-    <section className="bg-white px-4 pb-20 pt-16 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-[1500px]">
-        <div className="mb-10">
+    <section className="bg-white px-6 pb-16 pt-12 antialiased sm:px-10 lg:px-16">
+      <div className="mx-auto max-w-[1400px]">
         
-        </div>
-
-        <div className="grid gap-2 rounded-[28px] border border-[#0b1f21]/5 bg-white p-2 shadow-[0_20px_70px_rgba(15,23,42,0.08)] lg:grid-cols-[1fr_1fr]">
-          {/* Left side */}
-          <div className="grid gap-2">
-            <div className="rounded-[22px] bg-[#F7F8F8] p-8">
-              <h3 className="max-w-[620px] text-[64px] font-semibold leading-[0.88] tracking-[-0.055em] text-[#050b0c] sm:text-[82px] lg:text-[96px]">
+        {/* Main Bento Grid Container */}
+        <div className="grid gap-4 lg:grid-cols-2 items-stretch">
+          
+          {/* Left Column Container */}
+          <div className="flex flex-col gap-4">
+            
+            {/* Elegant Serif Header Block - Added padding top for breathing room */}
+            <div className="flex flex-col justify-end pb-4 pt-6 min-h-[120px] lg:min-h-[140px]">
+              <h2 
+                className="text-[44px] font-normal leading-[1.05] tracking-tight text-[#333333] sm:text-[56px] lg:text-[64px]"
+                style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
+              >
                 ZOMAK
                 <br />
                 Services
-              </h3>
-
-              <p className="mt-8 text-[16px] font-semibold text-[#050b0c]/75">
-                Care options for patients and families
-              </p>
+              </h2>
             </div>
 
-            <div className="grid gap-2 sm:grid-cols-2">
+            {/* Split Image Cards */}
+            <div className="grid gap-4 sm:grid-cols-2">
               <ServiceImageCard
-                href="/services/pediatric-care"
+                href={serviceHref('Pediatric Care')}
                 title="Pediatric Care"
-                image="https://images.unsplash.com/photo-1584515933487-779824d29309?w=900&q=90"
+                image={serviceImage('Pediatric Care')}
               />
-
               <ServiceImageCard
-                href="/services/womens-health-care"
+                href={serviceHref("Women's Health Care")}
                 title="Women’s Health Care"
-                image="https://images.unsplash.com/photo-1550831107-1553da8c8464?w=900&q=90"
+                image={serviceImage("Women's Health Care")}
               />
             </div>
 
+            {/* Wide Mint Action Card */}
             <Link
-              href="/services/drivers-medical"
-              className="group flex min-h-[250px] items-end justify-between gap-8 rounded-[22px] bg-[#EAF2F4] p-8 text-[#050b0c] no-underline transition hover:bg-[#DDECEF]"
+              href={serviceHref("Driver's Medical")}
+              className="group relative flex min-h-[160px] flex-col justify-between overflow-hidden rounded-[32px] bg-[#BFEAE7]/60 p-6 no-underline transition-all duration-300 hover:bg-[#BFEAE7]"
             >
-              <div>
-                <p className="mb-20 text-[16px] font-semibold text-[#050b0c]">
-                  Medical Exam
-                </p>
-
-                <h3 className="max-w-[340px] text-[42px] font-normal leading-[0.9] tracking-[-0.045em]">
-                  Driver’s
-                  <br />
-                  Medical
+              <p className="text-[12px] font-normal tracking-wider text-neutral-800">
+                Medical Exam
+              </p>
+              
+              <div className="mt-auto flex items-end justify-between gap-4">
+                <h3 
+                  className="text-[32px] font-normal leading-[1.1] tracking-tight text-neutral-900 sm:text-[38px]"
+                  style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
+                >
+                  Driver’s Medical
                 </h3>
+                <span className="flex h-10 min-w-[130px] items-center justify-center rounded-full bg-white px-4 text-[13px] font-normal text-neutral-900 shadow-sm transition-all duration-300 group-hover:scale-105">
+                  View Details
+                </span>
               </div>
-
-              <span className="flex h-[76px] min-w-[190px] items-center justify-center rounded-full bg-white px-8 text-[20px] font-normal text-[#050b0c] transition group-hover:translate-x-1">
-                View Details
-              </span>
             </Link>
           </div>
 
-          {/* Right side image panel */}
-          <div className="relative min-h-[760px] overflow-hidden rounded-[22px] bg-[#0b1f21]">
-            <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=1600&q=90')] bg-cover bg-center" />
-            <div className="absolute inset-0 bg-[#0b1f21]/15" />
-            <div className="absolute inset-x-0 bottom-0 h-[45%] bg-gradient-to-t from-[#0b1f21]/70 via-[#0b1f21]/20 to-transparent" />
+          {/* Right Column: Hero Image Panel - Set explicit min-height matching the actual calculated left container height */}
+          <div className="relative flex min-h-[460px] flex-col justify-end overflow-hidden rounded-[32px] bg-neutral-900 lg:min-h-full">
+            <div
+              className="absolute inset-0 bg-cover bg-center transition-transform duration-700 hover:scale-105"
+              style={{ backgroundImage: `url(${serviceImage('Medical Piercings')})` }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-neutral-900/80 via-neutral-900/10 to-transparent" />
 
-            <div className="absolute inset-x-5 bottom-5 grid gap-4 sm:grid-cols-2">
+            {/* Shifted elements higher with flex configurations */}
+            <div className="relative z-10 grid gap-4 p-4 sm:grid-cols-2 sm:p-6 lg:p-8 w-full">
               <OverlayCard
-                href="/services/visa-medical-experts"
+                href={serviceHref('Visa Medical Experts')}
                 title="Visa Medical Experts"
                 variant="solid"
               />
-
               <OverlayCard
-                href="/services/medical-piercings"
+                href={serviceHref('Medical Piercings')}
                 title="Medical Piercings"
                 variant="glass"
               />
@@ -82,128 +98,109 @@ export function ServiceGrid() {
           </div>
         </div>
 
-        {/* Bottom 2 remaining services */}
-        <div className="mt-3 grid gap-3 lg:grid-cols-2">
+        {/* Bottom Wide Cards Row */}
+        <div className="mt-4 grid gap-4 lg:grid-cols-2">
           <BottomCard
-            href="/services/babys-gender-dna-test"
+            href={serviceHref("Baby's Gender DNA Test")}
             title="Baby’s Gender DNA Test"
+            image={serviceImage("Baby's Gender DNA Test")}
           />
-
           <BottomCard
-            href="/services/pediatric-care"
+            href={serviceHref('Pediatric Care')}
             title="Pediatric Care"
+            image={serviceImage('Pediatric Care')}
             dark
           />
         </div>
+
       </div>
     </section>
   )
 }
 
-function ServiceImageCard({
-  href,
-  title,
-  image,
-}: {
-  href: string
-  title: string
-  image: string
-}) {
+function ServiceImageCard({ href, title, image }: { href: string; title: string; image: string }) {
   return (
     <Link
       href={href}
-      className="group relative min-h-[330px] overflow-hidden rounded-[22px] bg-[#EAF2F4] no-underline"
+      className="group relative flex min-h-[150px] flex-col justify-end overflow-hidden rounded-[32px] bg-neutral-100 p-5 no-underline shadow-sm"
     >
       <div
-        className="absolute inset-0 bg-cover bg-center transition duration-500 group-hover:scale-105"
+        className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
         style={{ backgroundImage: `url(${image})` }}
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-[#0b1f21]/55 via-transparent to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-t from-neutral-900/90 via-neutral-900/30 to-transparent opacity-95" />
 
-      <div className="absolute bottom-5 left-5 right-5 flex items-end justify-between gap-4">
-        <h3 className="max-w-[230px] text-[34px] font-normal leading-[0.9]  tracking-[-0.045em] text-white">
+      <div className="relative z-10 flex items-end justify-between gap-2">
+        <h3 
+          className="text-[20px] font-normal leading-[1.1] tracking-tight text-white"
+          style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
+        >
           {title}
         </h3>
-
-        <span className="flex size-12 shrink-0 items-center justify-center rounded-full bg-white text-[#050b0c] transition group-hover:translate-x-1">
-          <ArrowRight size={20} />
+        <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur-md transition-all duration-300 group-hover:bg-white group-hover:text-neutral-900">
+          <ArrowRight size={14} />
         </span>
       </div>
     </Link>
   )
 }
 
-function OverlayCard({
-  href,
-  title,
-  variant,
-}: {
-  href: string
-  title: string
-  variant: 'solid' | 'glass'
-}) {
+function OverlayCard({ href, title, variant }: { href: string; title: string; variant: 'solid' | 'glass' }) {
   const isGlass = variant === 'glass'
 
   return (
     <Link
       href={href}
-      className={`group flex min-h-[210px] flex-col justify-between rounded-[22px] p-6 no-underline transition hover:-translate-y-1 ${
+      className={`group flex min-h-[140px] flex-col justify-between rounded-[24px] p-5 no-underline transition-all duration-300 hover:-translate-y-0.5 ${
         isGlass
-          ? 'border border-white/35 bg-white/20 text-white shadow-[0_18px_45px_rgba(15,23,42,0.18)] backdrop-blur-[22px]'
-          : 'bg-white text-[#050b0c] shadow-[0_18px_45px_rgba(15,23,42,0.16)]'
+          ? 'border border-white/25 bg-white/10 text-white backdrop-blur-xl shadow-lg'
+          : 'bg-white text-neutral-900 shadow-xl'
       }`}
     >
-      <h3 className="max-w-[280px] text-[34px] font-normal leading-[0.9]  tracking-[-0.045em]">
+      <h3 
+        className="text-[24px] font-normal leading-[1.15] tracking-tight"
+        style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
+      >
         {title}
       </h3>
-
-      <div className="flex justify-end">
+      <div className="flex justify-end mt-4">
         <span
-          className={`flex size-12 items-center justify-center rounded-full border transition group-hover:translate-x-1 ${
+          className={`flex size-8 items-center justify-center rounded-full border transition-all duration-300 ${
             isGlass
-              ? 'border-white/75 text-white'
-              : 'border-[#050b0c] text-[#050b0c]'
+              ? 'border-white/30 text-white bg-white/5 group-hover:bg-white/20'
+              : 'border-neutral-200 text-neutral-900 bg-neutral-50 group-hover:border-neutral-900 group-hover:bg-neutral-900 group-hover:text-white'
           }`}
         >
-          <ArrowRight size={20} />
+          <ArrowRight size={14} />
         </span>
       </div>
     </Link>
   )
 }
 
-function BottomCard({
-  
-  href,
-  title,
-  dark = false,
-}: {
-  href: string
-  title: string
-  dark?: boolean
-}) {
+function BottomCard({ href, title, image, dark = false }: { href: string; title: string; image: string; dark?: boolean }) {
   return (
     <Link
       href={href}
-      className={`group flex min-h-[220px] flex-col justify-between rounded-[28px] p-8 no-underline transition hover:-translate-y-1 ${
-        dark
-          ? 'bg-[#0b1f21] text-white'
-          : 'bg-[#F5F8F8] text-[#0b1f21] ring-1 ring-[#0b1f21]/5'
+      className={`group relative flex min-h-[170px] flex-col justify-center overflow-hidden rounded-[32px] p-6 sm:p-8 no-underline transition-all duration-300 ${
+        dark ? 'bg-neutral-900 text-white' : 'bg-neutral-100 text-neutral-900'
       }`}
     >
-      <div>
-        
-
-        <h3 className="mt-5 max-w-[520px] text-[42px] font-normal leading-[0.9] tracking-[-0.045em]">
+      <div
+        className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
+        style={{ backgroundImage: `url(${image})` }}
+      />
+      <div className={`absolute inset-0 transition-opacity duration-500 ${dark ? 'bg-neutral-900/55 group-hover:bg-neutral-900/45' : 'bg-white/70 group-hover:bg-white/60 backdrop-blur-[2px]'}`} />
+      
+      <div className="relative z-10 flex w-full items-center justify-between gap-4">
+        <h3 
+          className="max-w-[420px] text-[28px] font-normal leading-[1.1] tracking-tight sm:text-[32px]"
+          style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
+        >
           {title}
         </h3>
-      </div>
-
-      <div className="mt-8 flex items-end justify-between gap-6">
-       
-
-        <span className="flex size-14 shrink-0 items-center justify-center rounded-full bg-white text-[#0b1f21] transition group-hover:translate-x-1">
-          <ArrowRight size={22} />
+        <span className={`flex size-11 shrink-0 items-center justify-center rounded-full transition-all duration-300 group-hover:scale-110 ${dark ? 'bg-white text-neutral-900' : 'bg-neutral-900 text-white'}`}>
+          <ArrowRight size={18} />
         </span>
       </div>
     </Link>

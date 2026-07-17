@@ -28,7 +28,7 @@ const STEPS = [
     description:
       'Our healthcare professionals assess your needs and provide tailored treatment.',
     cta: 'Begin The Process',
-    href: '/services',
+    href: '/services/family-practice',
     image:
       'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=900&q=90',
   },
@@ -46,55 +46,64 @@ const STEPS = [
 
 export function HowItWorks() {
   return (
-    <section className="bg-[#FBFBF4] px-4 pb-20 pt-24 sm:px-6 lg:px-8 lg:pb-24 lg:pt-28">
-      <div className="mx-auto max-w-[1500px]">
-        <div className="mx-auto max-w-[760px] text-center">
-          
-<h2 className="text-[48px] font-semibold leading-[0.95] tracking-[-0.05em] text-[#0b1f21] sm:text-[64px] lg:text-[76px]">
-  How it <span className="text-[#2F7F95]">Works</span>
-</h2>
-
-          <p className="mx-auto mt-5 max-w-[480px] text-[17px] font-normal leading-7 text-[black]">
-            Getting the right care is easier than ever. Just follow these simple
-            steps.
+    <section className="bg-white px-6 pb-24 pt-32 sm:px-10 lg:px-16 lg:pb-32 lg:pt-36 antialiased">
+      <div className="mx-auto max-w-[1400px]">
+        
+        {/* Sleek Minimal Header */}
+        <div className="mx-auto max-w-[760px] text-center mb-16">
+          <h2 className="text-[38px] font-normal leading-[1.2] tracking-tight text-neutral-900 sm:text-[50px] lg:text-[58px] font-serif">
+            How it <span className="text-[#2AA7A1] italic font-serif font-light">Works</span>
+          </h2>
+          <p className="mx-auto mt-4 max-w-[480px] text-[18px] font-normal leading-relaxed text-neutral-400">
+            Getting the right care is easier than ever. Just follow these simple steps.
           </p>
         </div>
 
-        <div className="mt-14 grid items-start gap-6 md:grid-cols-2 xl:grid-cols-4">
+        {/* Improved Cards Layout */}
+        <div className="grid gap-x-6 gap-y-12 md:grid-cols-2 xl:grid-cols-4 items-stretch">
           {STEPS.map((step) => (
             <Link
               key={step.title}
               href={step.href}
-              className="group flex h-full flex-col overflow-hidden rounded-[30px] text-[#0b1f21] no-underline transition hover:-translate-y-1"
+              className="group flex flex-col no-underline text-neutral-900"
             >
-              <div className="relative h-[280px] shrink-0 overflow-hidden rounded-t-[30px] bg-[#EAF2F4]">
+              
+              {/* Image Frame with Liquid Chrome Badge */}
+              <div className="relative aspect-[1.15/1] w-full shrink-0 overflow-hidden rounded-[24px] shadow-sm z-10">
                 <div
                   className="absolute inset-0 bg-cover bg-center transition duration-500 group-hover:scale-105"
                   style={{ backgroundImage: `url(${step.image})` }}
                 />
 
-                <div className="absolute left-5 top-5 z-10 rounded-full bg-white px-5 py-3 text-[14px] font-semibold text-[#2F7F95] shadow-sm">
-                  {step.number}
+                {/* Liquid Metal Refractive Badge */}
+                <div className="absolute left-5 top-5 z-20 flex size-10 items-center justify-center rounded-full bg-white/80 backdrop-blur-md shadow-[0_4px_12px_rgba(0,0,0,0.05)] border border-white/40">
+                  <span className="bg-gradient-to-br from-neutral-900 via-neutral-400 to-neutral-700 bg-clip-text text-xs font-normal text-transparent group-hover:from-neutral-700 group-hover:via-neutral-300 group-hover:to-neutral-900">
+                    {step.number}
+                  </span>
                 </div>
               </div>
 
-              <div className="relative -mt-10 flex min-h-[300px] flex-1 flex-col rounded-[30px] bg-[#DFF0F2] p-8">
-                <h3 className="min-h-[82px] text-[36px] font-normal leading-[0.95] tracking-[-0.045em] text-[#0b1f21]">
+              {/* Connected Text Panel block with your layout style */}
+              <div className="relative -mt-8 flex flex-col flex-1 rounded-b-[24px] bg-[#BFEAE7]/35 border border-[#BFEAE7]/50 p-6 pt-12 transition-all duration-300 group-hover:bg-[#BFEAE7]/50">
+                
+                <h3 className="text-[22px] font-medium leading-snug tracking-tight text-neutral-800">
                   {step.title}
                 </h3>
 
-                <p className="mt-4 min-h-[112px] text-[16px] font-normal leading-7 text-[#0b1f21]">
+                <p className="mt-3 text-[14px] font-light leading-relaxed text-neutral-600 flex-1">
                   {step.description}
                 </p>
 
-                <div className="mt-auto inline-flex w-fit items-center gap-2 border-b border-[#0b1f21]/45 pb-1 text-[16px] font-semibold text-[#0b1f21]">
-                  {step.cta}
+                {/* Sleek CTA Border Trigger */}
+                <div className="mt-6 pt-4 border-t border-neutral-900/5 inline-flex w-fit items-center gap-1.5 text-[13px] font-normal text-neutral-800">
+                  <span>{step.cta}</span>
                   <ArrowUpRight
-                    size={18}
-                    className="transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                    size={14}
+                    className="transition duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
                   />
                 </div>
               </div>
+
             </Link>
           ))}
         </div>

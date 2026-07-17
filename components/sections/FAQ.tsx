@@ -17,7 +17,7 @@ const FAQS = [
   {
     question: 'Which locations are part of the ZOMAK clinic network?',
     answer:
-      'ZOMAK includes Griffin Road, Centre Street, 360 Home Care, Revitalize Medical Clinic, Lewisburg, Northmount, and Fairview.',
+      'ZOMAK includes Zomak Griffin Road Medical Clinic, Zomak Centre Street North Medical Clinic, Zomak Lewisburg, Zomak Northmount, and Zomak Fairview.',
   },
   {
     question: 'What services are available?',
@@ -47,12 +47,12 @@ export function FAQ() {
   return (
     <section className="bg-white px-6 py-20 sm:px-10 lg:px-16 lg:py-28">
       <div className="mx-auto max-w-[1400px]">
-        <div className="grid gap-16 lg:grid-cols-[1fr_1.6fr] lg:items-start">
+        <div className="grid gap-10 lg:grid-cols-[1fr_1.6fr] lg:items-start lg:gap-16">
 
           {/* Left — display heading only */}
           <div className="lg:sticky lg:top-28">
             <h2
-              className="text-[80px] font-normal leading-[0.9] tracking-[-0.04em] text-[#0b1f21] sm:text-[100px] lg:text-[120px]"
+              className="text-[42px] font-normal leading-tight text-[#333333] sm:text-[76px] lg:text-[92px]"
               style={{ fontFamily: 'Georgia, serif' }}
             >
               FAQ<em className="italic">s</em>
@@ -60,29 +60,29 @@ export function FAQ() {
           </div>
 
           {/* Right — accordion */}
-          <div className="border-t border-[#0b1f21]/15">
+          <div className="border-t border-[#333333]/15">
             {FAQS.map((faq, index) => {
               const isOpen = openIndex === index
 
               return (
-                <div key={faq.question} className="border-b border-[#0b1f21]/15">
+                <div key={faq.question} className="border-b border-[#333333]/15">
                   <button
                     type="button"
                     onClick={() => setOpenIndex(isOpen ? -1 : index)}
-                    className="flex w-full items-start justify-between gap-8 py-6 text-left"
+                    className="flex w-full items-start justify-between gap-5 py-6 text-left sm:gap-8"
                   >
-                    <span className="text-[16px] font-normal leading-6 tracking-[-0.01em] text-[#0b1f21]">
+                    <span className="text-[16px] font-normal leading-6 text-[#333333]">
                       {faq.question}
                     </span>
 
-                    <span className="mt-0.5 shrink-0 text-[#0b1f21]/60">
+                    <span className="mt-0.5 shrink-0 text-[#333333]/60">
                       {isOpen ? <X size={16} /> : <Plus size={16} />}
                     </span>
                   </button>
 
                   {isOpen && (
                     <div className="pb-7">
-                      <p className="text-[14px] leading-7 text-[#0b1f21]/55">
+                      <p className="text-[14px] leading-7 text-[#333333]/55">
                         {faq.answer}
                       </p>
                     </div>

@@ -25,94 +25,111 @@ const homeCareServices = [
   'Personal Care'
 ]
 
+const serviceCategories = {
+  aesthetics: 'Aesthetics',
+  internalMedicine: 'Internal Medicine',
+  familyPractice: 'Family Practice',
+  womensHealth: "Women's Health",
+  mensHealth: "Men's Health",
+  homeCare: '360 Home Care'
+} as const
+
+export const serviceCategoryOrder = [
+  serviceCategories.aesthetics,
+  serviceCategories.internalMedicine,
+  serviceCategories.familyPractice,
+  serviceCategories.womensHealth,
+  serviceCategories.mensHealth,
+  serviceCategories.homeCare
+] as const
+
+export const serviceCategorySlugs: Record<(typeof serviceCategoryOrder)[number], string> = {
+  [serviceCategories.aesthetics]: 'aesthetics',
+  [serviceCategories.internalMedicine]: 'internal-medicine',
+  [serviceCategories.familyPractice]: 'family-practice',
+  [serviceCategories.womensHealth]: 'womens-health',
+  [serviceCategories.mensHealth]: 'mens-health',
+  [serviceCategories.homeCare]: '360-home-care'
+}
+
+export const getServiceCategorySlug = (category: string) =>
+  serviceCategorySlugs[category as (typeof serviceCategoryOrder)[number]]
+
+export const getServiceCategoryBySlug = (slug: string) =>
+  serviceCategoryOrder.find((category) => serviceCategorySlugs[category] === slug)
+
 export const locations = [
   {
-    name: 'ZOMAK Griffin Road Medical Clinic',
+    name: 'Zomak Griffin Road Medical Clinic',
     slug: 'griffin-road-medical-clinic',
     summary:
       "Multi-service clinic supporting medical exams, pediatric care, women's health care, testing, and specialty patient needs.",
-    address: 'Griffin Road',
+    address: '239 Griffin Rd E #2145',
     city: 'Cochrane',
     province: 'AB',
-    phone: '403-250-2150',
+    postalCode: 'T4C 2B9',
+    phone: '403-513-6040',
+    email: 'griffinrdmedreception@gmail.com',
     fax: '403-538-6747',
     status: 'Active',
     services: commonLocationServices
   },
   {
-    name: 'ZOMAK Centre Street North Medical Clinic',
+    name: 'Zomak Centre Street North Medical Clinic',
     slug: 'centre-street-north-medical-clinic',
     summary:
       "North Calgary clinic supporting medical exams, pediatric care, women's health care, testing, and specialty patient needs.",
-    address: '555 Northmount Drive NW',
+    address: '6213 Centre St NW Suite 10',
     city: 'Calgary',
     province: 'AB',
-    phone: '403-250-2150',
+    postalCode: 'T2K 0V2',
+    phone: '403-906-0210',
+    email: 'info@csnmc.ca',
     fax: '403-538-6747',
     status: 'Active',
     services: commonLocationServices
   },
   {
-    name: 'ZOMAK 360 Home Care',
-    slug: '360-home-care',
-    summary:
-      'Home care service line supporting respite care, elderly care, personal care, and Client Directed Homecare Invoicing.',
-    address: 'Service area to confirm',
-    city: 'Calgary',
-    province: 'AB',
-    phone: '403-250-2150',
-    fax: '403-538-6747',
-    status: 'Active',
-    services: homeCareServices
-  },
-  {
-    name: 'Revitalize Medical Clinic',
-    slug: 'revitalize-medical-clinic',
-    summary:
-      'Specialized Revitalize clinic offering PRP, intimate wellness, hair restoration, and aesthetic rejuvenation services.',
-    address: 'Within Griffin Road Medical Clinic',
-    city: 'Cochrane',
-    province: 'AB',
-    phone: '403-250-2150',
-    fax: '403-538-6747',
-    status: 'Active',
-    services: revitalizeServices
-  },
-  {
-    name: 'ZOMAK Lewisburg',
+    name: 'Zomak Lewisburg',
     slug: 'lewisburg',
     summary:
       'Lewisburg location supporting ZOMAK patients with medical exams, pediatric care, testing, and specialty services.',
-    address: 'Address to confirm',
+    address: '1100 140 Avenue NE, Unit 220',
     city: 'Calgary',
     province: 'AB',
-    phone: '403-250-2150',
+    postalCode: 'T3P 0T7',
+    phone: '',
+    email: '',
     fax: '403-538-6747',
     status: 'Active',
     services: commonLocationServices
   },
   {
-    name: 'ZOMAK Northmount',
+    name: 'Zomak Northmount',
     slug: 'northmount',
     summary:
       'Northmount location supporting ZOMAK patients with medical exams, pediatric care, testing, and specialty services.',
-    address: 'Address to confirm',
+    address: '555 Northmount Dr NW',
     city: 'Calgary',
     province: 'AB',
+    postalCode: 'T2K 3J3',
     phone: '403-250-2150',
+    email: 'zomakmedreception@gmail.com',
     fax: '403-538-6747',
     status: 'Active',
     services: commonLocationServices
   },
   {
-    name: 'ZOMAK Fairview',
+    name: 'Zomak Fairview',
     slug: 'fairview',
     summary:
       'Fairview location supporting ZOMAK patients with medical exams, pediatric care, testing, and specialty services.',
-    address: 'Address to confirm',
+    address: '7640 Fairmount Dr SE',
     city: 'Calgary',
     province: 'AB',
-    phone: '403-250-2150',
+    postalCode: 'T2H 0X9',
+    phone: '403-251-2690',
+    email: 'dmmc.calgary1@gmail.com',
     fax: '403-538-6747',
     status: 'Active',
     services: commonLocationServices
@@ -123,7 +140,7 @@ export const services = [
   {
     title: 'Visa Medical Experts',
     slug: 'visa-medical-experts',
-    category: 'Medical Exams',
+    category: serviceCategories.internalMedicine,
     image:
       'https://images.unsplash.com/photo-1581056771107-24ca5f033842?auto=format&fit=crop&w=1600&q=85',
     summary:
@@ -159,9 +176,9 @@ export const services = [
   {
     title: 'Medical Piercings',
     slug: 'medical-piercings',
-    category: 'Clinical Services',
+    category: serviceCategories.aesthetics,
     image:
-      'https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=1600&q=85',
+      'https://images.unsplash.com/photo-1551076805-e1869033e561?auto=format&fit=crop&w=1600&q=85',
     summary:
       'Medical piercing services performed by trained professionals in a clean clinical environment.',
     details:
@@ -195,7 +212,7 @@ export const services = [
   {
     title: "Baby's Gender DNA Test",
     slug: 'babys-gender-dna-test',
-    category: 'Testing',
+    category: serviceCategories.womensHealth,
     image:
       'https://images.unsplash.com/photo-1584820927498-cfe5211fd8bf?auto=format&fit=crop&w=1600&q=85',
     summary:
@@ -231,7 +248,7 @@ export const services = [
   {
     title: 'Pediatric Care',
     slug: 'pediatric-care',
-    category: 'Family Care',
+    category: serviceCategories.familyPractice,
     image:
       'https://images.unsplash.com/photo-1609220136736-443140cffec6?auto=format&fit=crop&w=1600&q=85',
     summary:
@@ -267,9 +284,9 @@ export const services = [
   {
     title: "Women's Health Care",
     slug: 'womens-health-care',
-    category: "Women's Health",
+    category: serviceCategories.womensHealth,
     image:
-      'https://images.unsplash.com/photo-1559757175-5700dde675bc?auto=format&fit=crop&w=1600&q=85',
+      'https://images.unsplash.com/photo-1584820927498-cfe5211fd8bf?auto=format&fit=crop&w=1600&q=85',
     summary:
       "Wellness visits, prenatal support, reproductive health, and menopause care across life stages.",
     details:
@@ -303,7 +320,7 @@ export const services = [
   {
     title: "Driver's Medical",
     slug: 'drivers-medical',
-    category: 'Medical Exams',
+    category: serviceCategories.internalMedicine,
     image:
       'https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?auto=format&fit=crop&w=1600&q=85',
     summary:
@@ -339,7 +356,7 @@ export const services = [
   {
     title: 'P-Shot (Priapus Shot)',
     slug: 'p-shot-priapus-shot',
-    category: 'Revitalize Services',
+    category: serviceCategories.mensHealth,
     image:
       'https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=1600&q=85',
     summary:
@@ -368,14 +385,14 @@ export const services = [
       {
         question: 'Is this available at all ZOMAK locations?',
         answer:
-          'No. This service is listed for Revitalize Medical Clinic.'
+          'No. This service is listed for Zomak Revitalize Medical Clinic.'
       }
     ]
   },
   {
     title: 'Bocox',
     slug: 'bocox',
-    category: 'Revitalize Services',
+    category: serviceCategories.mensHealth,
     image:
       'https://images.unsplash.com/photo-1616391182219-e080b4d1043a?auto=format&fit=crop&w=1600&q=85',
     summary:
@@ -404,14 +421,14 @@ export const services = [
       {
         question: 'Where is this service available?',
         answer:
-          'Bocox is listed as a Revitalize Medical Clinic service.'
+          'Bocox is listed as a Zomak Revitalize Medical Clinic service.'
       }
     ]
   },
   {
     title: 'Shockwave for Erectile Dysfunction',
     slug: 'shockwave-for-erectile-dysfunction',
-    category: 'Revitalize Services',
+    category: serviceCategories.mensHealth,
     image:
       'https://images.unsplash.com/photo-1581595220892-b0739db3ba8c?auto=format&fit=crop&w=1600&q=85',
     summary:
@@ -447,7 +464,7 @@ export const services = [
   {
     title: 'Trimix',
     slug: 'trimix',
-    category: 'Revitalize Services',
+    category: serviceCategories.mensHealth,
     image:
       'https://images.unsplash.com/photo-1585435557343-3b092031a831?auto=format&fit=crop&w=1600&q=85',
     summary:
@@ -476,14 +493,14 @@ export const services = [
       {
         question: 'Where can I book Trimix?',
         answer:
-          'Trimix is listed as a Revitalize Medical Clinic service.'
+          'Trimix is listed as a Zomak Revitalize Medical Clinic service.'
       }
     ]
   },
   {
     title: 'O-Shot (Orgasm Shot)',
     slug: 'o-shot-orgasm-shot',
-    category: 'Revitalize Services',
+    category: serviceCategories.womensHealth,
     image:
       'https://images.unsplash.com/photo-1559757175-5700dde675bc?auto=format&fit=crop&w=1600&q=85',
     summary:
@@ -512,14 +529,14 @@ export const services = [
       {
         question: 'Is this service at every clinic?',
         answer:
-          'No. This service is listed for Revitalize Medical Clinic.'
+          'No. This service is listed for Zomak Revitalize Medical Clinic.'
       }
     ]
   },
   {
     title: 'PRP Hair Treatment',
     slug: 'prp-hair-treatment-restoration',
-    category: 'Revitalize Services',
+    category: serviceCategories.aesthetics,
     image:
       'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=1600&q=85',
     summary:
@@ -548,14 +565,14 @@ export const services = [
       {
         question: 'Where is this offered?',
         answer:
-      'PRP Hair Treatment is listed for Revitalize Medical Clinic.'
+      'PRP Hair Treatment is listed for Zomak Revitalize Medical Clinic.'
       }
     ]
   },
   {
     title: 'Vampire Breast Lift',
     slug: 'vampire-breast-lift',
-    category: 'Revitalize Services',
+    category: serviceCategories.womensHealth,
     image:
       'https://images.unsplash.com/photo-1579154341098-e4e158cc7f55?auto=format&fit=crop&w=1600&q=85',
     summary:
@@ -584,14 +601,14 @@ export const services = [
       {
         question: 'Which clinic offers it?',
         answer:
-          'The Vampire Breast Lift is listed for Revitalize Medical Clinic.'
+          'The Vampire Breast Lift is listed for Zomak Revitalize Medical Clinic.'
       }
     ]
   },
   {
     title: 'Vampire Wing Lift',
     slug: 'vampire-wing-lift',
-    category: 'Revitalize Services',
+    category: serviceCategories.womensHealth,
     image:
       'https://images.unsplash.com/photo-1579684453377-48ec05c6b30a?auto=format&fit=crop&w=1600&q=85',
     summary:
@@ -620,14 +637,14 @@ export const services = [
       {
         question: 'Where is this service available?',
         answer:
-          'The Vampire Wing Lift is listed for Revitalize Medical Clinic.'
+          'The Vampire Wing Lift is listed for Zomak Revitalize Medical Clinic.'
       }
     ]
   },
   {
     title: 'Respite Care',
     slug: 'respite-care',
-    category: '360 Home Care',
+    category: serviceCategories.homeCare,
     image:
       'https://images.unsplash.com/photo-1584515933487-779824d29309?auto=format&fit=crop&w=1600&q=85',
     summary:
@@ -656,14 +673,14 @@ export const services = [
       {
         question: 'Where is this service offered?',
         answer:
-          'Respite Care is listed for ZOMAK 360 Home Care.'
+          'Respite Care is listed for Zomak 360 Home Care.'
       }
     ]
   },
   {
     title: 'Elderly Care',
     slug: 'elderly-care',
-    category: '360 Home Care',
+    category: serviceCategories.homeCare,
     image:
       'https://images.unsplash.com/photo-1581579186913-45ac3e6efe93?auto=format&fit=crop&w=1600&q=85',
     summary:
@@ -692,14 +709,14 @@ export const services = [
       {
         question: 'Where is this service offered?',
         answer:
-          'Elderly Care is listed for ZOMAK 360 Home Care.'
+          'Elderly Care is listed for Zomak 360 Home Care.'
       }
     ]
   },
   {
     title: 'Client Directed Homecare Invoicing Program',
     slug: 'client-directed-homecare-invoicing-program',
-    category: '360 Home Care',
+    category: serviceCategories.homeCare,
     image:
       'https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=1600&q=85',
     summary:
@@ -728,14 +745,14 @@ export const services = [
       {
         question: 'Where is this service offered?',
         answer:
-          'This program support is listed for ZOMAK 360 Home Care.'
+          'This program support is listed for Zomak 360 Home Care.'
       }
     ]
   },
   {
     title: 'Personal Care',
     slug: 'personal-care',
-    category: '360 Home Care',
+    category: serviceCategories.homeCare,
     image:
       'https://images.unsplash.com/photo-1576765608622-067973a79f53?auto=format&fit=crop&w=1600&q=85',
     summary:
@@ -764,7 +781,7 @@ export const services = [
       {
         question: 'Where is this service offered?',
         answer:
-          'Personal Care is listed for ZOMAK 360 Home Care.'
+          'Personal Care is listed for Zomak 360 Home Care.'
       }
     ]
   }
@@ -784,3 +801,6 @@ export const testimonials = [
     rating: 5
   }
 ]
+
+export type Location = (typeof locations)[number]
+export type Service = (typeof services)[number]

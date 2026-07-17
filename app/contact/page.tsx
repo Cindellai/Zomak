@@ -1,4 +1,5 @@
-import { CalendarDays, MapPin, Phone, ArrowUpRight } from 'lucide-react'
+import { CalendarDays, MapPin, Phone, ArrowDown, ArrowUpRight } from 'lucide-react'
+import type { ReactNode } from 'react'
 
 import { locations } from '@/data/site'
 
@@ -9,110 +10,152 @@ export const metadata = {
 
 export default function ContactPage() {
   return (
-    <section className="min-h-screen bg-[#f7f6f2] text-neutral-900 antialiased pt-28 pb-24 px-6 sm:px-10 lg:px-16">
-      <div className="mx-auto max-w-[1320px]">
-        
-        {/* 1. Header Split Grid */}
-        <header className="grid gap-10 lg:grid-cols-12 lg:items-start border-b border-neutral-300/60 pb-14 mb-16">
-          <div className="lg:col-span-7">
-            
-            <h1 className="text-[42px] font-normal tracking-[-0.04em] text-neutral-950 sm:text-[56px] lg:text-[68px] leading-[1.05]">
-              Call, book, or find a ZOMAK clinic.
-            </h1>
+    <section className="min-h-screen bg-[#F4F6F7] text-[#333333] antialiased pb-28">
+      
+      {/* ================= CONTACT HERO ================= */}
+      <header className="bg-[#F4F6F7] px-6 pb-14 pt-24 text-[#333333] sm:px-10 lg:px-16 lg:py-20">
+        <div className="mx-auto max-w-[1400px]">
+          <div className="relative w-full sm:pt-14 lg:pt-16">
+            <div className="relative z-20 mb-3 sm:pointer-events-none sm:absolute sm:right-8 sm:top-0 sm:mb-0 lg:right-20 lg:top-1">
+              <h1 className="text-[42px] font-normal leading-tight sm:text-[64px] lg:text-[84px]">
+                <span className="font-normal text-[#333333]">Contact </span>
+                <span className="italic text-[#2AA7A1]">Details</span>
+              </h1>
+            </div>
+
+            <div className="relative h-[340px] w-full overflow-hidden border border-[#333333]/10 bg-white shadow-sm sm:h-[520px] lg:h-[640px]">
+              <img
+                src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1800&q=90"
+                alt="Bright medical office reception and clinic interior"
+                className="w-full h-full object-cover object-center sm:object-center"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-white/12 via-transparent to-transparent" />
+            </div>
+
+            <a 
+              href="#clinics"
+              className="absolute bottom-0 left-5 z-30 flex h-14 w-14 translate-y-1/2 items-center justify-center rounded-full bg-[#BFEAE7] text-[#333333] shadow-xl transition-all duration-300 hover:scale-110 hover:bg-[#2AA7A1] hover:text-white sm:left-16 sm:h-20 sm:w-20 group"
+            >
+              <ArrowDown size={24} className="transition-transform duration-300 group-hover:translate-y-0.5 sm:size-7" />
+            </a>
           </div>
-          <div className="lg:col-span-5 lg:pl-10 lg:pt-10">
-            <p className="text-[16px] leading-relaxed text-neutral-500 max-w-[420px]">
-              Get in touch with our individual care providers, explore location coordinates, or manage appointment slots online.
-            </p>
-          </div>
-        </header>
+        </div>
+      </header>
 
-        {/* 2. Direct Channels (Replaces the blocky color grids from image_abac4b.jpg) */}
-        <section className="grid gap-6 md:grid-cols-3 mb-20">
-          
-          {/* Channel 1 */}
-          <a 
-            href="tel:403-250-2150" 
-            className="group flex flex-col justify-between rounded-2xl bg-white border border-neutral-300/40 p-8 shadow-sm transition-all duration-300 hover:shadow-md hover:border-neutral-400/60"
-          >
-            <div className="flex items-center justify-between">
-              <span className="flex size-10 items-center justify-center rounded-xl bg-[#e3f2f5] text-[#2F7F95]">
-                <Phone size={18} />
-              </span>
-              <ArrowUpRight size={16} className="text-neutral-400 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-            </div>
-            <div className="mt-12">
-              <h3 className="text-[14px] font-bold uppercase tracking-wider text-neutral-400">Call Now</h3>
-              <p className="mt-1 text-[22px] font-bold text-neutral-950 tracking-tight">403-250-2150</p>
-            </div>
-          </a>
+      {/* ================= CLINIC LOCATIONS SECTION ================= */}
+      <div id="clinics" className="mx-auto max-w-[1400px] px-6 pt-24 sm:px-10 lg:px-16">
+        <section className="space-y-28">
+          {locations.map((location) => (
+            <article className="space-y-8" key={location.slug}>
+              
+              {/* Location Name */}
+              <h2 className="text-2xl font-normal text-[#333333] sm:text-3xl">
+                {location.name}
+              </h2>
 
-          {/* Channel 2 */}
-          <div className="group flex flex-col justify-between rounded-2xl bg-white border border-neutral-300/40 p-8 shadow-sm">
-            <div className="flex items-center justify-between">
-              <span className="flex size-10 items-center justify-center rounded-xl bg-[#f5efe3] text-[#b38f4e]">
-                <CalendarDays size={18} />
-              </span>
-            </div>
-            <div className="mt-12">
-              <h3 className="text-[14px] font-bold uppercase tracking-wider text-neutral-400">Booking Links</h3>
-              <p className="mt-2 text-[14px] leading-relaxed text-neutral-600">Connect clinic workflows and patient reservation utilities effortlessly here.</p>
-            </div>
-          </div>
-
-          {/* Channel 3 */}
-          <div className="group flex flex-col justify-between rounded-2xl bg-white border border-neutral-300/40 p-8 shadow-sm">
-            <div className="flex items-center justify-between">
-              <span className="flex size-10 items-center justify-center rounded-xl bg-[#edf5f2] text-[#4ea886]">
-                <MapPin size={18} />
-              </span>
-            </div>
-            <div className="mt-12">
-              <h3 className="text-[14px] font-bold uppercase tracking-wider text-neutral-400">Directions</h3>
-              <p className="mt-2 text-[14px] leading-relaxed text-neutral-600">Instantly launch configured Google Business maps per medical campus center location.</p>
-            </div>
-          </div>
-
-        </section>
-
-        {/* 3. Deep Editorial Locations List Grid */}
-        <section>
-          <div className="mb-8 flex items-center justify-between">
-            <h2 className="text-[20px] font-bold tracking-tight text-neutral-950">
-              Our Active Locations ({locations.length})
-            </h2>
-            <div className="h-[1px] flex-1 bg-neutral-300/60 mx-6 hidden sm:block" />
-          </div>
-
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {locations.map((location) => (
-              <div 
-                key={location.slug}
-                className="flex flex-col justify-between rounded-2xl bg-[#f0ede4]/70 border border-neutral-300/30 p-6 transition-all duration-200 hover:bg-[#f0ede4]"
-              >
-                <div>
-                  <h4 className="text-[17px] font-bold tracking-tight text-neutral-950 leading-snug">
-                    {location.name}
-                  </h4>
-                  <p className="mt-3 text-[13px] leading-relaxed text-neutral-500">
-                    {location.address || 'Address verification pending to confirm layout'}
-                  </p>
-                </div>
+              {/* Responsive Cards Grid */}
+              <div className="grid gap-6 sm:grid-cols-3">
                 
-                <div className="mt-8 pt-4 border-t border-neutral-300/40 flex items-center justify-between">
-                  <span className="text-[13px] font-medium text-[#2F7F95]">
-                    {location.phone}
-                  </span>
-                  <span className="text-[11px] font-semibold uppercase tracking-wider text-neutral-400">
-                    Active Center
-                  </span>
-                </div>
+                <ContactInfoCard
+                  href={location.phone ? `tel:${location.phone.replaceAll(' ', '')}` : undefined}
+                  icon={<Phone size={22} />}
+                  value={location.phone || 'Phone to confirm'}
+                  valueStyle="strong"
+                />
+                
+                <ContactInfoCard
+                  icon={<CalendarDays size={22} />}
+                  value="Contact the clinic team to schedule family practice or specialized care."
+                  valueStyle="body"
+                />
+                
+                <ContactInfoCard
+                  href={getDirectionsHref(location)}
+                  icon={<MapPin size={22} />}
+                  value={formatLocationAddress(location)}
+                  valueStyle="body"
+                />
+                
               </div>
-            ))}
-          </div>
+            </article>
+          ))}
         </section>
-
       </div>
+
     </section>
   )
+}
+
+function ContactInfoCard({
+  href,
+  icon,
+  value,
+  valueStyle = 'strong'
+}: {
+  href?: string
+  icon: ReactNode
+  value: string
+  valueStyle?: 'strong' | 'body'
+}) {
+  const content = (
+    <div className="flex flex-col justify-between h-full space-y-12">
+      {/* Icon Row */}
+      <div className="flex items-center justify-between">
+        <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#BFEAE7]/40 text-[#2AA7A1] transition-colors duration-300 group-hover:bg-[#2AA7A1] group-hover:text-white">
+          {icon}
+        </span>
+        {href && (
+          <ArrowUpRight
+            size={20}
+            className="text-[#333333]/30 transition-all duration-300 group-hover:text-[#2AA7A1] group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+          />
+        )}
+      </div>
+
+      {/* Main Value Text */}
+      <p
+        className={
+          valueStyle === 'strong'
+            ? 'break-words text-[22px] font-normal leading-snug text-[#333333] transition-colors duration-200 group-hover:text-[#2AA7A1]'
+            : 'text-[16px] font-normal leading-relaxed text-[#333333]/80 transition-colors duration-200 group-hover:text-[#333333]'
+        }
+      >
+        {value}
+      </p>
+    </div>
+  )
+
+  if (href) {
+    return (
+      <a
+        href={href}
+        target={href.startsWith('http') ? '_blank' : undefined}
+        rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
+        className="group flex flex-col justify-between rounded-2xl border border-neutral-200/80 bg-white p-8 shadow-[0_4px_20px_-4px_rgba(51,51,51,0.02)] transition-all duration-300 hover:border-[#2AA7A1]/35 hover:shadow-[0_12px_30px_-5px_rgba(42,167,161,0.08)] hover:-translate-y-1"
+      >
+        {content}
+      </a>
+    )
+  }
+
+  return (
+    <div className="flex flex-col justify-between rounded-2xl border border-neutral-200/80 bg-white p-8 shadow-[0_4px_20px_-4px_rgba(51,51,51,0.02)]">
+      {content}
+    </div>
+  )
+}
+
+function getDirectionsHref(location: (typeof locations)[number]) {
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+    formatLocationAddress(location)
+  )}`
+}
+
+function formatLocationAddress(location: (typeof locations)[number]) {
+  return [
+    location.address || 'Address to confirm',
+    [location.city, location.province, location.postalCode].filter(Boolean).join(', ')
+  ]
+    .filter(Boolean)
+    .join(', ')
 }

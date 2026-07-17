@@ -5,12 +5,12 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        ink: '#10201e',
-        pine: '#123f3a',
-        teal: '#168c8c',
-        mint: '#dff3ee',
-        cloud: '#f4f8f7',
-        coral: '#d95f4c'
+        ink: '#333333',
+        pine: '#333333',
+        teal: '#2AA7A1',
+        mint: '#BFEAE7',
+        cloud: '#F4F6F7',
+        coral: '#2AA7A1'
       }
     }
   },

@@ -1,102 +1,91 @@
 'use client'
 
-import { Clock, MapPin, Navigation } from 'lucide-react'
+import { ArrowRight, Clock, MapPin } from 'lucide-react'
 import Link from 'next/link'
 import { useState } from 'react'
 
 import { locations } from '@/data/site'
 
-const getDisplayName = (name: string) =>
-  name.replace('ZOMAK ', '').replace(' Medical Clinic', '')
-
-const getDirectionsHref = (location: (typeof locations)[number]) =>
-  `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-    `${location.address} ${location.city} ${location.province}`
-  )}`
-
 export function Locations() {
   const [openIndex, setOpenIndex] = useState(0)
 
   return (
-    <section className="bg-[#fcfbfa] px-6 py-20 sm:px-10 lg:px-16 lg:py-32 border-t border-neutral-200/60">
-      <div className="mx-auto max-w-[1360px]">
-        <div className="grid gap-12 lg:grid-cols-12 lg:items-start">
+    <section className="border-t border-[#333333]/10 bg-[#F4F6F7] px-4 py-16 antialiased sm:px-10 sm:py-20 lg:px-16 lg:py-32">
+      <div className="mx-auto max-w-[1400px]">
+        <div className="grid gap-12 lg:grid-cols-12 lg:items-start xl:gap-16">
 
           {/* Left column — Interactive Accordion Hub */}
-          <div className="lg:col-span-6 space-y-8">
+          <div className="min-w-0 space-y-8 lg:col-span-6">
             <div>
-              <span className="text-[11px] font-bold uppercase tracking-[0.25em] text-[#2F7F95] block mb-3">
-                / Care Network
-              </span>
-              <h2 className="text-[48px] font-extrabold leading-[1.05] tracking-[-0.04em] text-[#102A32] sm:text-[60px]">
+            
+            
+              <h2
+                className="text-[40px] font-normal leading-tight text-[#333333] sm:text-[58px] lg:text-[72px]"
+              >
                 Our Locations
               </h2>
-              <p className="mt-4 text-[15px] leading-relaxed text-neutral-500 max-w-[480px]">
-                You can find us at the following regional Calgary and Cochrane clinical environments.
+              <p className="mt-5 max-w-[560px] text-[18px] leading-8 text-[#333333]">
+                Find ZOMAK clinics across Calgary and Cochrane, then open directions or review the clinic details before you visit.
               </p>
             </div>
 
             {/* Location interactive list */}
-            <div className="border-t border-neutral-200/60 pt-2">
+            <div className="space-y-3">
               {locations.map((location, index) => {
                 const isOpen = openIndex === index
-                const displayName = getDisplayName(location.name)
-
                 return (
-                  <div key={location.name} className="border-b border-neutral-200/60 py-1">
+                  <div key={location.name}>
                     {isOpen ? (
-                      /* Expanded Card - Fixed background, alignments and text styling based on image_acf774.jpg */
-                      <div className="my-4 rounded-2xl bg-white p-6 shadow-[0_12px_40px_rgba(16,42,50,0.04)] border border-neutral-200/70 transition-all duration-300">
+                      <div className="min-w-0 overflow-hidden rounded-2xl border border-[#2AA7A1]/20 bg-white p-4 shadow-[0_18px_50px_rgba(16,42,50,0.08)] transition-all duration-300 sm:p-6">
                         
                         {/* Header Row */}
-                        <div className="flex items-center justify-between gap-4 pb-4 border-b border-neutral-100">
-                          <div className="flex items-center gap-3">
-                            <span className="font-mono text-[12px] font-bold text-[#2F7F95]">
-                              0{index + 1}
-                            </span>
-                            <h3 className="text-[19px] font-bold tracking-tight text-[#102A32]">
-                              {displayName}
+                        <div className="flex min-w-0 flex-col gap-4 border-b border-[#333333]/8 pb-5 sm:flex-row sm:items-center sm:justify-between">
+                          <div className="flex min-w-0 items-center gap-3">
+                           
+                            <h3 className="min-w-0 text-[28px] font-normal leading-tight text-[#333333] sm:text-[21px]">
+                              {location.name}
                             </h3>
                           </div>
                           
                           <Link
-                            href={getDirectionsHref(location)}
-                            target="_blank"
-                            className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-[#2F7F95] no-underline transition hover:text-[#1F6175]"
+                            href={`/locations/${location.slug}`}
+                            className="inline-flex w-full min-w-0 items-center justify-center gap-2 rounded-full border border-[#2AA7A1]/30 px-4 py-3 text-[16px] font-normal text-[#2AA7A1] no-underline transition hover:bg-[#2AA7A1] hover:text-white sm:w-auto sm:py-2 sm:text-[11px]"
                           >
-                            <Navigation size={12} className="stroke-[2.5]" />
-                            Get Directions
+                            <ArrowRight size={12} className="stroke-[2.5]" />
+                            View Clinic
                           </Link>
                         </div>
 
                         {/* Explicit Card Sub-panel Structure */}
-                        <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-6 bg-[#fbfaf7] rounded-xl p-5 border border-neutral-200/50">
+                        <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
                           
                           {/* Address block */}
-                          <div className="space-y-2">
-                            <div className="flex size-7 items-center justify-center rounded-lg bg-white text-[#2F7F95] shadow-sm border border-neutral-200/60">
+                          <div className="min-w-0 rounded-xl bg-[#F4F6F7] p-4 sm:p-5">
+                            <div className="mb-4 flex size-9 items-center justify-center rounded-lg border border-[#333333]/10 bg-white text-[#2AA7A1] shadow-sm">
                               <MapPin size={13} className="stroke-[2.5]" />
                             </div>
-                            <p className="text-[12px] font-bold text-[#102A32] uppercase tracking-wider">
+                            <p className="text-xs font-normal text-[#333333]">
                               Clinic Address
                             </p>
-                            <p className="text-[13px] leading-relaxed text-neutral-500 font-medium">
+                            <p className="mt-3 text-[16px] font-normal leading-7 text-[#333333] sm:text-[14px]">
                               {location.address}
                               <br />
-                              {location.city}, {location.province}
+                              {[location.city, location.province, location.postalCode]
+                                .filter(Boolean)
+                                .join(', ')}
                             </p>
                           </div>
 
                           {/* Hours block */}
-                          <div className="space-y-2">
-                            <div className="flex size-7 items-center justify-center rounded-lg bg-white text-[#2F7F95] shadow-sm border border-neutral-200/60">
+                          <div className="min-w-0 rounded-xl bg-[#F4F6F7] p-4 sm:p-5">
+                            <div className="mb-4 flex size-9 items-center justify-center rounded-lg border border-[#333333]/10 bg-white text-[#2AA7A1] shadow-sm">
                               <Clock size={13} className="stroke-[2.5]" />
                             </div>
-                            <p className="text-[12px] font-bold text-[#102A32] uppercase tracking-wider">
+                            <p className="text-xs font-normal text-[#333333]">
                               Hours of Operation
                             </p>
-                            <p className="text-[13px] leading-relaxed text-neutral-500 font-medium">
-                              Please contact the clinic directly for daily operating itineraries.
+                            <p className="mt-3 text-[16px] font-normal leading-7 text-[#333333] sm:text-[14px]">
+                              Contact the clinic directly to confirm daily operating hours.
                             </p>
                           </div>
 
@@ -107,23 +96,21 @@ export function Locations() {
                       <button
                         type="button"
                         onClick={() => setOpenIndex(index)}
-                        className="group flex w-full items-center justify-between py-5 text-left transition-all duration-200"
+                        className="group flex w-full min-w-0 items-center justify-between gap-3 overflow-hidden rounded-2xl border border-transparent bg-white/55 px-4 py-5 text-left transition-all duration-200 hover:border-[#2AA7A1]/20 hover:bg-white hover:shadow-[0_10px_30px_rgba(16,42,50,0.05)] sm:px-5"
                       >
-                        <div className="flex items-center gap-5">
-                          <span className="font-mono text-[12px] font-bold text-neutral-400 group-hover:text-[#2F7F95] transition-colors">
-                            0{index + 1}
-                          </span>
-                          <div>
-                            <h3 className="text-[18px] font-bold tracking-tight text-neutral-400 group-hover:text-[#102A32] transition-colors">
-                              {displayName}
+                        <div className="flex min-w-0 items-center gap-4">
+                          
+                          <div className="min-w-0">
+                            <h3 className="truncate text-[18px] font-normal text-[#333333]/70 transition-colors group-hover:text-[#333333]">
+                              {location.name}
                             </h3>
-                            <p className="text-[13px] text-neutral-400/80 font-medium group-hover:text-neutral-500 transition-colors mt-0.5">
+                            <p className="mt-1 truncate text-[13px] font-medium text-[#333333]/45 transition-colors group-hover:text-[#333333]/60">
                               {location.address}
                             </p>
                           </div>
                         </div>
                         
-                        <span className="text-[11px] font-bold uppercase tracking-widest text-neutral-300 group-hover:text-[#2F7F95] transition-colors pr-1">
+                        <span className="shrink-0 text-[13px] font-normal text-[#333333]/55 transition-colors group-hover:text-[#2AA7A1] sm:pl-4 sm:text-[11px]">
                           View
                         </span>
                       </button>
@@ -135,14 +122,18 @@ export function Locations() {
           </div>
 
           {/* Right column — Premium Framed Canvas Photo Asset */}
-          <div className="lg:col-span-6 lg:pl-6">
-            <div className="relative aspect-[4/5] w-full overflow-hidden rounded-[2rem] bg-neutral-100 shadow-[0_24px_60px_rgba(16,42,50,0.065)] border border-neutral-200/40">
+          <div className="hidden lg:col-span-6 lg:block lg:pl-4">
+            <div className="sticky top-28 relative aspect-[4/5] w-full overflow-hidden rounded-[2rem] bg-[#F4F6F7] shadow-[0_24px_70px_rgba(16,42,50,0.08)]">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=1600&q=90"
                 alt="Medical clinic pristine care interior reception hub"
                 className="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-700 hover:scale-[1.02]"
               />
+                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#333333]/68 to-transparent p-7 pt-24">
+               
+              
+                </div>
             </div>
           </div>
 

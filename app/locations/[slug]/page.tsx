@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation'
 import { LocationCareCta } from '@/components/sections/LocationCareCta'
 import { LocationProviders } from '@/components/sections/LocationProviders'
 import { LocationServicesCarousel } from '@/components/sections/LocationServicesCarousel'
+import { providers } from '@/data/providers'
 import { locations, services } from '@/data/site'
 
 type LocationPageProps = {
@@ -42,70 +43,81 @@ export default async function LocationPage({ params }: LocationPageProps) {
     location.services.includes(service.title)
   )
 
-  const cleanLocationName = location.name.replace('ZOMAK ', '')
+  const providerLocationKey = getProviderLocationKey(location.name)
+  const locationProviders = providers.filter(
+    (provider) =>
+      provider.location === providerLocationKey ||
+      provider.secondaryLocation === providerLocationKey
+  )
+
   const mapQuery = encodeURIComponent(
-    `${location.address}, ${location.city}, ${location.province}`
+    [location.address, location.city, location.province, location.postalCode]
+      .filter(Boolean)
+      .join(', ')
   )
 
   return (
     <section className="overflow-x-hidden bg-white text-ink">
       {/* Split Screen Hero */}
-      <header className="grid min-h-screen bg-white  lg:grid-cols-2">
+      <header className="grid bg-white lg:min-h-screen lg:grid-cols-2">
         {/* Left Text Column */}
-        <div className="flex items-center px-6 py-16 sm:px-10 lg:px-16 xl:px-20">
+        <div className="flex items-center px-5 py-14 sm:px-10 sm:py-16 lg:px-16 xl:px-20">
           <div className="w-full max-w-[720px]">
-            <div className="mb-8 inline-flex rounded-full bg-[#EAF2F4] px-4 py-2 text-[12px] font-bold uppercase tracking-[0.14em] text-[#2F7F95]">
-              {location.city}, {location.province}
-            </div>
-
             <h1
-              className="text-[46px] font-normal leading-[0.95] tracking-[-0.06em] text-[#0b1f21] sm:text-[62px] lg:text-[76px] xl:text-[84px]"
-              style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
+              className="text-[36px] font-normal leading-tight text-[#333333] sm:text-[58px] lg:text-[72px]"
             >
-              {cleanLocationName}
+              {location.name}
             </h1>
 
-            <p className="mt-7 max-w-[640px] text-[19px] font-medium leading-8 text-[#0b1f21]/70 sm:text-[21px]">
+            <p className="mt-6 max-w-[640px] text-[18px] font-normal leading-8 text-[#333333] sm:mt-7 sm:text-[21px]">
               {location.summary}
             </p>
 
-            <div className="mt-10 grid gap-6 border-t border-[#0b1f21]/10 pt-7 sm:grid-cols-2">
+            <div className="mt-10 grid gap-6 border-t border-[#333333]/10 pt-7 sm:grid-cols-2">
               <div>
-                <p className="text-[12px] font-bold uppercase tracking-[0.16em] text-[#0b1f21]">
+                <p className="text-sm font-normal text-[#333333]">
                   Address
                 </p>
 
-                <p className="mt-4 text-[18px] font-semibold leading-7 text-[#0b1f21]/90">
+                <p className="mt-4 text-[18px] font-normal leading-7 text-[#333333]/90">
                   {location.address}
                   <br />
-                  {location.city}, {location.province}
+                  {[location.city, location.province, location.postalCode]
+                    .filter(Boolean)
+                    .join(', ')}
                 </p>
 
                 <a
                   href={`https://www.google.com/maps/search/?api=1&query=${mapQuery}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-4 inline-flex items-center border-b border-[#0b1f21]/40 pb-1 text-[15px] font-semibold text-[#0b1f21] no-underline transition hover:text-[#2F7F95]"
+                  className="mt-4 inline-flex items-center border-b border-[#333333]/40 pb-1 text-[15px] font-normal text-[#333333] no-underline transition hover:text-[#2AA7A1]"
                 >
                   Get Directions →
                 </a>
               </div>
 
-              <div className="sm:border-l sm:border-[#0b1f21]/10 sm:pl-7">
-                <p className="text-[12px] font-bold uppercase tracking-[0.16em] text-[#0b1f21]">
+              <div className="sm:border-l sm:border-[#333333]/10 sm:pl-7">
+                <p className="text-sm font-normal text-[#333333]">
                   Contact
                 </p>
 
-                <p className="mt-4 text-[18px] font-semibold leading-7 text-[#0b1f21]/90">
-                  Main Office Line Available
+                <p className="mt-4 text-[18px] font-normal leading-7 text-[#333333]/90">
+                  {location.email || 'Clinic contact available'}
                 </p>
 
-                <a
-                  href={`tel:${location.phone.replaceAll(' ', '')}`}
-                  className="mt-4 inline-flex items-center justify-center rounded-[12px] bg-[#0b1f21] px-5 py-3 text-[15px] font-semibold text-white no-underline transition hover:bg-[#2F7F95]"
-                >
-                  Call {location.phone}
-                </a>
+                {location.phone ? (
+                  <a
+                    href={`tel:${location.phone.replaceAll(' ', '')}`}
+                    className="mt-4 inline-flex items-center justify-center rounded-[12px] bg-[#333333] px-5 py-3 text-[15px] font-normal text-white no-underline transition hover:bg-[#2AA7A1]"
+                  >
+                    Call {location.phone}
+                  </a>
+                ) : (
+                  <span className="mt-4 inline-flex items-center justify-center rounded-[12px] bg-[#333333]/10 px-5 py-3 text-[15px] font-normal text-[#333333]/60">
+                    Phone to confirm
+                  </span>
+                )}
               </div>
             </div>
 
@@ -114,7 +126,7 @@ export default async function LocationPage({ params }: LocationPageProps) {
         </div>
 
         {/* Right Full-Half Image */}
-        <div className="relative min-h-[520px] overflow-hidden lg:min-h-[calc(100vh-82px)]">
+        <div className="relative min-h-[320px] overflow-hidden sm:min-h-[460px] lg:min-h-[calc(100vh-82px)]">
           <div
             aria-label="Bright medical clinic interior"
             className="absolute inset-0 bg-cover bg-center"
@@ -125,30 +137,37 @@ export default async function LocationPage({ params }: LocationPageProps) {
             }}
           />
 
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0b1f21]/45 via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#333333]/45 via-transparent to-transparent" />
 
           
         </div>
       </header>
 
       {/* Philosophy Statement Section */}
-      <section className="bg-[#0b1f21] px-6 py-20 sm:px-10 lg:px-16 lg:py-32">
-        <div className="mx-auto max-w-5xl text-center">
+      <section className="bg-[#333333] px-6 py-20 sm:px-10 lg:px-16 lg:py-32">
+        <div className="mx-auto max-w-[1040px] text-center">
           <p
-            className="text-[34px] font-normal leading-[1.1] tracking-[-0.055em] text-white sm:text-[48px] lg:text-[66px]"
-            style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
+            className="text-[30px] font-normal leading-tight text-white sm:text-[48px] lg:text-[66px]"
           >
-            We help <em className="font-normal italic text-[#7ECFDF]">families</em>{' '}
+            We help <em className="font-normal italic text-[#BFEAE7]">families</em>{' '}
             turn everyday{' '}
-            <em className="font-normal italic text-[#7ECFDF]">health needs</em>{' '}
+            <em className="font-normal italic text-[#BFEAE7]">health needs</em>{' '}
             into simpler, supported care.
           </p>
         </div>
       </section>
 
       <LocationServicesCarousel services={relatedServices} />
-      <LocationProviders />
+      <LocationProviders providers={locationProviders} />
       <LocationCareCta />
     </section>
   )
+}
+
+function getProviderLocationKey(locationName: string) {
+  if (locationName.includes('Griffin Road')) return 'Zomak Griffin Road'
+  if (locationName.includes('Centre Street')) return 'Zomak Centre Street'
+  if (locationName.includes('Northmount')) return 'Zomak Northmount'
+  if (locationName.includes('Fairview')) return 'Zomak Fairview'
+  return locationName
 }

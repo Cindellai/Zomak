@@ -14,24 +14,24 @@ export function ServiceFaq({ faq }: ServiceFaqProps) {
   const [openIndex, setOpenIndex] = useState(0)
 
   return (
-    <section className="relative left-1/2 w-screen -translate-x-1/2 bg-[#ffffff] px-6 py-16 sm:px-10 lg:px-20 lg:py-24">
+    <section className="relative left-1/2 w-screen -translate-x-1/2 bg-[#FFFFFF] px-6 py-16 sm:px-10 lg:px-20 lg:py-24">
       <div className="mx-auto max-w-[1040px]">
         
         {/* Header Block */}
         <div className="mx-auto max-w-[620px] text-center">
-          <span className="inline-flex rounded-full bg-[#cbeaf0] px-3.5 py-1 text-[12px] font-medium tracking-tight text-[#3b7180]">
+          <span className="inline-flex rounded-full bg-[#BFEAE7] px-3.5 py-1 text-[12px] font-medium tracking-tight text-[#2AA7A1]">
             FAQ
           </span>
-          <h2 className="mt-5 text-[38px] font-normal leading-[1.1] tracking-tight text-[#112329] sm:text-[46px] lg:text-[52px]">
+          <h2 className="mt-5 text-[38px] font-normal leading-[1.1] tracking-tight text-[#333333] sm:text-[46px] lg:text-[52px]">
             In case you were wondering
           </h2>
-          <p className="mt-4 text-[15px] tracking-normal text-[#447685]">
+          <p className="mt-4 text-[15px] tracking-normal text-[#2AA7A1]">
             Some of the most common things patients ask before booking this service.
           </p>
         </div>
 
         {/* Accordion List Block */}
-        <div className="mt-16 divide-y divide-[#1F6175]/10 border-b border-[#1F6175]/10">
+        <div className="mt-16 divide-y divide-[#2AA7A1]/10 border-b border-[#2AA7A1]/10">
           {faq.map((item, index) => {
             const isOpen = openIndex === index
 
@@ -44,12 +44,12 @@ export function ServiceFaq({ faq }: ServiceFaqProps) {
                   aria-expanded={isOpen}
                 >
                   {/* Elegant Sans-serif Question Text Styling */}
-                  <span className="text-[22px] font-light tracking-tight text-[#112329] sm:text-[26px] lg:text-[29px]">
+                  <span className="text-[22px] font-light tracking-tight text-[#333333] sm:text-[26px] lg:text-[29px]">
                     {item.question}
                   </span>
                   
                   {/* Soft Minimalist Round Icon Container */}
-                  <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-[#cae8ef] text-[#4d8291] transition-transform duration-200 group-hover:bg-[#bcdfe7]">
+                  <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-[#BFEAE7] text-[#2AA7A1] transition-transform duration-200 group-hover:bg-[#BFEAE7]">
                     {isOpen ? (
                       <Minus size={14} strokeWidth={2.5} />
                     ) : (
@@ -61,7 +61,7 @@ export function ServiceFaq({ faq }: ServiceFaqProps) {
                 {/* Smooth Answer Box Flow */}
                 {isOpen && (
                   <div className="mt-4 max-w-[820px] animate-fadeIn">
-                    <p className="text-[15px] leading-[1.6] text-[#447685]">
+                    <p className="text-[15px] leading-[1.6] text-[#2AA7A1]">
                       {item.answer}
                     </p>
                   </div>

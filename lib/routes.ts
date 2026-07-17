@@ -1,6 +1,6 @@
 export const navItems = [
   { label: 'Locations', href: '/locations/centre-street-north-medical-clinic' },
-  { label: 'Services', href: '/services/visa-medical-experts' },
+  { label: 'Services', href: '/services/internal-medicine' },
   { label: 'About', href: '/about' },
   { label: 'Contact', href: '/contact' }
 ]

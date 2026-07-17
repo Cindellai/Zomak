@@ -1,41 +1,56 @@
 import Link from 'next/link'
-import { ArrowRight } from 'lucide-react'
 
-export function ServiceContactCta() {
+type ServiceContactCtaProps = {
+  label?: string
+  href?: string
+}
+
+export function ServiceContactCta({
+  label = 'Book Now',
+  href = '/contact'
+}: ServiceContactCtaProps) {
   return (
-    <section className="relative left-1/2 w-screen -translate-x-1/2 bg-[#1F6175] px-6 py-14 sm:px-10 lg:px-16">
-      <div className="mx-auto max-w-[1400px]">
-        <h2
-          className="mb-6 text-[52px] font-normal leading-[1.0] tracking-[-0.04em] text-white sm:text-[66px] lg:text-[80px]"
-          style={{ fontFamily: 'Georgia, serif' }}
-        >
-          Get in Touch
-        </h2>
+    <section className="relative left-1/2 right-1/2 -mx-[50vw] flex h-[520px] w-screen items-center justify-center overflow-hidden bg-neutral-100 sm:h-[620px] lg:h-[720px]">
+      
+      {/* Editorial Background Image */}
+      <div className="absolute inset-0 z-0">
+        <img 
+          src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=2000&q=90" 
+          alt="Zomak patient education and consultation environment"
+          className="h-full w-full object-cover object-center"
+        />
+        {/* Soft, centered overlay for natural legibility */}
+        <div className="absolute inset-0 bg-black/35" />
+      </div>
 
-        <div className="relative overflow-hidden rounded-[18px]">
-          <img
-            src="https://images.unsplash.com/photo-1551190822-a9333d879b1f?w=1800&q=90"
-            alt="ZOMAK Medical Clinic"
-            className="h-[420px] w-full object-cover object-center lg:h-[800px]"
-          />
+      {/* Perfectly Centered Content Container */}
+      <div className="relative z-10 mx-auto w-full max-w-[900px] px-6 text-center text-white">
+        <div className="flex flex-col items-center justify-center space-y-8">
+          
+          <h2 
+            className="text-4xl font-normal leading-[1.1] tracking-tight sm:text-6xl lg:text-[76px]" 
+            style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
+          >
+            We treat <br />
+            the whole person
+          </h2>
+          
+          <p className="max-w-[520px] text-[15px] sm:text-[17px] leading-relaxed text-white/90 font-light">
+            Every patient path is unique. Connect with us to ask questions about this service, prepare for your visit, and verify your health needs.
+          </p>
 
-          <div className="absolute bottom-6 left-6 max-w-[340px] rounded-[16px] bg-[#ffffff] p-7 shadow-[0_18px_50px_rgba(9,37,45,0.18)]">
-            <p className="text-[15px] leading-7 text-[#102A32]/74">
-              Have a question about our services, locations, or booking? Get in
-              touch and our team will help you find the right care because every
-              patient matters.
-            </p>
-
-            <Link
-              href="/contact"
-              className="mt-6 inline-flex items-center gap-2 rounded-full bg-[#2F7F95] px-5 py-3 text-[14px] font-semibold text-white no-underline transition hover:bg-[#246B80]"
+          <div className="pt-2">
+            <Link 
+              href={href} 
+              className="inline-flex items-center justify-center rounded-lg bg-white px-8 py-4 text-xs font-normal text-[#333333] transition-all duration-300 hover:bg-[#2AA7A1] hover:text-white"
             >
-              Contact Us
-              <ArrowRight size={15} />
+              {label} &nbsp;&nbsp;&rarr;
             </Link>
           </div>
+          
         </div>
       </div>
+
     </section>
   )
 }
