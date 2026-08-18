@@ -256,7 +256,7 @@ export const services = [
   {
     title: "Women's Health Care",
     slug: 'womens-health-care',
-    category: serviceCategories.aesthetics,
+    category: serviceCategories.womensHealth,
     image:
       'https://images.unsplash.com/photo-1584820927498-cfe5211fd8bf?auto=format&fit=crop&w=1600&q=85',
     summary:
@@ -392,7 +392,7 @@ export const services = [
     image: 'https://images.unsplash.com/photo-1581056771107-24ca5f033842?auto=format&fit=crop&w=1600&q=85',
     summary: 'Comprehensive primary and walk-in care for patients and families.',
     details: 'Accessible care for preventive health, common illnesses, chronic conditions and everyday medical needs.',
-    bestFor: ['Annual check-ups and preventative care', 'Diagnosis and treatment of common illnesses', 'Management of chronic conditions including diabetes, hypertension, asthma and high cholesterol', 'Children’s routine health visits', 'Mental health assessment, treatment and support', 'Minor skin procedures', 'Medication review and management', 'Driver’s Medicals'],
+    bestFor: ['Annual check-ups and preventative care', 'Diagnosis and treatment of common illnesses', 'Management of chronic conditions (i.e. diabetes, hypertension, asthma, high cholesterol, etc.)', 'Children’s routine health visits', 'Mental health assessment, treatment and support', 'Minor skin procedures', 'Medication review and management', 'Driver’s Medicals'],
     whatToBring: ['Health card or ID', 'Medication list', 'Relevant records or forms'],
     visitFlow: ['Check in', 'Provider assessment', 'Treatment, prescription or follow-up plan'],
     faq: [{ question: 'Are walk-ins accepted?', answer: 'Yes. Live availability varies by clinic and is shown on each clinic page.' }]
@@ -404,7 +404,7 @@ export const services = [
     image: 'https://images.unsplash.com/photo-1538108149393-fbbd81895907?auto=format&fit=crop&w=1600&q=85',
     summary: 'Specialist assessment and coordinated care for complex adult medical conditions. A clinic referral is required.',
     details: 'Referring clinics can fax referrals to 403-538-6747.',
-    bestFor: ['Comprehensive chronic-condition care, including diabetes, hypertension, asthma, heart failure, COPD and dyslipidemia', 'Cardiovascular risk assessment and risk reduction / stroke prevention clinics', 'Chronic kidney disease, proteinuria or hematuria', 'Cognitive impairment or suspected dementia', 'Bone health and osteoporosis', 'Coordinating care for multiple comorbidities', 'Hypermobility assessment', 'Medically unexplained symptoms', 'Unexplained myalgias and arthralgias, including fibromyalgia', 'Abnormal liver enzymes', 'Genital dermatology', 'Hepatitis B or Hepatitis C management'],
+    bestFor: ['Comprehensive care of chronic medical conditions (i.e. diabetes, hypertension, asthma, heart failure, COPD, dyslipidemia, etc.)', 'Cardiovascular risk assessment and risk reduction / stroke prevention clinics', 'Chronic kidney disease, proteinuria or hematuria', 'Cognitive impairment or suspected dementia', 'Bone health and osteoporosis', 'Coordinating care for multiple comorbidities', 'Hypermobility assessment', 'Medically unexplained symptoms', 'Unexplained myalgias and arthralgias, fibromyalgia', 'Abnormal liver enzymes', 'Genital dermatology', 'Hepatitis B or Hepatitis C management'],
     whatToBring: ['Health card or ID', 'Medication list', 'Relevant test results and specialist records'],
     visitFlow: ['Clinic referral by fax', 'Specialist consultation', 'Care plan and follow-up'],
     faq: [{ question: 'How do I access Internal Medicine?', answer: 'Your clinic must send a referral by fax to 403-538-6747.' }]
@@ -556,7 +556,7 @@ export const services = [
   {
     title: 'O-Shot (Orgasm Shot)',
     slug: 'o-shot-orgasm-shot',
-    category: serviceCategories.aesthetics,
+    category: 'Specialty Wellness',
     image:
       'https://images.unsplash.com/photo-1559757175-5700dde675bc?auto=format&fit=crop&w=1600&q=85',
     summary:
@@ -596,10 +596,10 @@ export const services = [
     image:
       'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=1600&q=85',
     summary:
-      'A PRP-based hair restoration treatment option for patients seeking support with hair thickness and growth.',
+      'PRP treatments for patients seeking support with hair restoration or facial rejuvenation.',
     details:
-      'PRP hair treatment uses platelet-rich plasma in a clinical setting to support a personalized hair restoration plan.',
-    bestFor: ['Hair restoration consultation', 'Thinning hair concerns', 'Patients exploring PRP options'],
+      'PRP uses platelet-rich plasma in a clinical setting to support personalized hair restoration and facial rejuvenation plans.',
+    bestFor: ['Hair restoration consultation', 'Thinning hair concerns', 'Facial rejuvenation'],
     whatToBring: ['Photo ID', 'Medication list', 'Hair loss history or previous treatment details'],
     visitFlow: ['Hair and health history review', 'Provider assessment', 'Treatment plan and follow-up schedule'],
     faq: [
@@ -628,7 +628,7 @@ export const services = [
   {
     title: 'Vampire Breast Lift',
     slug: 'vampire-breast-lift',
-    category: serviceCategories.womensHealth,
+    category: serviceCategories.aesthetics,
     image:
       'https://images.unsplash.com/photo-1579154341098-e4e158cc7f55?auto=format&fit=crop&w=1600&q=85',
     summary:
@@ -664,7 +664,7 @@ export const services = [
   {
     title: 'Vampire Wing Lift',
     slug: 'vampire-wing-lift',
-    category: serviceCategories.womensHealth,
+    category: serviceCategories.aesthetics,
     image:
       'https://images.unsplash.com/photo-1579684453377-48ec05c6b30a?auto=format&fit=crop&w=1600&q=85',
     summary:

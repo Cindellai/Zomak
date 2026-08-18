@@ -2,15 +2,26 @@ import Link from 'next/link'
 import { CheckCircle2 } from 'lucide-react'
 import { notFound } from 'next/navigation'
 import { services } from '@/data/site'
+import { TestosteroneQuestionnaire } from '@/components/forms/TestosteroneQuestionnaire'
 
 export function generateStaticParams() {
   return services.map(({ slug }) => ({ slug }))
 }
 
-export default async function ServiceDetailPage({ params }: { params: Promise<{ slug: string }> }) {
+export default async function ServiceDetailPage({
+  params,
+  searchParams
+}: {
+  params: Promise<{ slug: string }>
+  searchParams: Promise<{ focus?: string }>
+}) {
   const { slug } = await params
+  const { focus } = await searchParams
   const service = services.find((item) => item.slug === slug)
   if (!service) notFound()
+  const displayTitle = focus || service.title
+  const displayDetails = focus ? getFocusedServiceDetails(focus) : service.details
+  const displayHighlights = focus ? getFocusedServiceHighlights(focus) : service.bestFor
 
   return (
     <main className="bg-[#F4F6F7] text-[#333333]">
@@ -19,8 +30,8 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
         <div className="absolute inset-0 bg-gradient-to-t from-[#333333] via-[#333333]/45 to-transparent" />
         <div className="relative mx-auto w-full max-w-[1200px]">
           <p className="text-sm text-[#BFEAE7]">{service.category}</p>
-          <h1 className="mt-3 max-w-4xl font-serif text-5xl leading-tight text-white sm:text-7xl">{service.title}</h1>
-          <p className="mt-6 max-w-2xl text-lg leading-8 text-white/85">{service.details}</p>
+          <h1 className="mt-3 max-w-4xl font-serif text-5xl leading-tight text-white sm:text-7xl">{displayTitle}</h1>
+          <p className="mt-6 max-w-2xl text-lg leading-8 text-white/85">{displayDetails}</p>
         </div>
       </header>
 
@@ -28,7 +39,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
         <div>
           <h2 className="font-serif text-4xl">Services and support</h2>
           <ul className="mt-8 space-y-4">
-            {service.bestFor.map((item) => <li className="flex gap-3 leading-7" key={item}><CheckCircle2 className="mt-1 shrink-0 text-[#2AA7A1]" size={19} />{item}</li>)}
+            {displayHighlights.map((item) => <li className="flex gap-3 leading-7" key={item}><CheckCircle2 className="mt-1 shrink-0 text-[#2AA7A1]" size={19} />{item}</li>)}
           </ul>
         </div>
         <div className="rounded-2xl bg-white p-8 shadow-sm">
@@ -45,23 +56,29 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
   )
 }
 
-function TestosteroneQuestionnaire() {
-  return (
-    <section className="bg-white px-6 py-20 sm:px-10 lg:px-16">
-      <form className="mx-auto max-w-3xl" action="/contact">
-        <p className="text-sm text-[#2AA7A1]">Confidential pre-visit screening</p>
-        <h2 className="mt-2 font-serif text-4xl">Testosterone assessment questionnaire</h2>
-        <p className="mt-4 leading-7 text-[#333333]/70">This screening does not diagnose low testosterone or guarantee treatment. Your provider will review symptoms, medical history and laboratory testing.</p>
-        <div className="mt-10 grid gap-6 sm:grid-cols-2">
-          <label className="grid gap-2">Full name<input required name="name" className="rounded-lg border p-3" /></label>
-          <label className="grid gap-2">Phone number<input required name="phone" type="tel" className="rounded-lg border p-3" /></label>
-          <label className="grid gap-2 sm:col-span-2">Which symptoms are you experiencing?<textarea required name="symptoms" rows={4} className="rounded-lg border p-3" placeholder="For example: low energy, mood changes, reduced strength or sexual-health concerns" /></label>
-          <label className="grid gap-2">How long have symptoms been present?<input name="duration" className="rounded-lg border p-3" /></label>
-          <label className="grid gap-2">Have you had recent testosterone bloodwork?<select name="bloodwork" className="rounded-lg border bg-white p-3"><option>No</option><option>Yes</option><option>Not sure</option></select></label>
-          <label className="grid gap-2 sm:col-span-2">Relevant conditions, medications or prior treatment<textarea name="history" rows={3} className="rounded-lg border p-3" /></label>
-        </div>
-        <button className="mt-8 rounded-xl bg-[#333333] px-7 py-3.5 text-white hover:bg-[#2AA7A1]">Continue to contact and registration</button>
-      </form>
-    </section>
-  )
+function getFocusedServiceDetails(title: string) {
+  const details: Record<string, string> = {
+    'Annual check-ups and preventative care': 'A routine health visit focused on prevention, age-appropriate screening, risk-factor review, and practical steps to support long-term wellness.',
+    'Diagnosis and treatment of common illnesses': 'Assessment and treatment for common symptoms and illnesses, with prescriptions, testing, or follow-up arranged when clinically appropriate.',
+    'Management of chronic conditions (i.e. diabetes, hypertension, asthma, high cholesterol, etc.)': 'Ongoing primary-care support for chronic conditions, including monitoring, medication review, lifestyle guidance, and coordinated follow-up.',
+    'Children’s routine health visits': 'Routine primary-care visits supporting children’s physical health, development, prevention, and family questions.',
+    'Mental health assessment, treatment and support': 'A private visit to discuss mood, anxiety, attention, stress, sleep, or other mental-health concerns and develop an appropriate care plan.',
+    'Minor skin procedures': 'Clinical assessment of an appropriate minor skin concern followed by an office-based procedure when suitable.',
+    'Medication review and management': 'A structured review of current prescriptions, effectiveness, side effects, interactions, adherence, and ongoing medication needs.',
+    'Driver’s Medicals': 'A medical assessment and documentation visit for personal or commercial driving requirements.',
+    'General Women’s Health': 'Preventive, reproductive, and everyday healthcare for women across life stages, tailored to individual symptoms and goals.',
+    'Menopausal support & treatment': 'Assessment and personalized support for menopausal symptoms, health changes, and appropriate treatment options.',
+    'PAP smears': 'Routine cervical screening provided in a respectful clinical setting, with preparation and follow-up guidance.',
+    'IUD consultations and referrals': 'A consultation covering contraceptive goals, suitability, benefits, risks, alternatives, and referral arrangements for IUD care.'
+  }
+
+  return details[title] || `Specialist assessment and coordinated care focused specifically on ${title.toLowerCase()}. Your provider will review your history, relevant results, and appropriate next steps.`
+}
+
+function getFocusedServiceHighlights(title: string) {
+  return [
+    `Focused assessment for ${title.toLowerCase()}`,
+    'Individualized recommendations based on your health history',
+    'Clear follow-up, testing, treatment, or referral guidance'
+  ]
 }

@@ -22,7 +22,7 @@ const FAQS = [
   {
     question: 'What services are available?',
     answer:
-      "Available services include visa medical exams, medical piercings, baby's gender DNA testing, pediatric care, women's health care, and driver's medical exams.",
+      "Available services include family practice, pediatric care, internal medicine, women’s and men’s health, aesthetics, visa medical exams, medical piercings at Centre St., and driver’s medical exams.",
   },
   {
     question: 'Can I get directions to a specific clinic?',

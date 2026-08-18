@@ -25,10 +25,10 @@ const followLinks = [
 export function Footer() {
   return (
     <footer className="bg-[#333333] text-white">
-      <div className="mx-auto max-w-[1400px] px-6 py-10 sm:px-10 lg:px-16 lg:py-14">
+      <div className="mx-auto max-w-[1400px] overflow-hidden px-5 py-10 sm:px-10 lg:px-16 lg:py-14">
         <div className="flex flex-col gap-7 md:flex-row md:items-center md:justify-between">
           <p
-            className="max-w-[620px] text-[24px] font-normal leading-tight text-white sm:text-[30px] md:text-[22px]"
+            className="max-w-[620px] text-[22px] font-normal leading-tight text-white sm:text-[30px] md:text-[22px]"
             style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
           >
             Coordinated healthcare across ZOMAK Medical clinics.
@@ -60,7 +60,7 @@ export function Footer() {
             </p>
           </div>
 
-          <div className="grid gap-x-8 gap-y-9 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5">
+          <div className="grid grid-cols-2 gap-x-6 gap-y-9 sm:gap-x-8 md:grid-cols-3 xl:grid-cols-5">
             <FooterColumn title="Clinics">
               {locations.map((location) => (
                 <FooterLink

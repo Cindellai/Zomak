@@ -46,7 +46,7 @@ export function LocationServicesCarousel({ services }: { services: Service[] }) 
                 <div className="max-w-[820px]">
           
                   <h4 className="mt-4 text-[34px] font-normal leading-tight text-white sm:text-[58px] lg:text-[72px]">
-                    {services[0].title.replace(/-too/gi, '').replace(/-/g, ' ')}
+                    {getCarouselTitle(services[0].title)}
                   </h4>
 
                   <p className="mt-6 max-w-[680px] text-[16px] leading-7 text-white/85">
@@ -75,7 +75,7 @@ export function LocationServicesCarousel({ services }: { services: Service[] }) 
           <div className={`grid ${count === 2 ? 'gap-6 md:grid-cols-2 lg:gap-8' : 'gap-8 sm:grid-cols-2 lg:grid-cols-3'}`}>
             {services.map((service, index) => (
               <Link href={`/services/details/${service.slug}`}
-                key={service.slug} 
+                key={`${service.slug}-${service.title}`} 
                 className={`group relative flex flex-col justify-end overflow-hidden rounded-xl border border-[#333333]/5 shadow-sm ${
                   count === 2 ? 'h-[440px] p-5 sm:h-[580px] sm:p-8 lg:h-[640px] lg:p-10' : 'h-[420px] p-5 sm:p-8 lg:h-[540px] lg:p-10'
                 }`}
@@ -88,7 +88,7 @@ export function LocationServicesCarousel({ services }: { services: Service[] }) 
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/45 to-transparent transition-all duration-300" />
                 <div className="relative z-10 space-y-4">
                   <h4 className="text-[28px] font-normal leading-tight text-white sm:text-3xl">
-                    {service.title.replace(/-too/gi, '').replace(/-/g, ' ')}
+                    {getCarouselTitle(service.title)}
                   </h4>
                   <p className={`${count === 2 ? 'max-w-[620px] text-base leading-7' : 'text-sm'} text-white/80 line-clamp-2`}>
                     {service.summary}
@@ -105,7 +105,7 @@ export function LocationServicesCarousel({ services }: { services: Service[] }) 
             <div className="flex gap-8 overflow-x-auto pb-8 scrollbar-thin scrollbar-thumb-neutral-200 scroll-smooth snap-x snap-mandatory">
               {services.map((service, index) => (
                 <Link href={`/services/details/${service.slug}`}
-                  key={service.slug} 
+                  key={`${service.slug}-${service.title}`} 
                   className="group relative flex h-[400px] w-[82vw] shrink-0 snap-start flex-col justify-end overflow-hidden rounded-xl border border-[#333333]/5 p-5 shadow-sm sm:h-[440px] sm:w-[420px] sm:p-8 lg:h-[500px] lg:w-[480px] lg:p-10"
                 >
                   <img 
@@ -116,7 +116,7 @@ export function LocationServicesCarousel({ services }: { services: Service[] }) 
                   <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent transition-all duration-300" />
                   <div className="relative z-10 space-y-4">
                     <h4 className="text-[28px] font-normal leading-tight text-white sm:text-3xl">
-                      {service.title.replace(/-too/gi, '').replace(/-/g, ' ')}
+                      {getCarouselTitle(service.title)}
                     </h4>
                     <p className="text-sm text-white/80 line-clamp-2">
                       {service.summary}
@@ -137,4 +137,12 @@ export function LocationServicesCarousel({ services }: { services: Service[] }) 
       </div>
     </section>
   )
+}
+
+function getCarouselTitle(title: string) {
+  return title
+    .replace(/\s*\(i\.?e\.?[^)]*\)/gi, '')
+    .replace(/-too/gi, '')
+    .replace(/-/g, ' ')
+    .trim()
 }

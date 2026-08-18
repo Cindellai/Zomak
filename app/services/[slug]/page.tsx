@@ -105,9 +105,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
 
   const details = categoryDetails[category]
   const allCategoryServices = services.filter((service) => service.category === category)
-  const categoryServices = category === 'Pediatric Care'
-    ? allCategoryServices.filter((service) => service.slug !== 'pediatric-care')
-    : allCategoryServices
+  const categoryServices = getDisplayedServices(category, allCategoryServices)
   const availableLocations = locations.filter((location) =>
     allCategoryServices.some((service) => location.services.includes(service.title))
   )
@@ -121,11 +119,6 @@ export default async function ServicePage({ params }: ServicePageProps) {
 
   return (
     <section className="bg-cloud text-ink antialiased selection:bg-mint">
-      {category === 'Family Practice' && (
-        <div className="sticky top-16 z-40 bg-[#2AA7A1] px-5 py-3 text-center text-sm font-medium text-white shadow-md">
-          Walk-ins now · Select a clinic below or call ahead for live availability
-        </div>
-      )}
       
       {/* ================= BOUTIQUE OVERLAY HERO (Matching Discovery Doctor Style) ================= */}
       <header className="relative flex min-h-screen w-full flex-col justify-end overflow-hidden bg-ink">
@@ -257,6 +250,41 @@ export default async function ServicePage({ params }: ServicePageProps) {
         </section>
       )}
 
+      {category === "Men's Health" && (
+        <section className="bg-[#333333] px-6 py-16 text-white sm:px-10 lg:px-16 lg:py-24">
+          <div className="mx-auto grid max-w-[1400px] gap-10 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-center">
+            <div>
+              <p className="text-sm font-medium uppercase tracking-[0.18em] text-[#BFEAE7]">
+                Men’s Health
+              </p>
+              <h2 className="mt-4 max-w-[780px] font-serif text-[42px] font-normal leading-tight sm:text-[56px]">
+                Testosterone Replacement
+              </h2>
+              <p className="mt-5 max-w-[720px] text-lg leading-8 text-white/72">
+                Start with a confidential symptom questionnaire, then meet with a provider to review your health history, appropriate laboratory testing, treatment options, and ongoing monitoring.
+              </p>
+              <Link
+                href="/services/details/testosterone-replacement"
+                className="mt-8 inline-flex rounded-full bg-[#BFEAE7] px-7 py-4 text-sm font-medium text-[#333333] no-underline transition hover:bg-white"
+              >
+                Learn more and complete questionnaire &rarr;
+              </Link>
+            </div>
+            <div className="rounded-2xl border border-white/15 bg-white/10 p-8 backdrop-blur-sm">
+              <p className="text-sm text-[#BFEAE7]">Your care pathway</p>
+              <ol className="mt-6 space-y-5 text-white/85">
+                {['Complete the confidential screening', 'Meet with a qualified provider', 'Review testing and treatment options', 'Continue with clinical monitoring'].map((item, index) => (
+                  <li className="flex items-center gap-4" key={item}>
+                    <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-white text-sm text-[#333333]">{index + 1}</span>
+                    {item}
+                  </li>
+                ))}
+              </ol>
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* ================= 3. TREATMENT CAROUSEL / OPTIONS LIST ================= */}
       <div className="bg-white">
         <LocationServicesCarousel services={categoryServices} />
@@ -270,4 +298,50 @@ export default async function ServicePage({ params }: ServicePageProps) {
 
     </section>
   )
+}
+
+function getDisplayedServices(category: string, categoryServices: typeof services) {
+  if (category === 'Pediatric Care') {
+    return categoryServices.filter((service) => service.slug !== 'pediatric-care')
+  }
+
+  const expandableServiceTitles: Record<string, string> = {
+    'Internal Medicine': 'Internal Medicine Specialist Care',
+    'Family Practice': 'Family Practice & Walk-in Care',
+    "Women's Health": "Women's Health Care"
+  }
+  const expandableService = categoryServices.find(
+    (service) => service.title === expandableServiceTitles[category]
+  )
+
+  if (!expandableService) return categoryServices
+
+  const specificServices = category === "Women's Health"
+    ? ['General Women’s Health', ...expandableService.bestFor]
+    : expandableService.bestFor
+
+  return specificServices.map((title) => ({
+    ...expandableService,
+    title,
+    slug: `${expandableService.slug}?focus=${encodeURIComponent(title)}`,
+    summary: getSpecificServiceSummary(title)
+  }))
+}
+
+function getSpecificServiceSummary(title: string) {
+  const summaries: Record<string, string> = {
+    'Annual check-ups and preventative care': 'Routine health reviews, screening and preventive guidance.',
+    'Diagnosis and treatment of common illnesses': 'Assessment and treatment for everyday illnesses and health concerns.',
+    'Children’s routine health visits': 'Routine primary-care visits supporting children’s health and development.',
+    'Mental health assessment, treatment and support': 'Private assessment and ongoing support for mental health concerns.',
+    'Minor skin procedures': 'Office-based assessment and treatment for appropriate minor skin concerns.',
+    'Medication review and management': 'Review medications for effectiveness, safety and ongoing care needs.',
+    'Driver’s Medicals': 'Medical assessment and documentation for driving requirements.',
+    'General Women’s Health': 'Preventive, reproductive and everyday healthcare for women across all life stages.',
+    'Menopausal support & treatment': 'Personalized support for symptoms and health changes during menopause.',
+    'PAP smears': 'Routine cervical screening delivered in a respectful clinical setting.',
+    'IUD consultations and referrals': 'Contraceptive counselling and referral planning for IUD care.'
+  }
+
+  return summaries[title] || `Specialist assessment and care for ${title.toLowerCase()}.`
 }

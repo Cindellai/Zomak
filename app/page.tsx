@@ -9,16 +9,21 @@ import { Locations } from '@/components/sections/Locations'
 import { PatientReviews } from '@/components/sections/PatientReviews'
 import { FAQ } from '@/components/sections/FAQ'
 import { CTA } from '@/components/sections/Cta'
+import { GriffinAesthetics } from '@/components/sections/GriffinAesthetics'
 
 export default function Home() {
   return (
     <>
+      <div className="sticky top-16 z-40 bg-[#2AA7A1] px-5 py-3 text-center text-sm font-medium text-white shadow-md">
+        Walk-ins now · Select a clinic or call ahead for live availability
+      </div>
       <Hero />
       <WalkInsAvailable />
       <About />
       <ServiceGrid />
       <FamilyPracticeCta />
       <HowItWorks />
+      <GriffinAesthetics />
       <Locations />
       <PatientReviews />
       <FAQ />

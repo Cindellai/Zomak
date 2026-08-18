@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
 import { LocationCareCta } from '@/components/sections/LocationCareCta'
+import { GriffinAesthetics } from '@/components/sections/GriffinAesthetics'
 import { LocationProviders } from '@/components/sections/LocationProviders'
 import { LocationServicesCarousel } from '@/components/sections/LocationServicesCarousel'
 import { providers } from '@/data/providers'
@@ -57,8 +58,8 @@ export default async function LocationPage({ params }: LocationPageProps) {
   )
 
   return (
-    <section className="overflow-x-hidden bg-white text-ink">
-      <div className="sticky top-16 z-40 bg-[#2AA7A1] px-5 py-3 text-center text-sm font-medium text-white shadow-md">
+    <section className="bg-white text-ink">
+      <div className="sticky top-0 z-50 bg-[#2AA7A1] px-5 py-3 text-center text-sm font-medium text-white shadow-md">
         {location.walkInStatus} · Call {location.phone} for live availability
       </div>
       {/* Split Screen Hero */}
@@ -105,16 +106,18 @@ export default async function LocationPage({ params }: LocationPageProps) {
                   Contact
                 </p>
 
-                <p className="mt-4 text-[18px] font-normal leading-7 text-[#333333]/90">
-                  {location.email || 'Clinic contact available'}
-                </p>
+                {location.email && (
+                  <p className="mt-4 text-[18px] font-normal leading-7 text-[#333333]/90">
+                    {location.email}
+                  </p>
+                )}
 
                 {location.phone ? (
                   <a
                     href={`tel:${location.phone.replaceAll(' ', '')}`}
                     className="mt-4 inline-flex items-center justify-center rounded-[12px] bg-[#333333] px-5 py-3 text-[15px] font-normal text-white no-underline transition hover:bg-[#2AA7A1]"
                   >
-                    Call {location.phone}
+                    {location.phone}
                   </a>
                 ) : (
                   <span className="mt-4 inline-flex items-center justify-center rounded-[12px] bg-[#333333]/10 px-5 py-3 text-[15px] font-normal text-[#333333]/60">
@@ -160,9 +163,15 @@ export default async function LocationPage({ params }: LocationPageProps) {
         </div>
       </section>
 
+      {location.slug === 'griffin-road-medical-clinic' && <GriffinAesthetics />}
+
       <LocationServicesCarousel services={relatedServices} />
       <LocationProviders providers={locationProviders} />
-      <LocationCareCta />
+      <LocationCareCta
+        clinicName={location.name}
+        phone={location.phone}
+        walkInStatus={location.walkInStatus}
+      />
     </section>
   )
 }

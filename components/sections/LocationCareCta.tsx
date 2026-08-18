@@ -1,7 +1,15 @@
 import Link from 'next/link'
 import { Sparkle } from 'lucide-react'
 
-export function LocationCareCta() {
+export function LocationCareCta({
+  clinicName,
+  phone,
+  walkInStatus
+}: {
+  clinicName: string
+  phone: string
+  walkInStatus: string
+}) {
   return (
     <section className="bg-[#BFEAE7]">
       <div className="mx-auto max-w-[1400px]">
@@ -13,26 +21,34 @@ export function LocationCareCta() {
               className="text-[42px] font-normal leading-tight text-[#333333] sm:text-[58px] lg:text-[72px]"
               style={{ fontFamily: 'Georgia, serif' }}
             >
-              Your health deserves a complete story
+              Walk-ins are available
             </h2>
 
             <div className="my-8">
               <Sparkle size={44} className="text-[#2AA7A1]" strokeWidth={1.2} />
             </div>
 
-            <p className="max-w-[380px] text-[15px] leading-8 text-[#333333]/55">
-              At ZOMAK Medical Clinic, we believe every patient deserves
-              personalized, attentive care. From routine check-ups to
-              specialized services, our team is here to support your health
-              at every stage of life.
+            <p className="max-w-[460px] text-[17px] leading-8 text-[#333333]/70">
+              Visit {clinicName} for walk-in care. Current status:{' '}
+              <strong className="font-medium text-[#333333]">{walkInStatus}</strong>.
+              Availability can change with provider schedules and patient volume,
+              so call ahead when timing matters.
             </p>
 
-            <Link
-              href="/contact"
-              className="mt-10 inline-block bg-[#333333] px-8 py-4 text-sm font-normal text-white no-underline transition hover:bg-[#2AA7A1]"
-            >
-              Contact
-            </Link>
+            <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+              <a
+                href={`tel:${phone.replaceAll(' ', '')}`}
+                className="inline-block bg-[#333333] px-8 py-4 text-sm font-normal text-white no-underline transition hover:bg-[#2AA7A1]"
+              >
+                Call {phone}
+              </a>
+              <Link
+                href="/contact"
+                className="inline-block border border-[#333333]/30 px-8 py-4 text-sm font-normal text-[#333333] no-underline transition hover:border-[#2AA7A1] hover:text-[#247F7A]"
+              >
+                Contact the clinic
+              </Link>
+            </div>
           </div>
 
           {/* Right — image with padding so it floats */}

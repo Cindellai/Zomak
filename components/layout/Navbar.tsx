@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import type { ReactNode } from 'react'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { ArrowUpRight, ChevronDown, Menu, X } from 'lucide-react'
 
 import {
@@ -15,14 +15,18 @@ import {
 export default function Navbar() {
   const pathname = usePathname()
   const [isScrolled, setIsScrolled] = useState(false)
+  const [showClinicNav, setShowClinicNav] = useState(true)
+  const lastScrollY = useRef(0)
   const [openMenu, setOpenMenu] = useState<'services' | 'locations' | null>(
     null
   )
   const [mobileOpen, setMobileOpen] = useState(false)
   const isArticleDetail = pathname.startsWith('/blog/')
   const isServiceDetail = pathname.startsWith('/services/')
+  const isClinicDetail = pathname.startsWith('/locations/')
+  const isHomePage = pathname === '/'
   const usesDarkImageHero =
-    pathname === '/' || pathname === '/doctors' || isArticleDetail || isServiceDetail
+    pathname === '/doctors' || isArticleDetail || isServiceDetail
   const isOverlayNav = !isScrolled
   const usesLightText = isOverlayNav && usesDarkImageHero && !mobileOpen
   const linkTone = usesLightText ? 'text-white' : 'text-[#333333]'
@@ -30,7 +34,18 @@ export default function Navbar() {
 
   useEffect(() => {
     const updateScrolled = () => {
-      setIsScrolled(window.scrollY > 24)
+      const currentScrollY = window.scrollY
+      setIsScrolled(currentScrollY > 24)
+
+      if (isClinicDetail) {
+        if (currentScrollY < 24 || currentScrollY < lastScrollY.current - 4) {
+          setShowClinicNav(true)
+        } else if (currentScrollY > lastScrollY.current + 4) {
+          setShowClinicNav(false)
+        }
+      }
+
+      lastScrollY.current = currentScrollY
     }
 
     updateScrolled()
@@ -39,17 +54,36 @@ export default function Navbar() {
     return () => {
       window.removeEventListener('scroll', updateScrolled)
     }
-  }, [])
+  }, [isClinicDetail])
 
   useEffect(() => {
     setOpenMenu(null)
     setMobileOpen(false)
   }, [pathname])
 
+  useEffect(() => {
+    if (!mobileOpen) return
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    return () => {
+      document.body.style.overflow = previousOverflow
+    }
+  }, [mobileOpen])
+
   return (
     <header
-      className={`fixed left-0 right-0 top-0 z-50 transition-colors ${
-        isOverlayNav && !mobileOpen ? 'bg-transparent' : 'bg-white/95 shadow-sm backdrop-blur-md'
+      className={`${
+        isClinicDetail
+          ? `${isScrolled ? 'fixed left-0 right-0 top-0' : 'relative'} ${
+              isScrolled && !showClinicNav && !mobileOpen ? '-translate-y-full' : 'translate-y-0'
+            }`
+          : 'fixed left-0 right-0 top-0'
+      } ${isClinicDetail ? 'z-[60]' : 'z-50'} transition-all duration-300 ${
+        isClinicDetail || isHomePage
+          ? 'bg-white shadow-sm'
+          : isOverlayNav && !mobileOpen
+            ? 'bg-transparent'
+            : 'bg-white/95 shadow-sm backdrop-blur-md'
       }`}
     >
       <nav className="relative mx-auto flex h-16 max-w-[1400px] items-center justify-between px-6 sm:px-10 lg:px-16">
@@ -202,32 +236,49 @@ export default function Navbar() {
       <div
         className={`lg:hidden ${
           mobileOpen ? 'block' : 'hidden'
-        } border-t border-[#333333]/10 bg-white px-6 pb-6 pt-2 shadow-[0_18px_40px_rgba(51,51,51,0.08)] sm:px-10`}
+        } absolute inset-x-0 top-full z-50 h-[calc(100dvh-4rem)] overflow-y-auto overscroll-contain border-t border-[#333333]/10 bg-white px-5 pb-10 pt-4 shadow-[0_18px_40px_rgba(51,51,51,0.12)] sm:px-10`}
       >
-        <div className="mx-auto grid max-w-[1440px] gap-2 text-[#333333]">
+        <div className="mx-auto grid max-w-[720px] gap-2 text-[#333333]">
+          <MobileNavLink href="/">Home</MobileNavLink>
           <MobileNavLink href="/about">About</MobileNavLink>
-          <MobileNavLink href="/services/family-practice">Services</MobileNavLink>
-          <MobileNavLink href="/services/details/panel-physician-appointments">Panel Physicians</MobileNavLink>
-          <div className="rounded-xl bg-[#F4F6F7] p-3">
-            <p className="px-1 text-xs font-normal text-[#2AA7A1]">
-              Service categories
-            </p>
-            <div className="mt-2 grid gap-1">
+
+          <button
+            type="button"
+            onClick={() => setOpenMenu(openMenu === 'services' ? null : 'services')}
+            className="flex w-full items-center justify-between rounded-lg px-3 py-3 text-left text-[15px] transition hover:bg-[#BFEAE7]"
+            aria-expanded={openMenu === 'services'}
+          >
+            Services
+            <ChevronDown size={17} className={`transition ${openMenu === 'services' ? 'rotate-180' : ''}`} />
+          </button>
+          {openMenu === 'services' && (
+            <div className="grid gap-1 rounded-xl bg-[#F4F6F7] p-3">
               {serviceCategoryOrder.map((category) => (
-                <MobileNavLink
-                  href={`/services/${getServiceCategorySlug(category)}`}
-                  key={category}
-                >
-                  {category}
-                </MobileNavLink>
+                <MobileNavLink href={`/services/${getServiceCategorySlug(category)}`} key={category}>{category}</MobileNavLink>
+              ))}
+              <MobileNavLink href="/services/details/panel-physician-appointments">Panel Physicians</MobileNavLink>
+              <MobileNavLink href="/visa-medicals">Visa Medicals</MobileNavLink>
+            </div>
+          )}
+
+          <button
+            type="button"
+            onClick={() => setOpenMenu(openMenu === 'locations' ? null : 'locations')}
+            className="flex w-full items-center justify-between rounded-lg px-3 py-3 text-left text-[15px] transition hover:bg-[#BFEAE7]"
+            aria-expanded={openMenu === 'locations'}
+          >
+            Locations
+            <ChevronDown size={17} className={`transition ${openMenu === 'locations' ? 'rotate-180' : ''}`} />
+          </button>
+          {openMenu === 'locations' && (
+            <div className="grid gap-1 rounded-xl bg-[#F4F6F7] p-3">
+              {locations.map((location) => (
+                <MobileNavLink href={`/locations/${location.slug}`} key={location.slug}>{location.name}</MobileNavLink>
               ))}
             </div>
-          </div>
-          <MobileNavLink href="/locations/centre-street-north-medical-clinic">
-            Locations
-          </MobileNavLink>
+          )}
+
           <MobileNavLink href="/doctors">Providers</MobileNavLink>
-          <MobileNavLink href="/visa-medicals">Visa Medicals</MobileNavLink>
           <MobileNavLink href="/blog">Articles</MobileNavLink>
           <Link
             href="/contact"
