@@ -166,6 +166,10 @@ export default function Navbar() {
             Visa Medicals
           </Link>
 
+          <Link href="/services/details/panel-physician-appointments" className={`no-underline transition ${mutedHover}`}>
+            Panel Physicians
+          </Link>
+
           <Link href="/blog" className={`no-underline transition ${mutedHover}`}>
             Articles
           </Link>
@@ -203,6 +207,7 @@ export default function Navbar() {
         <div className="mx-auto grid max-w-[1440px] gap-2 text-[#333333]">
           <MobileNavLink href="/about">About</MobileNavLink>
           <MobileNavLink href="/services/family-practice">Services</MobileNavLink>
+          <MobileNavLink href="/services/details/panel-physician-appointments">Panel Physicians</MobileNavLink>
           <div className="rounded-xl bg-[#F4F6F7] p-3">
             <p className="px-1 text-xs font-normal text-[#2AA7A1]">
               Service categories

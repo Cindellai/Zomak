@@ -1,7 +1,5 @@
 const commonLocationServices = [
   'Visa Medical Experts',
-  'Medical Piercings',
-  "Baby's Gender DNA Test",
   'Pediatric Care',
   "Women's Health Care",
   "Driver's Medical"
@@ -13,7 +11,7 @@ const revitalizeServices = [
   'Shockwave for Erectile Dysfunction',
   'Trimix',
   'O-Shot (Orgasm Shot)',
-  'PRP Hair Treatment',
+  'PRP Treatment for Hair and Facials',
   'Vampire Breast Lift',
   'Vampire Wing Lift'
 ]
@@ -31,7 +29,8 @@ const serviceCategories = {
   familyPractice: 'Family Practice',
   womensHealth: "Women's Health",
   mensHealth: "Men's Health",
-  homeCare: '360 Home Care'
+  pediatrics: 'Pediatric Care',
+  homeCare: 'Zomak Home Care'
 } as const
 
 export const serviceCategoryOrder = [
@@ -40,6 +39,7 @@ export const serviceCategoryOrder = [
   serviceCategories.familyPractice,
   serviceCategories.womensHealth,
   serviceCategories.mensHealth,
+  serviceCategories.pediatrics,
   serviceCategories.homeCare
 ] as const
 
@@ -49,18 +49,21 @@ export const serviceCategorySlugs: Record<(typeof serviceCategoryOrder)[number],
   [serviceCategories.familyPractice]: 'family-practice',
   [serviceCategories.womensHealth]: 'womens-health',
   [serviceCategories.mensHealth]: 'mens-health',
-  [serviceCategories.homeCare]: '360-home-care'
+  [serviceCategories.pediatrics]: 'pediatric-care',
+  [serviceCategories.homeCare]: 'zomak-home-care'
 }
 
 export const getServiceCategorySlug = (category: string) =>
   serviceCategorySlugs[category as (typeof serviceCategoryOrder)[number]]
 
 export const getServiceCategoryBySlug = (slug: string) =>
-  serviceCategoryOrder.find((category) => serviceCategorySlugs[category] === slug)
+  serviceCategoryOrder.find((category) =>
+    serviceCategorySlugs[category] === (slug === '360-home-care' ? 'zomak-home-care' : slug)
+  )
 
 export const locations = [
   {
-    name: 'Zomak Griffin Road Medical Clinic',
+    name: 'Zomak Medical Clinic - Griffin Road',
     slug: 'griffin-road-medical-clinic',
     summary:
       "Multi-service clinic supporting medical exams, pediatric care, women's health care, testing, and specialty patient needs.",
@@ -72,10 +75,11 @@ export const locations = [
     email: 'griffinrdmedreception@gmail.com',
     fax: '403-538-6747',
     status: 'Active',
-    services: commonLocationServices
+    walkInStatus: 'Walk-ins now',
+    services: [...commonLocationServices, 'Internal Medicine Specialist Care', 'Botox', 'Fillers', 'PRP Treatment for Hair and Facials', 'Vampire Breast Lift', 'Vampire Wing Lift']
   },
   {
-    name: 'Zomak Centre Street North Medical Clinic',
+    name: 'Zomak Medical Clinic - Centre St',
     slug: 'centre-street-north-medical-clinic',
     summary:
       "North Calgary clinic supporting medical exams, pediatric care, women's health care, testing, and specialty patient needs.",
@@ -87,10 +91,11 @@ export const locations = [
     email: 'info@csnmc.ca',
     fax: '403-538-6747',
     status: 'Active',
-    services: commonLocationServices
+    walkInStatus: 'Walk-ins now',
+    services: [...commonLocationServices, 'Medical Piercings', 'Panel Physician Appointments']
   },
   {
-    name: 'Zomak Lewisburg',
+    name: 'Zomak Medical Clinic - Lewisburg',
     slug: 'lewisburg',
     summary:
       'Lewisburg location supporting ZOMAK patients with medical exams, pediatric care, testing, and specialty services.',
@@ -98,14 +103,15 @@ export const locations = [
     city: 'Calgary',
     province: 'AB',
     postalCode: 'T3P 0T7',
-    phone: '',
+    phone: '403-255-8200',
     email: '',
-    fax: '403-538-6747',
+    fax: '403-906-4775',
     status: 'Active',
+    walkInStatus: 'Call for walk-in availability',
     services: commonLocationServices
   },
   {
-    name: 'Zomak Northmount',
+    name: 'Zomak Medical Clinic - Northmount',
     slug: 'northmount',
     summary:
       'Northmount location supporting ZOMAK patients with medical exams, pediatric care, testing, and specialty services.',
@@ -117,10 +123,11 @@ export const locations = [
     email: 'zomakmedreception@gmail.com',
     fax: '403-538-6747',
     status: 'Active',
-    services: commonLocationServices
+    walkInStatus: 'Walk-ins now',
+    services: [...commonLocationServices, 'Internal Medicine Specialist Care']
   },
   {
-    name: 'Zomak Fairview',
+    name: 'Zomak Medical Clinic - Fairview',
     slug: 'fairview',
     summary:
       'Fairview location supporting ZOMAK patients with medical exams, pediatric care, testing, and specialty services.',
@@ -132,6 +139,7 @@ export const locations = [
     email: 'dmmc.calgary1@gmail.com',
     fax: '403-538-6747',
     status: 'Active',
+    walkInStatus: 'Call for walk-in availability',
     services: commonLocationServices
   }
 ]
@@ -140,7 +148,7 @@ export const services = [
   {
     title: 'Visa Medical Experts',
     slug: 'visa-medical-experts',
-    category: serviceCategories.internalMedicine,
+    category: serviceCategories.familyPractice,
     image:
       'https://images.unsplash.com/photo-1581056771107-24ca5f033842?auto=format&fit=crop&w=1600&q=85',
     summary:
@@ -176,7 +184,7 @@ export const services = [
   {
     title: 'Medical Piercings',
     slug: 'medical-piercings',
-    category: serviceCategories.aesthetics,
+    category: 'Centre St Services',
     image:
       'https://images.unsplash.com/photo-1551076805-e1869033e561?auto=format&fit=crop&w=1600&q=85',
     summary:
@@ -210,52 +218,16 @@ export const services = [
     ]
   },
   {
-    title: "Baby's Gender DNA Test",
-    slug: 'babys-gender-dna-test',
-    category: serviceCategories.womensHealth,
-    image:
-      'https://images.unsplash.com/photo-1584820927498-cfe5211fd8bf?auto=format&fit=crop&w=1600&q=85',
-    summary:
-      "Non-invasive DNA testing can help determine your baby's gender early in pregnancy.",
-    details:
-      'Testing support for expectant parents looking for clear instructions, careful sample handling, and straightforward next steps.',
-    bestFor: ['Early pregnancy gender testing', 'Private appointment support', 'Clear sample instructions'],
-    whatToBring: ['Photo ID', 'Pregnancy dating information if available', 'Any test kit or instructions provided'],
-    visitFlow: ['Eligibility and instruction review', 'Sample collection support', 'Result timeline and follow-up details'],
-    faq: [
-      {
-        question: 'How early can testing be done?',
-        answer:
-          'Some non-invasive gender DNA tests may be available early in pregnancy. Confirm timing with the clinic before booking.'
-      },
-      {
-        question: 'How are results received?',
-        answer:
-          'The clinic team will explain the expected result timeline and delivery method based on the specific test.'
-      },
-      {
-        question: 'Is the test invasive?',
-        answer:
-          'The clinic can confirm the collection method for the specific test before booking so you know what to expect.'
-      },
-      {
-        question: 'Can I ask questions before testing?',
-        answer:
-          'Yes. Patients can ask about timing, sample collection, result delivery, and preparation before proceeding.'
-      }
-    ]
-  },
-  {
     title: 'Pediatric Care',
     slug: 'pediatric-care',
-    category: serviceCategories.familyPractice,
+    category: serviceCategories.pediatrics,
     image:
       'https://images.unsplash.com/photo-1609220136736-443140cffec6?auto=format&fit=crop&w=1600&q=85',
     summary:
       "Friendly healthcare for infants, children, and adolescents, including routine checkups and family guidance.",
     details:
-      'Care for children and families focused on growth, development, symptoms, prevention, and practical follow-up.',
-    bestFor: ['Routine child checkups', 'Growth and development questions', 'Common childhood symptoms'],
+      'Specialist care for children and families focused on growth, development, symptoms and follow-up.',
+    bestFor: ['Newborn & infant care', 'ADHD assessment & management', 'Autism spectrum assessment and support', 'Growth & development support', 'Acute and chronic illness management for infants, children and adolescents'],
     whatToBring: ['Health card or ID', 'Medication and allergy list', 'Vaccine records or previous visit notes'],
     visitFlow: ['Family intake and concern review', 'Provider assessment', 'Care plan, follow-up, or referral guidance'],
     faq: [
@@ -284,14 +256,14 @@ export const services = [
   {
     title: "Women's Health Care",
     slug: 'womens-health-care',
-    category: serviceCategories.womensHealth,
+    category: serviceCategories.aesthetics,
     image:
       'https://images.unsplash.com/photo-1584820927498-cfe5211fd8bf?auto=format&fit=crop&w=1600&q=85',
     summary:
       "Wellness visits, prenatal support, reproductive health, and menopause care across life stages.",
     details:
       'Supportive visits for preventive care, reproductive health questions, pregnancy-related needs, and changing symptoms.',
-    bestFor: ['Wellness and preventive visits', 'Prenatal and reproductive care', 'Menopause or symptom changes'],
+    bestFor: ['Menopausal support & treatment', 'PAP smears', 'IUD consultations and referrals'],
     whatToBring: ['Medication list', 'Recent test results when available', 'Cycle, symptom, or pregnancy notes'],
     visitFlow: ['Health history and concern review', 'Provider assessment', 'Screening, testing, or follow-up plan'],
     faq: [
@@ -318,9 +290,69 @@ export const services = [
     ]
   },
   {
+    title: 'Newborn & Infant Care',
+    slug: 'newborn-infant-care',
+    category: serviceCategories.pediatrics,
+    image: 'https://images.unsplash.com/photo-1609220136736-443140cffec6?auto=format&fit=crop&w=1600&q=85',
+    summary: 'Specialist care for newborn health, feeding, early development and infant medical concerns.',
+    details: 'Pediatric assessment and guidance for newborns and infants. A clinic referral is required and should be faxed to 403-538-6747.',
+    bestFor: ['Newborn health concerns', 'Feeding and early development', 'Infant wellness support'],
+    whatToBring: ['Health card', 'Feeding and symptom notes', 'Relevant birth or hospital records'],
+    visitFlow: ['Clinic referral', 'Pediatric assessment', 'Care and follow-up plan'],
+    faq: [{ question: 'Is a referral required?', answer: 'Yes. Ask your clinic to fax the referral to 403-538-6747.' }]
+  },
+  {
+    title: 'ADHD Assessment & Management',
+    slug: 'adhd-assessment-management',
+    category: serviceCategories.pediatrics,
+    image: 'https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?auto=format&fit=crop&w=1600&q=85',
+    summary: 'Assessment and ongoing management support for children and adolescents with possible ADHD.',
+    details: 'A pediatric specialist reviews symptoms, development and relevant school or family observations. A clinic referral is required.',
+    bestFor: ['Attention concerns', 'Hyperactivity or impulsivity', 'Ongoing ADHD management'],
+    whatToBring: ['Health card', 'School reports or assessments', 'Medication and symptom history'],
+    visitFlow: ['Clinic referral', 'History and assessment', 'Management and follow-up plan'],
+    faq: [{ question: 'Is a referral required?', answer: 'Yes. Ask your clinic to fax the referral to 403-538-6747.' }]
+  },
+  {
+    title: 'Autism Spectrum Assessment & Support',
+    slug: 'autism-spectrum-assessment-support',
+    category: serviceCategories.pediatrics,
+    image: 'https://images.unsplash.com/photo-1602030028438-4cf153cbae9e?auto=format&fit=crop&w=1600&q=85',
+    summary: 'Specialist assessment and practical support for autism spectrum concerns.',
+    details: 'Pediatric evaluation and support planning for children with developmental or autism spectrum concerns. A clinic referral is required.',
+    bestFor: ['Developmental concerns', 'Autism spectrum assessment', 'Family support and next steps'],
+    whatToBring: ['Health card', 'Developmental and school records', 'Previous assessments when available'],
+    visitFlow: ['Clinic referral', 'Developmental assessment', 'Support and follow-up plan'],
+    faq: [{ question: 'Is a referral required?', answer: 'Yes. Ask your clinic to fax the referral to 403-538-6747.' }]
+  },
+  {
+    title: 'Growth & Development Support',
+    slug: 'growth-development-support',
+    category: serviceCategories.pediatrics,
+    image: 'https://images.unsplash.com/photo-1472162072942-cd5147eb3902?auto=format&fit=crop&w=1600&q=85',
+    summary: 'Assessment and support for physical growth, milestones and childhood development.',
+    details: 'Specialist review of growth patterns and developmental milestones with clear follow-up guidance. A clinic referral is required.',
+    bestFor: ['Growth concerns', 'Developmental milestones', 'Ongoing monitoring and guidance'],
+    whatToBring: ['Health card', 'Growth records when available', 'Developmental or school reports'],
+    visitFlow: ['Clinic referral', 'Growth and development review', 'Care and monitoring plan'],
+    faq: [{ question: 'Is a referral required?', answer: 'Yes. Ask your clinic to fax the referral to 403-538-6747.' }]
+  },
+  {
+    title: 'Acute & Chronic Illness Management',
+    slug: 'pediatric-acute-chronic-illness-management',
+    category: serviceCategories.pediatrics,
+    image: 'https://images.unsplash.com/photo-1576765608866-5b51046452be?auto=format&fit=crop&w=1600&q=85',
+    summary: 'Specialist management for acute and chronic illness in infants, children and adolescents.',
+    details: 'Pediatric assessment and coordinated management for short-term illness and ongoing medical conditions. A clinic referral is required.',
+    bestFor: ['Complex acute illness', 'Chronic childhood conditions', 'Coordinated pediatric follow-up'],
+    whatToBring: ['Health card', 'Medication list', 'Relevant laboratory, imaging or specialist records'],
+    visitFlow: ['Clinic referral', 'Pediatric assessment', 'Treatment and follow-up plan'],
+    faq: [{ question: 'Is a referral required?', answer: 'Yes. Ask your clinic to fax the referral to 403-538-6747.' }]
+  },
+  {
     title: "Driver's Medical",
     slug: 'drivers-medical',
-    category: serviceCategories.internalMedicine,
+    category: serviceCategories.familyPractice,
     image:
       'https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?auto=format&fit=crop&w=1600&q=85',
     summary:
@@ -352,6 +384,30 @@ export const services = [
           'Some forms can be completed during the visit, while others may require additional information or follow-up.'
       }
     ]
+  },
+  {
+    title: 'Family Practice & Walk-in Care',
+    slug: 'family-practice-walk-in-care',
+    category: serviceCategories.familyPractice,
+    image: 'https://images.unsplash.com/photo-1581056771107-24ca5f033842?auto=format&fit=crop&w=1600&q=85',
+    summary: 'Comprehensive primary and walk-in care for patients and families.',
+    details: 'Accessible care for preventive health, common illnesses, chronic conditions and everyday medical needs.',
+    bestFor: ['Annual check-ups and preventative care', 'Diagnosis and treatment of common illnesses', 'Management of chronic conditions including diabetes, hypertension, asthma and high cholesterol', 'Children’s routine health visits', 'Mental health assessment, treatment and support', 'Minor skin procedures', 'Medication review and management', 'Driver’s Medicals'],
+    whatToBring: ['Health card or ID', 'Medication list', 'Relevant records or forms'],
+    visitFlow: ['Check in', 'Provider assessment', 'Treatment, prescription or follow-up plan'],
+    faq: [{ question: 'Are walk-ins accepted?', answer: 'Yes. Live availability varies by clinic and is shown on each clinic page.' }]
+  },
+  {
+    title: 'Internal Medicine Specialist Care',
+    slug: 'internal-medicine-specialist-care',
+    category: serviceCategories.internalMedicine,
+    image: 'https://images.unsplash.com/photo-1538108149393-fbbd81895907?auto=format&fit=crop&w=1600&q=85',
+    summary: 'Specialist assessment and coordinated care for complex adult medical conditions. A clinic referral is required.',
+    details: 'Referring clinics can fax referrals to 403-538-6747.',
+    bestFor: ['Comprehensive chronic-condition care, including diabetes, hypertension, asthma, heart failure, COPD and dyslipidemia', 'Cardiovascular risk assessment and risk reduction / stroke prevention clinics', 'Chronic kidney disease, proteinuria or hematuria', 'Cognitive impairment or suspected dementia', 'Bone health and osteoporosis', 'Coordinating care for multiple comorbidities', 'Hypermobility assessment', 'Medically unexplained symptoms', 'Unexplained myalgias and arthralgias, including fibromyalgia', 'Abnormal liver enzymes', 'Genital dermatology', 'Hepatitis B or Hepatitis C management'],
+    whatToBring: ['Health card or ID', 'Medication list', 'Relevant test results and specialist records'],
+    visitFlow: ['Clinic referral by fax', 'Specialist consultation', 'Care plan and follow-up'],
+    faq: [{ question: 'How do I access Internal Medicine?', answer: 'Your clinic must send a referral by fax to 403-538-6747.' }]
   },
   {
     title: 'P-Shot (Priapus Shot)',
@@ -500,7 +556,7 @@ export const services = [
   {
     title: 'O-Shot (Orgasm Shot)',
     slug: 'o-shot-orgasm-shot',
-    category: serviceCategories.womensHealth,
+    category: serviceCategories.aesthetics,
     image:
       'https://images.unsplash.com/photo-1559757175-5700dde675bc?auto=format&fit=crop&w=1600&q=85',
     summary:
@@ -534,7 +590,7 @@ export const services = [
     ]
   },
   {
-    title: 'PRP Hair Treatment',
+    title: 'PRP Treatment for Hair and Facials',
     slug: 'prp-hair-treatment-restoration',
     category: serviceCategories.aesthetics,
     image:
@@ -673,7 +729,7 @@ export const services = [
       {
         question: 'Where is this service offered?',
         answer:
-          'Respite Care is listed for Zomak 360 Home Care.'
+          'Respite Care is listed for Zomak Zomak Home Care.'
       }
     ]
   },
@@ -709,7 +765,7 @@ export const services = [
       {
         question: 'Where is this service offered?',
         answer:
-          'Elderly Care is listed for Zomak 360 Home Care.'
+          'Elderly Care is listed for Zomak Zomak Home Care.'
       }
     ]
   },
@@ -722,7 +778,7 @@ export const services = [
     summary:
       'Approved-provider support for Alberta Health Services’ Client-Directed Home Care Invoicing program.',
     details:
-      '360 Homecare Agency is recognized as an approved provider under Alberta Health Services’ Client-Directed Home Care Invoicing program.',
+      'Zomak Home Care Agency is recognized as an approved provider under Alberta Health Services’ Client-Directed Home Care Invoicing program.',
     bestFor: ['AHS CDHCI program clients', 'Client-directed home care support', 'Families coordinating approved provider services'],
     whatToBring: ['Program approval details', 'Client care requirements', 'Contact and invoicing information'],
     visitFlow: ['Program eligibility review', 'Care and invoicing coordination', 'Approved provider support'],
@@ -733,9 +789,9 @@ export const services = [
           'CDHCI refers to Alberta Health Services’ Client-Directed Home Care Invoicing program.'
       },
       {
-        question: 'Is 360 Homecare an approved provider?',
+        question: 'Is Zomak Home Care an approved provider?',
         answer:
-          'Yes. 360 Homecare Agency is described as an approved provider under the AHS CDHCI program.'
+          'Yes. Zomak Home Care Agency is described as an approved provider under the AHS CDHCI program.'
       },
       {
         question: 'What should clients prepare?',
@@ -745,7 +801,7 @@ export const services = [
       {
         question: 'Where is this service offered?',
         answer:
-          'This program support is listed for Zomak 360 Home Care.'
+          'This program support is listed for Zomak Zomak Home Care.'
       }
     ]
   },
@@ -781,9 +837,49 @@ export const services = [
       {
         question: 'Where is this service offered?',
         answer:
-          'Personal Care is listed for Zomak 360 Home Care.'
+          'Personal Care is listed for Zomak Zomak Home Care.'
       }
     ]
+  },
+  {
+    title: 'Botox', slug: 'botox', category: serviceCategories.aesthetics,
+    image: 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=1600&q=85',
+    summary: 'Personalized cosmetic Botox consultations and treatment by a qualified provider.',
+    details: 'A provider reviews your goals, medical history and treatment areas before creating an individualized plan.',
+    bestFor: ['Expression lines', 'Forehead and eye-area concerns', 'Personalized aesthetic goals'],
+    whatToBring: ['Photo ID', 'Medication list', 'Questions and treatment goals'],
+    visitFlow: ['Consultation', 'Treatment planning', 'Procedure and aftercare'],
+    faq: [{ question: 'Is a consultation required?', answer: 'Yes. Your provider will assess suitability, expected results and aftercare before treatment.' }]
+  },
+  {
+    title: 'Fillers', slug: 'fillers', category: serviceCategories.aesthetics,
+    image: 'https://images.unsplash.com/photo-1515377905703-c4788e51af15?auto=format&fit=crop&w=1600&q=85',
+    summary: 'Dermal filler treatments planned around your features and aesthetic goals.',
+    details: 'A personalized consultation covers treatment areas, product options, expectations and aftercare.',
+    bestFor: ['Facial volume', 'Contour and balance', 'Personalized aesthetic goals'],
+    whatToBring: ['Photo ID', 'Medication list', 'Questions and treatment goals'],
+    visitFlow: ['Consultation', 'Treatment planning', 'Procedure and aftercare'],
+    faq: [{ question: 'How is treatment selected?', answer: 'Your provider recommends an approach after reviewing your anatomy, goals and medical history.' }]
+  },
+  {
+    title: 'Testosterone Replacement', slug: 'testosterone-replacement', category: serviceCategories.mensHealth,
+    image: 'https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?auto=format&fit=crop&w=1600&q=85',
+    summary: 'Assessment and provider-guided treatment for patients with symptoms of low testosterone.',
+    details: 'Complete the confidential screening questionnaire before your consultation. Testing and treatment are determined by a qualified provider.',
+    bestFor: ['Low-energy concerns', 'Changes in strength or mood', 'Clinically assessed low testosterone'],
+    whatToBring: ['Photo ID', 'Medication list', 'Relevant laboratory results'],
+    visitFlow: ['Screening questionnaire', 'Clinical assessment and testing', 'Personalized treatment and monitoring'],
+    faq: [{ question: 'Does the questionnaire confirm eligibility?', answer: 'No. It supports your consultation; a provider must assess you and determine whether treatment is appropriate.' }]
+  },
+  {
+    title: 'Panel Physician Appointments', slug: 'panel-physician-appointments', category: 'Centre St Services',
+    image: 'https://images.unsplash.com/photo-1584982751601-97dcc096659c?auto=format&fit=crop&w=1600&q=85',
+    summary: 'Panel physician appointments are offered exclusively at Zomak Medical Clinic - Centre St.',
+    details: 'Bring the documents and identification issued for your immigration medical examination. Contact the Centre St clinic before your visit to confirm the current appointment requirements.',
+    bestFor: ['Immigration medical examinations', 'Panel physician documentation', 'Patients directed to complete an immigration medical'],
+    whatToBring: ['Valid government-issued identification or passport', 'Immigration medical form or IME/UMI number, if issued', 'Eyeglasses or contact lenses', 'Medication list and relevant medical records'],
+    visitFlow: ['Confirm requirements with Centre St', 'Document review and examination', 'Testing and submission instructions'],
+    faq: [{ question: 'Where are panel physician appointments offered?', answer: 'Only at Zomak Medical Clinic - Centre St. Call 403-906-0210 to confirm requirements and book.' }]
   }
 ]
 

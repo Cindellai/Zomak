@@ -213,7 +213,7 @@ export default function VisaMedicalsPage() {
             </div>
             
             <div className="flex w-full items-center justify-between gap-6 md:w-auto md:justify-end">
-              <p className="max-w-[320px] text-sm font-light leading-relaxed text-[#333333]/70 hidden lg:block">
+              <p className="hidden max-w-[380px] text-lg font-light leading-relaxed text-[#333333]/70 lg:block">
                 Tell the clinic your destination country when booking so the team can prepare.
               </p>
               {/* Carousel Navigation Buttons */}

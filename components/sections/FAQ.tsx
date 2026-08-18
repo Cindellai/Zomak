@@ -17,7 +17,7 @@ const FAQS = [
   {
     question: 'Which locations are part of the ZOMAK clinic network?',
     answer:
-      'ZOMAK includes Zomak Griffin Road Medical Clinic, Zomak Centre Street North Medical Clinic, Zomak Lewisburg, Zomak Northmount, and Zomak Fairview.',
+      'ZOMAK includes Zomak Medical Clinic - Griffin Road, Zomak Medical Clinic - Centre St, Zomak Medical Clinic - Lewisburg, Zomak Medical Clinic - Northmount, and Zomak Medical Clinic - Fairview.',
   },
   {
     question: 'What services are available?',

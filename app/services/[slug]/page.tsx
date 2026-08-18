@@ -34,10 +34,10 @@ const categoryDetails: Record<
     overview: 'Aesthetics services are organized for patients exploring non-surgical cosmetic, regenerative, and appearance-focused care.'
   },
   'Internal Medicine': {
-    description: 'Medical exams, documentation visits, and clinical assessments for everyday health needs.',
+    description: 'Referral-based specialist care for complex and chronic adult medical conditions.',
     image: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1800&q=90',
     accentImage: 'https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=900&q=85',
-    overview: 'Internal medicine services support patients who need clinical review, medical forms, testing direction, or documentation.'
+    overview: 'Internal Medicine provides specialist assessment and coordinated care for complex and chronic adult medical conditions.'
   },
   'Family Practice': {
     description: 'Primary care support for children, families, and routine health concerns.',
@@ -45,11 +45,17 @@ const categoryDetails: Record<
     accentImage: 'https://images.unsplash.com/photo-1581056771107-24ca5f033842?auto=format&fit=crop&w=900&q=85',
     overview: 'Family practice visits focus on practical, relationship-based care for common concerns, routine checkups, and prevention.'
   },
+  'Pediatric Care': {
+    description: 'Specialist care for newborns, infants, children and adolescents. A clinic referral is required.',
+    image: 'https://images.unsplash.com/photo-1609220136736-443140cffec6?auto=format&fit=crop&w=1800&q=85',
+    accentImage: 'https://images.unsplash.com/photo-1581056771107-24ca5f033842?auto=format&fit=crop&w=900&q=85',
+    overview: 'Pediatric services include newborn care, ADHD and autism assessment, development support, and management of acute and chronic illness.'
+  },
   "Women's Health": {
-    description: 'Women’s health, pregnancy-related testing, and intimate wellness support.',
+    description: 'Women’s preventive and reproductive health support across life stages.',
     image: 'https://images.unsplash.com/photo-1584820927498-cfe5211fd8bf?auto=format&fit=crop&w=1800&q=85',
     accentImage: 'https://images.unsplash.com/photo-1584820927498-cfe5211fd8bf?auto=format&fit=crop&w=900&q=85',
-    overview: 'Women’s health services bring together preventive care, reproductive health, pregnancy-related testing, and wellness options.'
+    overview: 'Women’s health services include menopausal support and treatment, PAP smears, and IUD consultations and referrals.'
   },
   "Men's Health": {
     description: 'Private men’s health and intimate wellness services reviewed with a provider.',
@@ -57,11 +63,11 @@ const categoryDetails: Record<
     accentImage: 'https://images.unsplash.com/photo-1582750433449-648ed127bb54?auto=format&fit=crop&w=900&q=85',
     overview: 'Men’s health services are designed for patients seeking private, provider-guided support for specialized treatment planning.'
   },
-  '360 Home Care': {
+  'Zomak Home Care': {
     description: 'Home care services for seniors, families, caregivers, and client-directed support.',
     image: 'https://images.unsplash.com/photo-1584515933487-779824d29309?auto=format&fit=crop&w=1800&q=85',
     accentImage: 'https://images.unsplash.com/photo-1581579186913-45ac3e6efe93?auto=format&fit=crop&w=900&q=85',
-    overview: '360 Home Care services support daily living, respite, personal care, and approved home care program coordination.'
+    overview: 'Zomak Home Care services support daily living, respite, personal care, and approved home care program coordination.'
   }
 }
 
@@ -98,9 +104,12 @@ export default async function ServicePage({ params }: ServicePageProps) {
   }
 
   const details = categoryDetails[category]
-  const categoryServices = services.filter((service) => service.category === category)
+  const allCategoryServices = services.filter((service) => service.category === category)
+  const categoryServices = category === 'Pediatric Care'
+    ? allCategoryServices.filter((service) => service.slug !== 'pediatric-care')
+    : allCategoryServices
   const availableLocations = locations.filter((location) =>
-    categoryServices.some((service) => location.services.includes(service.title))
+    allCategoryServices.some((service) => location.services.includes(service.title))
   )
   const usesContactCta =
     category === 'Internal Medicine' ||
@@ -112,6 +121,11 @@ export default async function ServicePage({ params }: ServicePageProps) {
 
   return (
     <section className="bg-cloud text-ink antialiased selection:bg-mint">
+      {category === 'Family Practice' && (
+        <div className="sticky top-16 z-40 bg-[#2AA7A1] px-5 py-3 text-center text-sm font-medium text-white shadow-md">
+          Walk-ins now · Select a clinic below or call ahead for live availability
+        </div>
+      )}
       
       {/* ================= BOUTIQUE OVERLAY HERO (Matching Discovery Doctor Style) ================= */}
       <header className="relative flex min-h-screen w-full flex-col justify-end overflow-hidden bg-ink">
@@ -211,6 +225,37 @@ export default async function ServicePage({ params }: ServicePageProps) {
           </div>
         </div>
       </section>
+
+      {(category === 'Internal Medicine' || category === 'Pediatric Care') && (
+        <section className="bg-[#BFEAE7] px-6 py-14 sm:px-10 lg:px-16 lg:py-20">
+          <div className="mx-auto grid max-w-[1400px] gap-8 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
+            <div>
+              <p className="text-sm font-medium uppercase tracking-[0.16em] text-[#247F7A]">
+                Referral required
+              </p>
+              <h2
+                className="mt-3 max-w-[820px] text-[34px] font-normal leading-tight text-[#333333] sm:text-[44px]"
+                style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
+              >
+                Ask your clinic to send your {category.toLowerCase()} referral by fax.
+              </h2>
+              <p className="mt-4 max-w-[760px] text-base leading-7 text-[#333333]/75 sm:text-lg">
+                Patients do not need to fax the referral themselves. Your referring clinic should send it directly to the ZOMAK specialist team.
+              </p>
+            </div>
+
+            <div
+              className="inline-flex min-w-[280px] flex-col rounded-2xl bg-[#333333] px-8 py-6 text-white shadow-lg"
+              aria-label="Referral fax number 403-538-6747"
+            >
+              <span className="text-sm text-white/65">Referral fax</span>
+              <span className="mt-1 text-[28px] font-medium tracking-tight sm:text-[32px]">
+                403-538-6747
+              </span>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* ================= 3. TREATMENT CAROUSEL / OPTIONS LIST ================= */}
       <div className="bg-white">

@@ -241,6 +241,46 @@ Dr. Abimbola is dedicated to delivering high-quality, empathetic care to patient
 Outside of his professional life, Dr. Abimbola enjoys spending time with family and friends, playing music and engaging in wellness and mindfulness activities.
 
 Dr. Abimbola Uwaoluetan is currently accepting new patients.`
+  },
+  {
+    slug: 'barrow',
+    name: 'Dr. Barrow',
+    credentials: '',
+    role: 'Physician',
+    location: 'Zomak Medical Clinic',
+    image: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=900&q=85',
+    status: 'Contact Clinic',
+    description: 'Dr. Barrow is a member of the Zomak Medical Clinic provider team. Please contact the clinic for current location, services and appointment information.'
+  },
+  {
+    slug: 'nwadike',
+    name: 'Dr. Nwadike',
+    credentials: '',
+    role: 'Physician',
+    location: 'Zomak Medical Clinic',
+    image: 'https://images.unsplash.com/photo-1594824476967-48c8b964273f?auto=format&fit=crop&w=900&q=85',
+    status: 'Contact Clinic',
+    description: 'Dr. Nwadike is a member of the Zomak Medical Clinic provider team. Please contact the clinic for current location, services and appointment information.'
+  },
+  {
+    slug: 'yetunde',
+    name: 'Dr. Yetunde',
+    credentials: '',
+    role: 'Physician',
+    location: 'Zomak Medical Clinic',
+    image: 'https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=900&q=85',
+    status: 'Contact Clinic',
+    description: 'Dr. Yetunde is a member of the Zomak Medical Clinic provider team. Please contact the clinic for current location, services and appointment information.'
+  },
+  {
+    slug: 'ngozi',
+    name: 'Dr. Ngozi',
+    credentials: '',
+    role: 'Physician',
+    location: 'Zomak Medical Clinic',
+    image: 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&w=900&q=85',
+    status: 'Contact Clinic',
+    description: 'Dr. Ngozi is a member of the Zomak Medical Clinic provider team. Please contact the clinic for current location, services and appointment information.'
   }
 ]
 

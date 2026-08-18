@@ -13,6 +13,7 @@ export const location = defineType({
     defineField({ name: 'province', title: 'Province', type: 'string', initialValue: 'AB' }),
     defineField({ name: 'phone', title: 'Phone', type: 'string' }),
     defineField({ name: 'fax', title: 'Fax', type: 'string' }),
+    defineField({ name: 'walkInStatus', title: 'Walk-in Live Status', type: 'string', description: 'Displayed in the sticky status banner, for example “Walk-ins now” or “At capacity”.' }),
     defineField({ name: 'bookingUrl', title: 'Booking URL', type: 'url' }),
     defineField({ name: 'directionsUrl', title: 'Directions URL', type: 'url' }),
     defineField({ name: 'googleBusinessUrl', title: 'Google Business Profile URL', type: 'url' }),

@@ -1,13 +1,13 @@
 import { ArrowRight } from 'lucide-react'
 import Link from 'next/link'
-import { getServiceCategorySlug, services } from '@/data/site'
+import { services } from '@/data/site'
 
 const getService = (title: string) =>
   services.find((service) => service.title === title)
 
 const serviceHref = (title: string) => {
   const service = getService(title)
-  return service ? `/services/${getServiceCategorySlug(service.category)}` : '/services/family-practice'
+  return service ? `/services/details/${service.slug}` : '/services/family-practice'
 }
 
 const serviceImage = (title: string) =>
@@ -78,20 +78,20 @@ export function ServiceGrid() {
           <div className="relative flex min-h-[460px] flex-col justify-end overflow-hidden rounded-[32px] bg-neutral-900 lg:min-h-full">
             <div
               className="absolute inset-0 bg-cover bg-center transition-transform duration-700 hover:scale-105"
-              style={{ backgroundImage: `url(${serviceImage('Medical Piercings')})` }}
+              style={{ backgroundImage: `url(${serviceImage('Botox')})` }}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-neutral-900/80 via-neutral-900/10 to-transparent" />
 
             {/* Shifted elements higher with flex configurations */}
             <div className="relative z-10 grid gap-4 p-4 sm:grid-cols-2 sm:p-6 lg:p-8 w-full">
               <OverlayCard
-                href={serviceHref('Visa Medical Experts')}
-                title="Visa Medical Experts"
+                href={serviceHref('Internal Medicine Specialist Care')}
+                title="Internal Medicine"
                 variant="solid"
               />
               <OverlayCard
-                href={serviceHref('Medical Piercings')}
-                title="Medical Piercings"
+                href={serviceHref('Botox')}
+                title="Aesthetics"
                 variant="glass"
               />
             </div>
@@ -101,9 +101,9 @@ export function ServiceGrid() {
         {/* Bottom Wide Cards Row */}
         <div className="mt-4 grid gap-4 lg:grid-cols-2">
           <BottomCard
-            href={serviceHref("Baby's Gender DNA Test")}
-            title="Baby’s Gender DNA Test"
-            image={serviceImage("Baby's Gender DNA Test")}
+            href={serviceHref('Family Practice & Walk-in Care')}
+            title="Family Practice & Walk-in Care"
+            image={serviceImage('Family Practice & Walk-in Care')}
           />
           <BottomCard
             href={serviceHref('Pediatric Care')}

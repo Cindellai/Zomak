@@ -1,4 +1,5 @@
 import { CheckCircle2 } from 'lucide-react'
+import Link from 'next/link'
 import type { Service } from '@/data/site'
 
 const serviceImages = [
@@ -31,7 +32,7 @@ export function LocationServicesCarousel({ services }: { services: Service[] }) 
         
         {/* Scenario A: exactly 1 service */}
         {count === 1 && (
-          <div className="group relative min-h-[560px] overflow-hidden rounded-2xl border border-[#333333]/10 bg-[#333333] shadow-sm sm:min-h-[680px] lg:min-h-[780px]">
+          <Link href={`/services/details/${services[0].slug}`} className="group relative block min-h-[560px] overflow-hidden rounded-2xl border border-[#333333]/10 bg-[#333333] shadow-sm sm:min-h-[680px] lg:min-h-[780px]">
             <img
               src={services[0].image || serviceImages[0]}
               alt={services[0].title}
@@ -55,27 +56,25 @@ export function LocationServicesCarousel({ services }: { services: Service[] }) 
 
                 <div className="rounded-xl border border-white/18 bg-white/12 p-5 text-white shadow-[0_18px_45px_rgba(15,23,42,0.18)] backdrop-blur-md">
                   <div className="space-y-3">
-                    <div className="flex items-center gap-3 text-sm text-white/85">
-                      <CheckCircle2 size={16} className="shrink-0 text-[#BFEAE7]" />
-                      <span>On-site assessments available</span>
-                    </div>
-                    <div className="flex items-center gap-3 text-sm text-white/85">
-                      <CheckCircle2 size={16} className="shrink-0 text-[#BFEAE7]" />
-                      <span>Coordinate directly with family physicians</span>
-                    </div>
+                    {services[0].bestFor.map((item) => (
+                      <div className="flex items-start gap-3 text-sm leading-6 text-white/90" key={item}>
+                        <CheckCircle2 size={16} className="mt-1 shrink-0 text-[#BFEAE7]" />
+                        <span>{item}</span>
+                      </div>
+                    ))}
                   </div>
 
                 </div>
               </div>
             </div>
-          </div>
+          </Link>
         )}
 
         {/* Scenario B: 2 or 3 Items (Standard Balanced Columns) */}
         {count >= 2 && count <= 3 && (
           <div className={`grid ${count === 2 ? 'gap-6 md:grid-cols-2 lg:gap-8' : 'gap-8 sm:grid-cols-2 lg:grid-cols-3'}`}>
             {services.map((service, index) => (
-              <div 
+              <Link href={`/services/details/${service.slug}`}
                 key={service.slug} 
                 className={`group relative flex flex-col justify-end overflow-hidden rounded-xl border border-[#333333]/5 shadow-sm ${
                   count === 2 ? 'h-[440px] p-5 sm:h-[580px] sm:p-8 lg:h-[640px] lg:p-10' : 'h-[420px] p-5 sm:p-8 lg:h-[540px] lg:p-10'
@@ -95,7 +94,7 @@ export function LocationServicesCarousel({ services }: { services: Service[] }) 
                     {service.summary}
                   </p>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         )}
@@ -105,7 +104,7 @@ export function LocationServicesCarousel({ services }: { services: Service[] }) 
           <div className="relative w-full">
             <div className="flex gap-8 overflow-x-auto pb-8 scrollbar-thin scrollbar-thumb-neutral-200 scroll-smooth snap-x snap-mandatory">
               {services.map((service, index) => (
-                <div 
+                <Link href={`/services/details/${service.slug}`}
                   key={service.slug} 
                   className="group relative flex h-[400px] w-[82vw] shrink-0 snap-start flex-col justify-end overflow-hidden rounded-xl border border-[#333333]/5 p-5 shadow-sm sm:h-[440px] sm:w-[420px] sm:p-8 lg:h-[500px] lg:w-[480px] lg:p-10"
                 >
@@ -123,7 +122,7 @@ export function LocationServicesCarousel({ services }: { services: Service[] }) 
                       {service.summary}
                     </p>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
             {/* Swipe prompt */}

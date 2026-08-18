@@ -58,6 +58,9 @@ export default async function LocationPage({ params }: LocationPageProps) {
 
   return (
     <section className="overflow-x-hidden bg-white text-ink">
+      <div className="sticky top-16 z-40 bg-[#2AA7A1] px-5 py-3 text-center text-sm font-medium text-white shadow-md">
+        {location.walkInStatus} · Call {location.phone} for live availability
+      </div>
       {/* Split Screen Hero */}
       <header className="grid bg-white lg:min-h-screen lg:grid-cols-2">
         {/* Left Text Column */}

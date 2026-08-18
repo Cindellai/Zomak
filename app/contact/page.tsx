@@ -2,6 +2,7 @@ import { CalendarDays, MapPin, Phone, ArrowDown, ArrowUpRight } from 'lucide-rea
 import type { ReactNode } from 'react'
 
 import { locations } from '@/data/site'
+import { RegistrationChat } from '@/components/contact/RegistrationChat'
 
 export const metadata = {
   title: 'Contact ZOMAK Medical',
@@ -59,7 +60,7 @@ export default function ContactPage() {
                 <ContactInfoCard
                   href={location.phone ? `tel:${location.phone.replaceAll(' ', '')}` : undefined}
                   icon={<Phone size={22} />}
-                  value={location.phone || 'Phone to confirm'}
+                  value={`${location.phone || 'Phone to confirm'} · Fax ${location.fax}`}
                   valueStyle="strong"
                 />
                 
@@ -81,6 +82,8 @@ export default function ContactPage() {
           ))}
         </section>
       </div>
+
+      <RegistrationChat />
 
     </section>
   )
