@@ -1,7 +1,7 @@
 import Link from 'next/link'
-import { CheckCircle2 } from 'lucide-react'
+import { CheckCircle2, FileText, MapPin, Phone } from 'lucide-react'
 import { notFound } from 'next/navigation'
-import { services } from '@/data/site'
+import { locations, services } from '@/data/site'
 import { TestosteroneQuestionnaire } from '@/components/forms/TestosteroneQuestionnaire'
 
 export function generateStaticParams() {
@@ -19,6 +19,7 @@ export default async function ServiceDetailPage({
   const { focus } = await searchParams
   const service = services.find((item) => item.slug === slug)
   if (!service) notFound()
+  if (slug === 'panel-physician-appointments') return <PanelPhysicianPage />
   const displayTitle = focus || service.title
   const displayDetails = focus ? getFocusedServiceDetails(focus) : service.details
   const displayHighlights = focus ? getFocusedServiceHighlights(focus) : service.bestFor
@@ -40,7 +41,7 @@ export default async function ServiceDetailPage({
           <div>
             {displayTitle !== 'Management of chronic conditions' &&
               displayTitle !== 'Comprehensive care of chronic medical conditions' && (
-                <p className="text-sm font-medium uppercase tracking-[0.16em] text-[#247F7A]">Specific service information</p>
+                <p className="text-sm font-medium uppercase tracking-[0.16em] text-[#2AA7A1]">Specific service information</p>
               )}
             <h2 className={`${displayTitle !== 'Management of chronic conditions' && displayTitle !== 'Comprehensive care of chronic medical conditions' ? 'mt-3 ' : ''}font-serif text-4xl leading-tight sm:text-5xl`}>Understanding {displayTitle}</h2>
             <p className="mt-6 text-lg leading-8 text-[#333333]/72">{displayDetails}</p>
@@ -57,13 +58,13 @@ export default async function ServiceDetailPage({
       <section className="px-6 py-16 sm:px-10 lg:px-16 lg:py-24">
         <div className="mx-auto max-w-[1200px]">
           <div className="max-w-3xl">
-            <p className="text-sm font-medium uppercase tracking-[0.16em] text-[#247F7A]">How this service can help</p>
+            <p className="text-sm font-medium uppercase tracking-[0.16em] text-[#2AA7A1]">How this service can help</p>
             <h2 className="mt-3 font-serif text-4xl leading-tight sm:text-5xl">Care shaped around your needs</h2>
           </div>
           <div className="mt-10 grid gap-5 md:grid-cols-3">
             {displayHighlights.map((item, index) => (
               <article className="rounded-2xl border border-[#333333]/[0.08] bg-white p-7 shadow-sm" key={item}>
-                <span className="flex size-10 items-center justify-center rounded-full bg-[#BFEAE7] text-sm font-medium text-[#247F7A]">0{index + 1}</span>
+                <span className="flex size-10 items-center justify-center rounded-full bg-[#BFEAE7] text-sm font-medium text-[#2AA7A1]">0{index + 1}</span>
                 <h3 className="mt-6 text-xl font-medium leading-7">{item}</h3>
                 <p className="mt-3 text-sm leading-6 text-[#333333]/60">Your provider will tailor this part of care to your history, goals, and clinical needs.</p>
               </article>
@@ -107,14 +108,76 @@ export default async function ServiceDetailPage({
 
       <section className="bg-[#BFEAE7] px-6 py-16 text-center sm:px-10 lg:px-16 lg:py-24">
         <div className="mx-auto max-w-3xl">
-          <p className="text-sm font-medium uppercase tracking-[0.16em] text-[#247F7A]">Ready for the next step?</p>
+          <p className="text-sm font-medium uppercase tracking-[0.16em] text-[#2AA7A1]">Ready for the next step?</p>
           <h2 className="mt-4 font-serif text-4xl leading-tight sm:text-5xl">Talk with ZOMAK about {displayTitle}</h2>
           <p className="mt-5 text-lg leading-8 text-[#333333]/68">Contact our team to ask about availability, preparation, referrals, or booking.</p>
-          <Link href="/contact" className="mt-8 inline-flex rounded-full bg-[#333333] px-8 py-4 text-sm font-medium text-white no-underline transition hover:bg-[#247F7A]">Contact and booking</Link>
+          <Link href="/contact" className="mt-8 inline-flex rounded-full bg-[#333333] px-8 py-4 text-sm font-medium text-white no-underline transition hover:bg-[#2AA7A1]">Contact and booking</Link>
         </div>
       </section>
 
       {slug === 'testosterone-replacement' && <TestosteroneQuestionnaire />}
+    </main>
+  )
+}
+
+function PanelPhysicianPage() {
+  const service = services.find((item) => item.slug === 'panel-physician-appointments')!
+  const centre = locations.find((item) => item.slug === 'centre-street-north-medical-clinic')!
+
+  return (
+    <main className="min-h-screen bg-[#F4F6F7] pt-16 text-[#333333]">
+      <div className="grid min-h-[calc(100vh-4rem)] lg:grid-cols-[340px_minmax(0,1fr)] xl:grid-cols-[370px_minmax(0,1fr)]">
+        <aside className="bg-[#333333] px-6 py-10 text-white sm:px-10 lg:sticky lg:top-16 lg:flex lg:h-[calc(100vh-4rem)] lg:flex-col lg:justify-between lg:px-10 lg:py-12">
+          <div>
+            <p className="text-sm font-medium uppercase tracking-[0.18em] text-[#BFEAE7]">Immigration medical desk</p>
+            <h1 className="mt-6 font-serif text-[clamp(38px,11vw,48px)] leading-[0.98] sm:text-[50px] lg:text-[48px]">Panel Physician<span className="mt-2 block whitespace-nowrap">Appointments</span></h1>
+            <div className="mt-9 rounded-r-2xl border-l-2 border-[#BFEAE7] bg-white/[0.06] py-5 pl-5"><p className="text-sm font-medium uppercase tracking-[0.12em] text-[#BFEAE7]">Only available at</p><p className="mt-2 text-xl leading-7">Zomak Medical Clinic<br />Centre St.</p></div>
+          </div>
+          <div className="mt-12 space-y-3">
+            <a href={`tel:${centre.phone.replaceAll(' ', '')}`} className="flex w-full items-center justify-between rounded-full bg-[#BFEAE7] px-5 py-4 text-sm font-medium text-[#333333] no-underline transition hover:bg-white"><span>{centre.phone}</span><Phone size={17} /></a>
+            <Link href={`/locations/${centre.slug}`} className="flex w-full items-center justify-between rounded-full border border-white/30 px-5 py-4 text-sm text-white no-underline transition hover:bg-white/10"><span>Centre St. clinic page</span><MapPin size={17} /></Link>
+          </div>
+        </aside>
+
+        <div className="px-5 py-6 sm:px-10 sm:py-10 lg:px-12 lg:py-12 xl:px-16">
+          <div className="mx-auto max-w-[1080px]">
+            <section className="border-b border-[#333333]/15 py-10 lg:py-12">
+              <div className="grid gap-10 xl:grid-cols-[1.2fr_0.8fr] xl:items-start">
+                <div>
+                  <h2 className="max-w-2xl font-serif text-4xl leading-[1.08] sm:text-5xl">What is a panel physician?</h2>
+                  <p className="mt-6 text-lg leading-8 text-[#333333]/75">A panel physician is a doctor approved by Immigration, Refugees and Citizenship Canada (IRCC) to perform official Immigration Medical Exams for people applying for permanent residence and for some visitors, students, and workers.</p>
+                  <p className="mt-4 leading-7 text-[#333333]/[0.62]">A regular family doctor cannot complete an immigration medical exam unless that doctor appears on IRCC’s approved panel-physician list. The panel physician completes and submits the medical information, but IRCC makes the final immigration or visa decision.</p>
+                  <a href="https://www.cic.gc.ca/pp-md/pp-list.aspx" target="_blank" rel="noopener noreferrer" className="mt-8 inline-flex rounded-full bg-[#2AA7A1] px-6 py-3 text-sm font-medium text-white no-underline transition hover:bg-[#333333]">Open the official IRCC directory &rarr;</a>
+                </div>
+                <div className="overflow-hidden border-2 border-[#333333] bg-white">
+                  {[['ROLE', 'The clinic records and submits your medical-exam results to IRCC.'], ['DECISION', 'The panel physician does not decide whether an application is approved.'], ['COST', 'Patients pay the clinic for the exam and any required laboratory tests, X-rays, or related services. Fees can vary.']].map(([label, text]) => <div className="border-b border-[#333333]/20 p-6 last:border-0" key={label}><span className="text-sm font-semibold tracking-[0.14em] text-[#2AA7A1]">{label}</span><p className="mt-3 text-base leading-7">{text}</p></div>)}
+                </div>
+              </div>
+            </section>
+
+            <section className="grid gap-6 border-b border-[#333333]/20 py-10 md:grid-cols-[1.2fr_0.8fr]">
+              <div><span className="text-sm font-medium uppercase tracking-[0.1em] text-[#2AA7A1]">01 / Before booking</span><h2 className="mt-3 font-serif text-4xl">Confirm your instructions</h2><p className="mt-5 max-w-xl text-lg leading-8 text-[#333333]/68">Tell the Centre St. team which immigration medical you were instructed to complete. Requirements can vary, so the clinic will confirm the documents and identification needed for your appointment.</p></div>
+              <div className="relative min-h-[260px] overflow-hidden bg-[#BFEAE7]"><img src={service.image} alt="Immigration medical preparation" className="absolute inset-0 h-full w-full object-cover grayscale" /><span className="absolute bottom-4 left-4 bg-[#F4F6F7] px-3 py-2 text-xs">CENTRE ST. / CALGARY</span></div>
+            </section>
+
+            <section className="border-b border-[#333333]/20 py-10">
+              <span className="text-sm font-medium uppercase tracking-[0.1em] text-[#2AA7A1]">02 / Document check</span>
+              <h2 className="mt-3 font-serif text-4xl">Bring these items</h2>
+              <div className="mt-8 border-y-2 border-[#333333]">
+                {service.whatToBring.map((item, index) => <div className="grid grid-cols-[54px_1fr_auto] items-center gap-4 border-b border-[#333333]/20 py-5 last:border-0" key={item}><span className="text-sm text-[#2AA7A1]">0{index + 1}</span><p className="text-lg leading-7">{item}</p><FileText className="text-[#333333]/35" size={20} /></div>)}
+              </div>
+            </section>
+
+            <section className="border-b border-[#333333]/20 py-10">
+              <span className="text-sm font-medium uppercase tracking-[0.1em] text-[#2AA7A1]">03 / Appointment sequence</span>
+              <div className="mt-7 grid gap-px overflow-hidden border border-[#333333] bg-[#333333] md:grid-cols-3">
+                {service.visitFlow.map((item, index) => <div className="bg-[#F4F6F7] p-6" key={item}><span className="font-serif text-5xl text-[#2AA7A1]">{index + 1}</span><h3 className="mt-8 text-xl leading-7">{item}</h3></div>)}
+              </div>
+            </section>
+
+          </div>
+        </div>
+      </div>
     </main>
   )
 }

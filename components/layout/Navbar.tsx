@@ -25,8 +25,9 @@ export default function Navbar() {
   const isServiceDetail = pathname.startsWith('/services/')
   const isClinicDetail = pathname.startsWith('/locations/')
   const isHomePage = pathname === '/'
+  const isPanelPhysicianPage = pathname === '/services/details/panel-physician-appointments'
   const usesDarkImageHero =
-    pathname === '/doctors' || isArticleDetail || isServiceDetail
+    pathname === '/doctors' || isArticleDetail || (isServiceDetail && !isPanelPhysicianPage)
   const isOverlayNav = !isScrolled
   const usesLightText = isOverlayNav && usesDarkImageHero && !mobileOpen
   const linkTone = usesLightText ? 'text-white' : 'text-[#333333]'
@@ -79,7 +80,7 @@ export default function Navbar() {
             }`
           : 'fixed left-0 right-0 top-0'
       } ${isClinicDetail ? 'z-[60]' : 'z-50'} transition-all duration-300 ${
-        isClinicDetail || isHomePage
+        isClinicDetail || isHomePage || isPanelPhysicianPage
           ? 'bg-white shadow-sm'
           : isOverlayNav && !mobileOpen
             ? 'bg-transparent'
@@ -256,8 +257,6 @@ export default function Navbar() {
               {serviceCategoryOrder.map((category) => (
                 <MobileNavLink href={`/services/${getServiceCategorySlug(category)}`} key={category}>{category}</MobileNavLink>
               ))}
-              <MobileNavLink href="/services/details/panel-physician-appointments">Panel Physicians</MobileNavLink>
-              <MobileNavLink href="/visa-medicals">Visa Medicals</MobileNavLink>
             </div>
           )}
 
@@ -279,6 +278,8 @@ export default function Navbar() {
           )}
 
           <MobileNavLink href="/doctors">Providers</MobileNavLink>
+          <MobileNavLink href="/visa-medicals">Visa Medicals</MobileNavLink>
+          <MobileNavLink href="/services/details/panel-physician-appointments">Panel Physicians</MobileNavLink>
           <MobileNavLink href="/blog">Articles</MobileNavLink>
           <Link
             href="/contact"
