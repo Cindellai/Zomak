@@ -392,7 +392,7 @@ export const services = [
     image: 'https://images.unsplash.com/photo-1581056771107-24ca5f033842?auto=format&fit=crop&w=1600&q=85',
     summary: 'Comprehensive primary and walk-in care for patients and families.',
     details: 'Accessible care for preventive health, common illnesses, chronic conditions and everyday medical needs.',
-    bestFor: ['Annual check-ups and preventative care', 'Diagnosis and treatment of common illnesses', 'Management of chronic conditions (i.e. diabetes, hypertension, asthma, high cholesterol, etc.)', 'Children’s routine health visits', 'Mental health assessment, treatment and support', 'Minor skin procedures', 'Medication review and management', 'Driver’s Medicals'],
+    bestFor: ['Annual check-ups and preventative care', 'Diagnosis and treatment of common illnesses', 'Management of chronic conditions', 'Children’s routine health visits', 'Mental health assessment, treatment and support', 'Minor skin procedures', 'Medication review and management', 'Driver’s Medicals'],
     whatToBring: ['Health card or ID', 'Medication list', 'Relevant records or forms'],
     visitFlow: ['Check in', 'Provider assessment', 'Treatment, prescription or follow-up plan'],
     faq: [{ question: 'Are walk-ins accepted?', answer: 'Yes. Live availability varies by clinic and is shown on each clinic page.' }]
@@ -404,7 +404,7 @@ export const services = [
     image: 'https://images.unsplash.com/photo-1538108149393-fbbd81895907?auto=format&fit=crop&w=1600&q=85',
     summary: 'Specialist assessment and coordinated care for complex adult medical conditions. A clinic referral is required.',
     details: 'Referring clinics can fax referrals to 403-538-6747.',
-    bestFor: ['Comprehensive care of chronic medical conditions (i.e. diabetes, hypertension, asthma, heart failure, COPD, dyslipidemia, etc.)', 'Cardiovascular risk assessment and risk reduction / stroke prevention clinics', 'Chronic kidney disease, proteinuria or hematuria', 'Cognitive impairment or suspected dementia', 'Bone health and osteoporosis', 'Coordinating care for multiple comorbidities', 'Hypermobility assessment', 'Medically unexplained symptoms', 'Unexplained myalgias and arthralgias, fibromyalgia', 'Abnormal liver enzymes', 'Genital dermatology', 'Hepatitis B or Hepatitis C management'],
+    bestFor: ['Comprehensive care of chronic medical conditions', 'Cardiovascular risk assessment and risk reduction / stroke prevention clinics', 'Chronic kidney disease, proteinuria or hematuria', 'Cognitive impairment or suspected dementia', 'Bone health and osteoporosis', 'Coordinating care for multiple comorbidities', 'Hypermobility assessment', 'Medically unexplained symptoms', 'Unexplained myalgias and arthralgias, fibromyalgia', 'Abnormal liver enzymes', 'Genital dermatology', 'Hepatitis B or Hepatitis C management'],
     whatToBring: ['Health card or ID', 'Medication list', 'Relevant test results and specialist records'],
     visitFlow: ['Clinic referral by fax', 'Specialist consultation', 'Care plan and follow-up'],
     faq: [{ question: 'How do I access Internal Medicine?', answer: 'Your clinic must send a referral by fax to 403-538-6747.' }]

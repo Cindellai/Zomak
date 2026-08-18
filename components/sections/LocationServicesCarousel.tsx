@@ -52,6 +52,9 @@ export function LocationServicesCarousel({ services }: { services: Service[] }) 
                   <p className="mt-6 max-w-[680px] text-[16px] leading-7 text-white/85">
                     {services[0].summary || 'Consult with our clinical team to verify availability, preparation details, and suitability.'}
                   </p>
+                  <span className="mt-6 inline-flex border-b border-white/50 pb-1 text-sm text-white">
+                    View service details &rarr;
+                  </span>
                 </div>
 
                 <div className="rounded-xl border border-white/18 bg-white/12 p-5 text-white shadow-[0_18px_45px_rgba(15,23,42,0.18)] backdrop-blur-md">
@@ -93,6 +96,9 @@ export function LocationServicesCarousel({ services }: { services: Service[] }) 
                   <p className={`${count === 2 ? 'max-w-[620px] text-base leading-7' : 'text-sm'} text-white/80 line-clamp-2`}>
                     {service.summary}
                   </p>
+                  <span className="inline-flex border-b border-white/45 pb-1 text-sm text-white">
+                    View service details &rarr;
+                  </span>
                 </div>
               </Link>
             ))}
@@ -121,6 +127,9 @@ export function LocationServicesCarousel({ services }: { services: Service[] }) 
                     <p className="text-sm text-white/80 line-clamp-2">
                       {service.summary}
                     </p>
+                    <span className="inline-flex border-b border-white/45 pb-1 text-sm text-white">
+                      View service details &rarr;
+                    </span>
                   </div>
                 </Link>
               ))}

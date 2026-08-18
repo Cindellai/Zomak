@@ -332,6 +332,7 @@ function getSpecificServiceSummary(title: string) {
   const summaries: Record<string, string> = {
     'Annual check-ups and preventative care': 'Routine health reviews, screening and preventive guidance.',
     'Diagnosis and treatment of common illnesses': 'Assessment and treatment for everyday illnesses and health concerns.',
+    'Management of chronic conditions': 'Ongoing care for conditions such as diabetes, hypertension, asthma, and high cholesterol.',
     'Children’s routine health visits': 'Routine primary-care visits supporting children’s health and development.',
     'Mental health assessment, treatment and support': 'Private assessment and ongoing support for mental health concerns.',
     'Minor skin procedures': 'Office-based assessment and treatment for appropriate minor skin concerns.',

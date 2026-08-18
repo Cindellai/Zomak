@@ -1,4 +1,4 @@
-import { CalendarDays, MapPin, Phone, ArrowDown, ArrowUpRight } from 'lucide-react'
+import { Printer, MapPin, Phone, ArrowDown, ArrowUpRight } from 'lucide-react'
 import type { ReactNode } from 'react'
 
 import { locations } from '@/data/site'
@@ -60,14 +60,14 @@ export default function ContactPage() {
                 <ContactInfoCard
                   href={location.phone ? `tel:${location.phone.replaceAll(' ', '')}` : undefined}
                   icon={<Phone size={22} />}
-                  value={`${location.phone || 'Phone to confirm'} · Fax ${location.fax}`}
+                  value={location.phone || 'Phone to confirm'}
                   valueStyle="strong"
                 />
                 
                 <ContactInfoCard
-                  icon={<CalendarDays size={22} />}
-                  value="Contact the clinic team to schedule family practice or specialized care."
-                  valueStyle="body"
+                  icon={<Printer size={22} />}
+                  value={`Fax ${location.fax}`}
+                  valueStyle="strong"
                 />
                 
                 <ContactInfoCard
