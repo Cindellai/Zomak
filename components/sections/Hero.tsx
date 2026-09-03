@@ -11,7 +11,7 @@ const AVATARS = [
 const fallback = {
   title: 'ZOMAK Medical Clinic',
   accentTitle: '',
-  description: 'Accessible, patient-focused medical care for individuals and families across Calgary and Cochrane.',
+  description: 'Walk in for timely care when you need it. Our Calgary and Cochrane clinics support everyday illnesses, minor concerns, family health needs, and same day questions.',
   imageUrl: '/images/locations/fairview-hero.jpg',
   imageAlt: 'Reception desk and branded sign at Zomak Medical Clinic in Fairview',
   primaryLabel: 'Book appointment',
@@ -40,21 +40,20 @@ export function Hero({ content }: { content?: HomepageContent['hero'] }) {
         priority
         className="object-cover object-center"
       />
+      <div className="absolute inset-0 bg-gradient-to-r from-[#202929]/75 via-[#202929]/25 to-transparent" />
+      <div className="absolute inset-x-0 bottom-0 h-[48%] bg-gradient-to-t from-[#202929]/55 to-transparent" />
 
-      <div className="absolute inset-0 bg-[#173F42]/15" />
-      <div className="absolute inset-x-0 bottom-0 h-[72%] bg-gradient-to-t from-[#202929]/80 via-[#263E3E]/30 to-transparent" />
+      <div className="relative z-10 mx-auto flex min-h-[720px] max-w-[1400px] items-end justify-start px-5 pb-14 pt-24 sm:min-h-[780px] sm:px-10 sm:pb-16 lg:min-h-[820px] lg:px-16 lg:pb-20">
+        <div className="w-full max-w-[650px] text-left text-white">
+          <h1 className="font-serif text-[40px] font-normal leading-[1.04] text-white sm:text-[52px] lg:text-[60px]">
+            {hero.title}
+          </h1>
 
-      <div className="relative z-10 mx-auto flex min-h-[720px] max-w-[1360px] items-end px-5 pb-16 pt-28 sm:min-h-[780px] sm:px-10 sm:pb-20 lg:min-h-[820px] lg:px-16 lg:pb-24">
-        <div className="max-w-[780px]">
-            <h1 className="font-serif text-[44px] font-normal leading-[1.02] text-white sm:text-[64px] lg:text-[76px]">
-              {hero.title}
-            </h1>
-
-            <p className="mt-6 max-w-[620px] text-[18px] font-normal leading-8 text-white/90 sm:text-[20px]">
+          <p className="mt-5 max-w-[620px] text-[17px] font-normal leading-7 text-white/90 sm:text-[18px]">
               {hero.description}
-            </p>
+          </p>
 
-            <div className="mt-8 flex flex-wrap items-center gap-3">
+          <div className="mt-7 flex flex-wrap items-center gap-3">
               <Link
                 href={hero.primaryHref}
                 className="inline-flex h-12 items-center justify-center rounded-full bg-[#2AA7A1] px-7 text-sm font-normal text-white no-underline  transition-all duration-200 hover:scale-[1.01]"
@@ -62,13 +61,8 @@ export function Hero({ content }: { content?: HomepageContent['hero'] }) {
                 {hero.primaryLabel}
               </Link>
 
-              <Link
-                href={hero.secondaryHref}
-                className="inline-flex h-12 items-center justify-center rounded-full bg-white px-7 text-sm font-normal text-[#333333] no-underline shadow-md transition-all duration-200 hover:bg-[#F4F6F7] hover:scale-[1.01]"
-              >
-                {hero.secondaryLabel}
-              </Link>
-            </div>
+           
+          </div>
         </div>
       </div>
     </section>

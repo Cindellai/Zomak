@@ -11,7 +11,7 @@ export function LocationCareCta({
   walkInStatus: string
 }) {
   return (
-    <section className="bg-[#BFEAE7]">
+    <section className="border-y border-[#2AA7A1]/10 bg-[#EFF9F8]">
       <div className="mx-auto max-w-[1400px]">
         <div className="grid lg:grid-cols-[1fr_1.2fr]">
 

@@ -165,7 +165,7 @@ export const services = [
     slug: 'visa-medical-experts',
     category: serviceCategories.familyPractice,
     image:
-      'https://images.unsplash.com/photo-1581056771107-24ca5f033842?auto=format&fit=crop&w=1600&q=85',
+      'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=2000&q=80',
     summary:
       'Specializing in visa medical exams, we help patients prepare required health documentation efficiently and accurately.',
     details:
@@ -201,7 +201,7 @@ export const services = [
     slug: 'medical-piercings',
     category: 'Centre St Services',
     image:
-      'https://images.unsplash.com/photo-1551076805-e1869033e561?auto=format&fit=crop&w=1600&q=85',
+      'https://images.unsplash.com/photo-1684439673105-63d343532f0b?auto=format&fit=crop&w=1600&q=85',
     summary:
       'Medical piercing services performed by trained professionals in a clean clinical environment.',
     details:
@@ -272,8 +272,7 @@ export const services = [
     title: "Women's Health Care",
     slug: 'womens-health-care',
     category: serviceCategories.womensHealth,
-    image:
-      'https://images.unsplash.com/photo-1584820927498-cfe5211fd8bf?auto=format&fit=crop&w=1600&q=85',
+    image: '/images/services/womens-health-group-hero.jpg',
     summary:
       "Wellness visits, prenatal support, reproductive health, and menopause care across life stages.",
     details:
@@ -416,7 +415,7 @@ export const services = [
     title: 'Internal Medicine Specialist Care',
     slug: 'internal-medicine-specialist-care',
     category: serviceCategories.internalMedicine,
-    image: 'https://images.unsplash.com/photo-1538108149393-fbbd81895907?auto=format&fit=crop&w=1600&q=85',
+    image: '/images/services/internal-medicine-hero-v2.jpg',
     summary: 'Specialist assessment and coordinated care for complex adult medical conditions. A clinic referral is required.',
     details: 'Referring clinics can fax referrals to 403-538-6747.',
     bestFor: ['Comprehensive care of chronic medical conditions', 'Cardiovascular risk assessment and risk reduction / stroke prevention clinics', 'Chronic kidney disease, proteinuria or hematuria', 'Cognitive impairment or suspected dementia', 'Bone health and osteoporosis', 'Coordinating care for multiple comorbidities', 'Hypermobility assessment', 'Medically unexplained symptoms', 'Unexplained myalgias and arthralgias, fibromyalgia', 'Abnormal liver enzymes', 'Genital dermatology', 'Hepatitis B or Hepatitis C management'],

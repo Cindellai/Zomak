@@ -23,11 +23,12 @@ export default async function ServiceDetailPage({
   const displayTitle = focus || service.title
   const displayDetails = focus ? getFocusedServiceDetails(focus) : service.details
   const displayHighlights = focus ? getFocusedServiceHighlights(focus) : service.bestFor
+  const displayImage = getServiceCardImage(service.category, displayTitle, service.image)
 
   return (
     <main className="bg-[#F4F6F7] text-[#333333]">
       <header className={`relative flex items-end overflow-hidden bg-[#333333] px-6 pb-14 pt-28 sm:px-10 lg:px-16 ${focus ? 'min-h-[50vh]' : 'min-h-[66vh]'}`}>
-        <img src={service.image} alt="" className="absolute inset-0 h-full w-full object-cover opacity-55" />
+        <img src={displayImage} alt="" className="absolute inset-0 h-full w-full object-cover opacity-55" />
         <div className="absolute inset-0 bg-gradient-to-t from-[#333333] via-[#333333]/45 to-transparent" />
         <div className="relative mx-auto w-full max-w-[1200px]">
           <p className="text-sm text-[#BFEAE7]">{service.category}</p>
@@ -49,7 +50,7 @@ export default async function ServiceDetailPage({
             <Link href="/contact" className="mt-8 inline-flex rounded-full bg-[#333333] px-7 py-4 text-sm font-medium text-white no-underline transition hover:bg-[#2AA7A1]">Discuss this service with our team &rarr;</Link>
           </div>
           <div className="relative min-h-[360px] overflow-hidden rounded-3xl sm:min-h-[500px]">
-            <img src={service.image} alt={`${displayTitle} consultation`} className="absolute inset-0 h-full w-full object-cover" />
+            <img src={displayImage} alt={`${displayTitle} consultation`} className="absolute inset-0 h-full w-full object-cover" />
             <div className="absolute inset-0 bg-gradient-to-t from-[#333333]/30 to-transparent" />
           </div>
         </div>
@@ -208,4 +209,48 @@ function getFocusedServiceHighlights(title: string) {
     'Individualized recommendations based on your health history',
     'Clear follow-up, testing, treatment, or referral guidance'
   ]
+}
+
+function getServiceCardImage(category: string, title: string, fallback: string) {
+  const imagesByCategory: Record<string, Record<string, string>> = {
+    'Internal Medicine': {
+      'Comprehensive care of chronic medical conditions': '/images/services/internal-medicine-chronic.jpg',
+      'Cardiovascular risk assessment and risk reduction / stroke prevention clinics': '/images/services/internal-medicine-cardiovascular.jpg',
+      'Chronic kidney disease, proteinuria or hematuria': '/images/services/internal-medicine-kidney.jpg',
+      'Cognitive impairment or suspected dementia': '/images/services/internal-medicine-cognitive.jpg',
+      'Bone health and osteoporosis': '/images/services/internal-medicine-bone.jpg',
+      'Coordinating care for multiple comorbidities': '/images/services/internal-medicine-comorbidities.jpg',
+      'Hypermobility assessment': '/images/services/internal-medicine-exam.jpg',
+      'Medically unexplained symptoms': '/images/services/internal-medicine-consultation.jpg',
+      'Unexplained myalgias and arthralgias, fibromyalgia': '/images/services/internal-medicine-myalgia-fibromyalgia.jpg',
+      'Abnormal liver enzymes': '/images/services/internal-medicine-liver-enzymes.jpg',
+      'Genital dermatology': '/images/services/internal-medicine-genital-dermatology.jpg',
+      'Hepatitis B or Hepatitis C management': '/images/services/internal-medicine-hepatitis.jpg'
+    },
+    'Family Practice': {
+      'Preventive health & screening': '/images/services/internal-medicine-blood-pressure.jpg',
+      'Diagnosis and treatment of common illnesses': '/images/services/internal-medicine-exam.jpg',
+      'Management of chronic conditions': '/images/services/internal-medicine-diabetes.jpg',
+      'Children’s routine health visits': '/images/services/pediatric-care-hero.jpg',
+      'Mental health assessment, treatment and support': '/images/services/internal-medicine-consultation.jpg',
+      'Minor skin procedures': '/images/services/internal-medicine-genital-dermatology.jpg',
+      'Medication review and management': 'https://images.unsplash.com/photo-1624711076872-ecdbc5ade023?auto=format&fit=crop&w=1200&q=85',
+      'Driver’s Medicals': 'https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?auto=format&fit=crop&w=1200&q=85'
+    },
+    "Women's Health": {
+      'General Women’s Health': '/images/services/womens-health-hero.jpg',
+      'Menopausal support & treatment': '/images/services/womens-health-menopause.jpg',
+      'PAP smears': '/images/services/womens-health-pap-smear.jpg',
+      'IUD consultations and referrals': '/images/services/womens-health-iud.jpg'
+    },
+    "Men's Health": {
+      'P-Shot (Priapus Shot)': '/images/services/mens-health-p-shot-prp.jpg',
+      Bocox: '/images/services/mens-health-bocox-treatment.jpg',
+      'Shockwave for Erectile Dysfunction': '/images/services/mens-health-shockwave-graphic.jpg',
+      Trimix: '/images/services/mens-health-trimix-graphic.jpg',
+      'Testosterone Replacement': '/images/services/mens-health-running.jpg'
+    }
+  }
+
+  return imagesByCategory[category]?.[title] || fallback
 }

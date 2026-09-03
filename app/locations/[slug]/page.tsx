@@ -29,9 +29,10 @@ export async function generateMetadata({ params }: LocationPageProps) {
   }
 
   const editableLocation = await getEditableWalkInStatus(slug)
+  const displayName = removeTitleDash(editableLocation?.name || location.name)
 
   return {
-    title: `${editableLocation?.name || location.name} | ZOMAK Medical`,
+    title: `${displayName} | ZOMAK Medical`,
     description: editableLocation?.summary || location.summary,
   }
 }
@@ -55,10 +56,14 @@ export default async function LocationPage({ params }: LocationPageProps) {
   }
   const walkInStatus = clinic.walkInStatus
   const waitTime = clinic.waitTime
+  const displayClinicName = removeTitleDash(clinic.name)
 
-  const relatedServices = services.filter((service) =>
-    clinic.services.includes(service.title)
-  )
+  const relatedServices = services
+    .filter((service) => clinic.services.includes(service.title))
+    .map((service) => ({
+      ...service,
+      image: getUpdatedServiceCardImage(service.title, service.image)
+    }))
 
   const providerLocationKey = getProviderLocationKey(clinic.name)
   const locationProviders = providers.filter(
@@ -86,19 +91,19 @@ export default async function LocationPage({ params }: LocationPageProps) {
       {/* Split Screen Hero */}
       <header className="grid bg-white lg:min-h-screen lg:grid-cols-2">
         {/* Left Text Column */}
-        <div className="flex items-center px-5 py-14 sm:px-10 sm:py-16 lg:px-16 xl:px-20">
+        <div className="order-2 flex items-center px-5 py-9 sm:px-10 sm:py-12 lg:order-1 lg:px-16 lg:py-16 xl:px-20">
           <div className="w-full max-w-[720px]">
             <h1
-              className="text-[36px] font-normal leading-tight text-[#333333] sm:text-[58px] lg:text-[72px]"
+              className="text-[34px] font-normal leading-[1.08] text-[#333333] sm:text-[50px] lg:text-[72px]"
             >
-              {clinic.name}
+              {displayClinicName}
             </h1>
 
-            <p className="mt-6 max-w-[640px] text-[18px] font-normal leading-8 text-[#333333] sm:mt-7 sm:text-[21px]">
+            <p className="mt-4 max-w-[640px] text-[16px] font-normal leading-7 text-[#333333]/80 sm:mt-6 sm:text-[19px] sm:leading-8 lg:text-[21px]">
               {clinic.summary}
             </p>
 
-            <div className="mt-10 grid gap-6 border-t border-[#333333]/10 pt-7 sm:grid-cols-2">
+            <div className="mt-7 grid gap-5 border-t border-[#333333]/10 pt-5 sm:grid-cols-2 sm:gap-6 lg:mt-10 lg:pt-7">
               <div>
                 <p className="text-sm font-normal text-[#333333]">
                   Address
@@ -128,7 +133,7 @@ export default async function LocationPage({ params }: LocationPageProps) {
                 </p>
 
                 {clinic.email && (
-                  <p className="mt-4 text-[18px] font-normal leading-7 text-[#333333]/90">
+                  <p className="mt-3 break-words text-[16px] font-normal leading-6 text-[#333333]/80 sm:text-[18px] sm:leading-7">
                     {clinic.email}
                   </p>
                 )}
@@ -153,7 +158,7 @@ export default async function LocationPage({ params }: LocationPageProps) {
         </div>
 
         {/* Right Full-Half Image */}
-        <div className="relative min-h-[320px] overflow-hidden sm:min-h-[460px] lg:min-h-[calc(100vh-82px)]">
+        <div className="relative order-1 min-h-[280px] overflow-hidden sm:min-h-[400px] lg:order-2 lg:min-h-[calc(100vh-82px)]">
           <div
             aria-label={clinic.heroImageAlt || 'Bright medical clinic interior'}
             className="absolute inset-0 bg-cover bg-center"
@@ -170,10 +175,11 @@ export default async function LocationPage({ params }: LocationPageProps) {
       </header>
 
       {/* Philosophy Statement Section */}
-      <section className="bg-[#333333] px-6 py-20 sm:px-10 lg:px-16 lg:py-32">
-        <div className="mx-auto max-w-[1040px] text-center">
+      <section className="border-y border-[#333333]/10 bg-[#EAF7F6] px-6 py-14 sm:px-10 sm:py-16 lg:px-16 lg:py-20">
+        <div className="mx-auto max-w-[920px] text-center">
+          <span className="mx-auto mb-7 block h-px w-14 bg-[#2AA7A1]" aria-hidden="true" />
           <p
-            className="text-[30px] font-normal leading-tight text-white sm:text-[48px] lg:text-[66px]"
+            className="font-serif text-[30px] font-normal leading-[1.12] text-[#333333] sm:text-[40px] lg:text-[48px]"
           >
             {clinic.philosophy || 'We help families turn everyday health needs into simpler, supported care.'}
           </p>
@@ -240,12 +246,34 @@ export default async function LocationPage({ params }: LocationPageProps) {
         </section>
       )}
       <LocationCareCta
-        clinicName={clinic.name}
+        clinicName={displayClinicName}
         phone={clinic.phone}
         walkInStatus={walkInStatus}
       />
     </section>
   )
+}
+
+function removeTitleDash(title: string) {
+  return title.replace(/\s+[—-]\s+/g, ' ')
+}
+
+function getUpdatedServiceCardImage(title: string, fallback: string) {
+  const updatedImages: Record<string, string> = {
+    'Visa Medical Experts': 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=2000&q=80',
+    'Medical Piercings': 'https://images.unsplash.com/photo-1684439673105-63d343532f0b?auto=format&fit=crop&w=1600&q=85',
+    'Pediatric Care': '/images/services/pediatric-care-hero.jpg',
+    "Women's Health Care": '/images/services/womens-health-group-hero.jpg',
+    'Family Practice & Walk-in Care': '/images/services/family-practice-hero.png',
+    'Internal Medicine Specialist Care': '/images/services/internal-medicine-hero-v2.jpg',
+    Botox: '/images/aesthetics-botox-treatment.jpg',
+    Fillers: '/images/aesthetics-fillers.jpg',
+    'PRP Treatment for Hair and Facials': '/images/aesthetics-prp-treatment.jpg',
+    'Vampire Breast Lift': '/images/aesthetics-vampire-breast-lift.jpg',
+    'Vampire Wing Lift': '/images/aesthetics-vampire-wing-lift.jpg'
+  }
+
+  return updatedImages[title] || fallback
 }
 
 function getProviderLocationKey(locationName: string) {
