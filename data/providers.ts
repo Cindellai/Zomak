@@ -128,8 +128,7 @@ Dr. Oloko is currently accepting patients.`
     credentials: 'MBBS, MRCGP, CCFP, MCFP',
     role: 'Family Physician',
     location: 'Zomak Centre Street',
-    image:
-      'https://images.unsplash.com/photo-1582750433449-648ed127bb54?auto=format&fit=crop&w=900&q=85',
+    image: '/images/provider-desmond-obih.jpg',
     status: 'Accepting Patients',
     description: `Dr Desmond Duncan Obih is a UK qualified family physician. He has 12 years of uninterrupted clinical experience with an outstanding doctor-patient relationship. His health model belief is continuity of care and health promotion at the community level.
 
@@ -149,8 +148,7 @@ Dr Obih is accepting new patients`
     credentials: 'LMCC, CCFP, MPH',
     role: 'Family Physician',
     location: 'Zomak Centre Street',
-    image:
-      'https://images.unsplash.com/photo-1637059824899-a441006a6875?auto=format&fit=crop&w=900&q=85',
+    image: '/images/provider-ugonna-nwakuna.jpg',
     status: 'Accepting Patients',
     description: `Dr Ugonna Nwakuna trained as a family physician in East Midlands UK. He has 17 years experience in medical practice.
 
@@ -268,7 +266,7 @@ Dr. Abimbola Uwaoluetan is currently accepting new patients.`
     credentials: '',
     role: 'Physician',
     location: 'Zomak Medical Clinic',
-    image: 'https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=900&q=85',
+    image: '/images/provider-yetunde.jpg',
     status: 'Contact Clinic',
     description: 'Dr. Yetunde is a member of the Zomak Medical Clinic provider team. Please contact the clinic for current location, services and appointment information.'
   },
@@ -278,7 +276,7 @@ Dr. Abimbola Uwaoluetan is currently accepting new patients.`
     credentials: '',
     role: 'Physician',
     location: 'Zomak Medical Clinic',
-    image: 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&w=900&q=85',
+    image: '/images/provider-ngozi-ohaka-ibe.jpg',
     status: 'Contact Clinic',
     description: 'Dr. Ngozi is a member of the Zomak Medical Clinic provider team. Please contact the clinic for current location, services and appointment information.'
   }

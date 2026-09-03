@@ -1,20 +1,36 @@
 import { ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 import { services } from '@/data/site'
+import type { HomepageContent } from '@/lib/sanity/homepage'
 
-const getService = (title: string) =>
-  services.find((service) => service.title === title)
+export function ServiceGrid({
+  content,
+  serviceCards
+}: {
+  content?: HomepageContent['services']
+  serviceCards?: HomepageContent['serviceCards']
+}) {
+  const getService = (title: string, placementIndex?: number) => {
+    const placement = placementIndex === undefined ? undefined : content?.cards?.[placementIndex]
+    const lookupTitle = placement?.title || title
+    const cmsService = serviceCards?.find((service) => service.slug === placement?.slug || service.title === lookupTitle)
+    const fallbackService = services.find((service) => service.slug === placement?.slug || service.title === lookupTitle) || services.find((service) => service.title === title) || (title === 'Zomak Home Care' ? services.find((service) => service.title === 'Respite Care') : undefined)
 
-const serviceHref = (title: string) => {
-  const service = getService(title)
-  return service ? `/services/details/${service.slug}` : '/services/family-practice'
-}
+    return {
+      slug: placement?.slug || cmsService?.slug || fallbackService?.slug,
+      href: placement?.href,
+      image: placement?.imageUrl || cmsService?.imageUrl || fallbackService?.image,
+      displayTitle: placement?.displayTitle || placement?.title || title
+    }
+  }
+  const serviceHref = (title: string, placementIndex?: number) => {
+    const service = getService(title, placementIndex)
+    return service.href || (service.slug ? `/services/details/${service.slug}` : '/services/family-practice')
+  }
+  const serviceImage = (title: string, placementIndex?: number) =>
+    getService(title, placementIndex).image ||
+    'https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=1200&q=85'
 
-const serviceImage = (title: string) =>
-  getService(title)?.image ||
-  'https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=1200&q=85'
-
-export function ServiceGrid() {
   return (
     <section className="bg-white px-6 pb-16 pt-12 antialiased sm:px-10 lg:px-16">
       <div className="mx-auto max-w-[1400px]">
@@ -31,29 +47,27 @@ export function ServiceGrid() {
                 className="text-[44px] font-normal leading-[1.05] tracking-tight text-[#333333] sm:text-[56px] lg:text-[64px]"
                 style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
               >
-                ZOMAK
-                <br />
-                Services
+                {(content?.heading || 'ZOMAK\nServices').split('\n').map((line, index) => <span className="block" key={`${line}-${index}`}>{line}</span>)}
               </h2>
             </div>
 
             {/* Split Image Cards */}
             <div className="grid gap-4 sm:grid-cols-2">
               <ServiceImageCard
-                href={serviceHref('Pediatric Care')}
-                title="Pediatric Care"
-                image={serviceImage('Pediatric Care')}
+                href={serviceHref('Pediatric Care', 0)}
+                title={getService('Pediatric Care', 0).displayTitle}
+                image={serviceImage('Pediatric Care', 0)}
               />
               <ServiceImageCard
-                href={serviceHref("Women's Health Care")}
-                title="Women’s Health Care"
-                image={serviceImage("Women's Health Care")}
+                href={serviceHref("Women's Health Care", 1)}
+                title={getService("Women's Health Care", 1).displayTitle}
+                image={serviceImage("Women's Health Care", 1)}
               />
             </div>
 
             {/* Wide Mint Action Card */}
             <Link
-              href={serviceHref("Driver's Medical")}
+              href={serviceHref("Driver's Medical", 2)}
               className="group relative flex min-h-[160px] flex-col justify-between overflow-hidden rounded-[32px] bg-[#BFEAE7]/60 p-6 no-underline transition-all duration-300 hover:bg-[#BFEAE7]"
             >
               <p className="text-[12px] font-normal tracking-wider text-neutral-800">
@@ -65,7 +79,7 @@ export function ServiceGrid() {
                   className="text-[32px] font-normal leading-[1.1] tracking-tight text-neutral-900 sm:text-[38px]"
                   style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
                 >
-                  Driver’s Medical
+                  {getService("Driver's Medical", 2).displayTitle}
                 </h3>
                 <span className="flex h-10 min-w-[130px] items-center justify-center rounded-full bg-white px-4 text-[13px] font-normal text-neutral-900 shadow-sm transition-all duration-300 group-hover:scale-105">
                   View Details
@@ -78,20 +92,20 @@ export function ServiceGrid() {
           <div className="relative flex min-h-[460px] flex-col justify-end overflow-hidden rounded-[32px] bg-neutral-900 lg:min-h-full">
             <div
               className="absolute inset-0 bg-cover bg-center transition-transform duration-700 hover:scale-105"
-              style={{ backgroundImage: `url(${serviceImage('Botox')})` }}
+              style={{ backgroundImage: `url(${serviceImage('Botox', 4)})` }}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-neutral-900/80 via-neutral-900/10 to-transparent" />
 
             {/* Shifted elements higher with flex configurations */}
             <div className="relative z-10 grid gap-4 p-4 sm:grid-cols-2 sm:p-6 lg:p-8 w-full">
               <OverlayCard
-                href={serviceHref('Internal Medicine Specialist Care')}
-                title="Internal Medicine"
+                href={serviceHref('Internal Medicine Specialist Care', 3)}
+                title={getService('Internal Medicine Specialist Care', 3).displayTitle}
                 variant="solid"
               />
               <OverlayCard
-                href={serviceHref('Botox')}
-                title="Aesthetics"
+                href={serviceHref('Botox', 4)}
+                title={getService('Botox', 4).displayTitle}
                 variant="glass"
               />
             </div>
@@ -101,14 +115,14 @@ export function ServiceGrid() {
         {/* Bottom Wide Cards Row */}
         <div className="mt-4 grid gap-4 lg:grid-cols-2">
           <BottomCard
-            href={serviceHref('Family Practice & Walk-in Care')}
-            title="Family Practice & Walk-in Care"
-            image={serviceImage('Family Practice & Walk-in Care')}
+            href={serviceHref('Family Practice & Walk-in Care', 5)}
+            title={getService('Family Practice & Walk-in Care', 5).displayTitle}
+            image={serviceImage('Family Practice & Walk-in Care', 5)}
           />
           <BottomCard
-            href={serviceHref('Pediatric Care')}
-            title="Pediatric Care"
-            image={serviceImage('Pediatric Care')}
+            href={serviceHref('Zomak Home Care', 6)}
+            title={getService('Zomak Home Care', 6).displayTitle}
+            image={serviceImage('Zomak Home Care', 6)}
             dark
           />
         </div>

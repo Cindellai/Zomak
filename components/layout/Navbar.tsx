@@ -11,8 +11,9 @@ import {
   locations,
   serviceCategoryOrder
 } from '@/data/site'
+import type { NavigationServiceCategory } from '@/lib/sanity/navigation'
 
-export default function Navbar() {
+export default function Navbar({ serviceCategories }: { serviceCategories?: NavigationServiceCategory[] }) {
   const pathname = usePathname()
   const [isScrolled, setIsScrolled] = useState(false)
   const [showClinicNav, setShowClinicNav] = useState(true)
@@ -32,6 +33,9 @@ export default function Navbar() {
   const usesLightText = isOverlayNav && usesDarkImageHero && !mobileOpen
   const linkTone = usesLightText ? 'text-white' : 'text-[#333333]'
   const mutedHover = usesLightText ? 'hover:text-white/70' : 'hover:opacity-70'
+  const categoryLinks = serviceCategories?.length
+    ? serviceCategories
+    : serviceCategoryOrder.map((title) => ({ title, slug: getServiceCategorySlug(title) }))
 
   useEffect(() => {
     const updateScrolled = () => {
@@ -82,9 +86,11 @@ export default function Navbar() {
       } ${isClinicDetail ? 'z-[60]' : 'z-50'} transition-all duration-300 ${
         isClinicDetail || isHomePage || isPanelPhysicianPage
           ? 'bg-white shadow-sm'
-          : isOverlayNav && !mobileOpen
+          : isServiceDetail && !mobileOpen
             ? 'bg-transparent'
-            : 'bg-white/95 shadow-sm backdrop-blur-md'
+            : isOverlayNav && !mobileOpen
+              ? 'bg-transparent'
+              : 'bg-white/95 shadow-sm backdrop-blur-md'
       }`}
     >
       <nav className="relative mx-auto flex h-16 max-w-[1400px] items-center justify-between px-6 sm:px-10 lg:px-16">
@@ -132,14 +138,14 @@ export default function Navbar() {
               }`}
             >
               <div className="max-h-[70vh] overflow-y-auto overscroll-contain rounded-xl border border-[#333333]/10 bg-white p-1.5 shadow-[0_12px_30px_rgba(0,0,0,0.08)]">
-                {serviceCategoryOrder.map((category) => (
+                {categoryLinks.map((category) => (
                   <Link
-                    href={`/services/${getServiceCategorySlug(category)}`}
-                    key={category}
+                    href={`/services/${category.slug}`}
+                    key={category.slug}
                     onClick={() => setOpenMenu(null)}
                     className="block rounded-lg px-3.5 py-2.5 text-[13px] font-medium text-[#333333] no-underline transition hover:bg-[#F4F6F7] hover:text-[#333333]"
                   >
-                    {category}
+                    {category.title}
                   </Link>
                 ))}
               </div>
@@ -214,7 +220,7 @@ export default function Navbar() {
         <div className={`relative z-10 hidden items-center gap-5 text-[14px] font-medium lg:flex xl:gap-6 ${linkTone}`}>
           <Link
             href="/contact"
-            className="inline-flex h-[38px] items-center gap-1.5 rounded-lg bg-[#333333] px-4 text-[13px] font-normal text-white no-underline shadow-[0_10px_26px_rgba(0,0,0,0.22)] ring-1 ring-white/20 transition hover:bg-[#2AA7A1]"
+            className="inline-flex h-[38px] items-center gap-1.5 rounded-lg bg-[#333333] px-4 text-[13px] font-normal text-white no-underline transition hover:bg-[#2AA7A1]"
           >
             <ArrowUpRight size={15} strokeWidth={2.5} />
             Contact
@@ -254,8 +260,8 @@ export default function Navbar() {
           </button>
           {openMenu === 'services' && (
             <div className="grid gap-1 rounded-xl bg-[#F4F6F7] p-3">
-              {serviceCategoryOrder.map((category) => (
-                <MobileNavLink href={`/services/${getServiceCategorySlug(category)}`} key={category}>{category}</MobileNavLink>
+              {categoryLinks.map((category) => (
+                <MobileNavLink href={`/services/${category.slug}`} key={category.slug}>{category.title}</MobileNavLink>
               ))}
             </div>
           )}

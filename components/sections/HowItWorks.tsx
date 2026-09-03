@@ -1,5 +1,6 @@
 import { ArrowUpRight } from 'lucide-react'
 import Link from 'next/link'
+import type { HomepageContent } from '@/lib/sanity/homepage'
 
 const STEPS = [
   {
@@ -9,8 +10,7 @@ const STEPS = [
       'Contact us via phone or email to set up a convenient appointment time that works for you.',
     cta: 'Contact Us',
     href: '/contact',
-    image:
-      'https://images.unsplash.com/photo-1584515933487-779824d29309?w=900&q=90',
+    image: '/images/how-it-works-contact.jpg',
   },
   {
     number: '02',
@@ -19,8 +19,7 @@ const STEPS = [
       'Arrive at our welcoming clinic, where our friendly staff will guide you through check-in.',
     cta: 'Find Nearest Clinic',
     href: '/locations',
-    image:
-      'https://images.unsplash.com/photo-1551076805-e1869033e561?w=900&q=90',
+    image: '/images/how-it-works-visit.jpg',
   },
   {
     number: '03',
@@ -29,8 +28,7 @@ const STEPS = [
       'Our healthcare professionals assess your needs and provide tailored treatment.',
     cta: 'Begin The Process',
     href: '/services/family-practice',
-    image:
-      'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=900&q=90',
+    image: '/images/how-it-works-receive-care.jpg',
   },
   {
     number: '04',
@@ -39,12 +37,27 @@ const STEPS = [
       'Reach out after your visit for questions, support, and next steps.',
     cta: 'Complete Follow-Up',
     href: '/contact',
-    image:
-      'https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=900&q=90',
+    image: '/images/how-it-works-followup.jpg',
   },
 ]
 
-export function HowItWorks() {
+export function HowItWorks({ content }: { content?: HomepageContent['howItWorks'] }) {
+  const cmsSteps = content?.steps?.filter((step) => step.title && step.description)
+  const steps = cmsSteps?.length
+    ? cmsSteps.map((step, index) => ({
+        number: `0${index + 1}`,
+        title: step.title!,
+        description: step.description!,
+        cta: step.cta || 'Learn more',
+        href: step.href || '/contact',
+        image:
+          step.title!.toLowerCase() === 'receive care'
+            ? '/images/how-it-works-receive-care.jpg'
+            : step.imageUrl || STEPS[index]?.image || STEPS[0].image,
+        imageAlt: step.imageAlt || step.title!
+      }))
+    : STEPS.map((step) => ({ ...step, imageAlt: step.title }))
+
   return (
     <section className="bg-white px-6 pb-24 pt-32 sm:px-10 lg:px-16 lg:pb-32 lg:pt-36 antialiased">
       <div className="mx-auto max-w-[1400px]">
@@ -52,16 +65,16 @@ export function HowItWorks() {
         {/* Sleek Minimal Header */}
         <div className="mx-auto max-w-[760px] text-center mb-16">
           <h2 className="text-[38px] font-normal leading-[1.2] tracking-tight text-neutral-900 sm:text-[50px] lg:text-[58px] font-serif">
-            How it <span className="text-[#2AA7A1] italic font-serif font-light">Works</span>
+            {content?.heading || 'How it'} <span className="text-[#2AA7A1] italic font-serif font-light">{content?.accent || 'Works'}</span>
           </h2>
           <p className="mx-auto mt-4 max-w-[480px] text-[18px] font-normal leading-relaxed text-neutral-400">
-            Getting the right care is easier than ever. Just follow these simple steps.
+            {content?.description || 'Getting the right care is easier than ever. Just follow these simple steps.'}
           </p>
         </div>
 
         {/* Improved Cards Layout */}
         <div className="grid gap-x-6 gap-y-12 md:grid-cols-2 xl:grid-cols-4 items-stretch">
-          {STEPS.map((step) => (
+          {steps.map((step) => (
             <Link
               key={step.title}
               href={step.href}
@@ -71,6 +84,8 @@ export function HowItWorks() {
               {/* Image Frame with Liquid Chrome Badge */}
               <div className="relative aspect-[1.15/1] w-full shrink-0 overflow-hidden rounded-[24px] shadow-sm z-10">
                 <div
+                  aria-label={step.imageAlt}
+                  role="img"
                   className="absolute inset-0 bg-cover bg-center transition duration-500 group-hover:scale-105"
                   style={{ backgroundImage: `url(${step.image})` }}
                 />

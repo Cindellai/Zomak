@@ -2,6 +2,7 @@
 
 import { Star, ArrowLeft, ArrowRight } from 'lucide-react'
 import { useState } from 'react'
+import type { HomepageContent } from '@/lib/sanity/homepage'
 
 const REVIEWS = [
   {
@@ -38,11 +39,28 @@ const REVIEWS = [
   },
 ]
 
-export function PatientReviews() {
+export function PatientReviews({
+  content,
+  testimonials
+}: {
+  content?: HomepageContent['reviews']
+  testimonials?: HomepageContent['testimonials']
+}) {
   const [start, setStart] = useState(0)
   const visible = 4
+  const cmsReviews = testimonials?.filter((review) => review.quote && review.source)
+  const reviewData = cmsReviews?.length
+    ? cmsReviews.map((review, index) => ({
+        category: review.category || 'Patient Care',
+        badgeColor: index === 0 ? 'bg-[#F4F6F7] text-[#333333]' : 'bg-[#BFEAE7] text-[#333333]',
+        headline: review.headline || review.quote!,
+        body: review.quote!,
+        name: review.source!,
+        stars: review.rating || 5
+      }))
+    : REVIEWS
   const canPrev = start > 0
-  const canNext = start + visible < REVIEWS.length
+  const canNext = start + visible < reviewData.length
 
   return (
     <section className="bg-[#F4F6F7] px-5 py-16 sm:px-10 sm:py-24 lg:px-16 lg:py-32 border-t border-[#333333]/12">
@@ -53,18 +71,18 @@ export function PatientReviews() {
           <div className="lg:col-span-7">
           
             <h2 className="text-[38px] font-normal leading-tight text-[#333333] sm:text-[64px] lg:text-[76px]">
-              1800+{' '}
+              {content?.headingNumber || '1800+'}{' '}
               <em
                 className="font-normal italic text-[#2AA7A1] inline-block ml-1"
               >
-                Reviews
+                {content?.headingAccent || 'Reviews'}
               </em>
             </h2>
           </div>
 
           <div className="lg:col-span-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 lg:pl-6">
             <p className="text-[14px] leading-relaxed text-[#333333]/60 max-w-[340px]">
-              Real patient clinical feedback collected directly from our active care centers in Alberta.
+              {content?.description || 'Real patient clinical feedback collected directly from our active care centers in Alberta.'}
             </p>
             
             {/* Custom Styled Navigation Buttons */}
@@ -74,7 +92,7 @@ export function PatientReviews() {
 
         {/* 2. Refined Review Cards Grid */}
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {REVIEWS.slice(start, start + visible).map((review) => (
+          {reviewData.slice(start, start + visible).map((review) => (
             <article
               key={review.category}
               className="flex min-h-[360px] flex-col justify-between rounded-2xl bg-white p-7 border border-[#333333]/12 shadow-sm transition-all duration-300 hover:shadow-md hover:border-[#333333]/20"

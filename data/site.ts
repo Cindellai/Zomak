@@ -76,6 +76,9 @@ export const locations = [
     fax: '403-538-6747',
     status: 'Active',
     walkInStatus: 'Walk-ins now',
+    waitTime: 'Short wait',
+    heroImageUrl: '/images/locations/griffin-road-hero.jpg',
+    heroImageAlt: 'Reception area and branded sign at Zomak Medical Clinic on Griffin Road',
     services: [...commonLocationServices, 'Internal Medicine Specialist Care', 'Botox', 'Fillers', 'PRP Treatment for Hair and Facials', 'Vampire Breast Lift', 'Vampire Wing Lift']
   },
   {
@@ -92,6 +95,9 @@ export const locations = [
     fax: '403-538-6747',
     status: 'Active',
     walkInStatus: 'Walk-ins now',
+    waitTime: 'Short wait',
+    heroImageUrl: '/images/locations/centre-street-hero.jpg',
+    heroImageAlt: 'Exterior of Zomak Medical Clinic on Centre Street North in Calgary',
     services: [...commonLocationServices, 'Medical Piercings', 'Panel Physician Appointments']
   },
   {
@@ -108,6 +114,9 @@ export const locations = [
     fax: '403-906-4775',
     status: 'Active',
     walkInStatus: 'Call for walk-in availability',
+    waitTime: 'Call for current wait',
+    heroImageUrl: '/images/locations/fairview-hero.jpg',
+    heroImageAlt: 'Zomak Medical Clinic reception desk and branded sign',
     services: commonLocationServices
   },
   {
@@ -124,6 +133,9 @@ export const locations = [
     fax: '403-538-6747',
     status: 'Active',
     walkInStatus: 'Walk-ins now',
+    waitTime: 'Short wait',
+    heroImageUrl: '/images/locations/northmount-hero.jpg',
+    heroImageAlt: 'Prescription counter at Zomak Medical Clinic in Northmount',
     services: [...commonLocationServices, 'Internal Medicine Specialist Care']
   },
   {
@@ -140,6 +152,9 @@ export const locations = [
     fax: '403-538-6747',
     status: 'Active',
     walkInStatus: 'Call for walk-in availability',
+    waitTime: 'Call for current wait',
+    heroImageUrl: '/images/locations/fairview-hero.jpg',
+    heroImageAlt: 'Reception desk and branded sign at Zomak Medical Clinic in Fairview',
     services: commonLocationServices
   }
 ]
@@ -293,7 +308,7 @@ export const services = [
     title: 'Newborn & Infant Care',
     slug: 'newborn-infant-care',
     category: serviceCategories.pediatrics,
-    image: 'https://images.unsplash.com/photo-1609220136736-443140cffec6?auto=format&fit=crop&w=1600&q=85',
+    image: '/images/services/pediatric-newborn-infant-care.jpg',
     summary: 'Specialist care for newborn health, feeding, early development and infant medical concerns.',
     details: 'Pediatric assessment and guidance for newborns and infants. A clinic referral is required and should be faxed to 403-538-6747.',
     bestFor: ['Newborn health concerns', 'Feeding and early development', 'Infant wellness support'],
@@ -317,7 +332,7 @@ export const services = [
     title: 'Autism Spectrum Assessment & Support',
     slug: 'autism-spectrum-assessment-support',
     category: serviceCategories.pediatrics,
-    image: 'https://images.unsplash.com/photo-1602030028438-4cf153cbae9e?auto=format&fit=crop&w=1600&q=85',
+    image: '/images/services/pediatric-autism-support.jpg',
     summary: 'Specialist assessment and practical support for autism spectrum concerns.',
     details: 'Pediatric evaluation and support planning for children with developmental or autism spectrum concerns. A clinic referral is required.',
     bestFor: ['Developmental concerns', 'Autism spectrum assessment', 'Family support and next steps'],
@@ -341,7 +356,7 @@ export const services = [
     title: 'Acute & Chronic Illness Management',
     slug: 'pediatric-acute-chronic-illness-management',
     category: serviceCategories.pediatrics,
-    image: 'https://images.unsplash.com/photo-1576765608866-5b51046452be?auto=format&fit=crop&w=1600&q=85',
+    image: '/images/services/pediatric-chronic-illness-inhaler.jpg',
     summary: 'Specialist management for acute and chronic illness in infants, children and adolescents.',
     details: 'Pediatric assessment and coordinated management for short-term illness and ongoing medical conditions. A clinic referral is required.',
     bestFor: ['Complex acute illness', 'Chronic childhood conditions', 'Coordinated pediatric follow-up'],
@@ -392,7 +407,7 @@ export const services = [
     image: 'https://images.unsplash.com/photo-1581056771107-24ca5f033842?auto=format&fit=crop&w=1600&q=85',
     summary: 'Comprehensive primary and walk-in care for patients and families.',
     details: 'Accessible care for preventive health, common illnesses, chronic conditions and everyday medical needs.',
-    bestFor: ['Annual check-ups and preventative care', 'Diagnosis and treatment of common illnesses', 'Management of chronic conditions', 'Children’s routine health visits', 'Mental health assessment, treatment and support', 'Minor skin procedures', 'Medication review and management', 'Driver’s Medicals'],
+    bestFor: ['Preventive health & screening', 'Diagnosis and treatment of common illnesses', 'Management of chronic conditions', 'Children’s routine health visits', 'Mental health assessment, treatment and support', 'Minor skin procedures', 'Medication review and management', 'Driver’s Medicals'],
     whatToBring: ['Health card or ID', 'Medication list', 'Relevant records or forms'],
     visitFlow: ['Check in', 'Provider assessment', 'Treatment, prescription or follow-up plan'],
     faq: [{ question: 'Are walk-ins accepted?', answer: 'Yes. Live availability varies by clinic and is shown on each clinic page.' }]
@@ -413,13 +428,12 @@ export const services = [
     title: 'P-Shot (Priapus Shot)',
     slug: 'p-shot-priapus-shot',
     category: serviceCategories.mensHealth,
-    image:
-      'https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=1600&q=85',
+    image: '/images/services/mens-health-p-shot-prp.jpg',
     summary:
-      'A PRP-based intimate wellness treatment designed to support male sexual function and confidence.',
+      'An in-office, non-surgical PRP procedure intended to support erectile function and sexual performance.',
     details:
-      'The P-Shot uses platelet-rich plasma in a provider-guided treatment plan for patients seeking support with intimate wellness and performance concerns.',
-    bestFor: ['Male intimate wellness', 'Patients exploring PRP options', 'Provider-guided sexual health support'],
+      'The P-Shot, or Priapus Shot, uses platelet-rich plasma prepared from your own blood. The PRP is injected into the penis during an in-office, non-surgical procedure intended to help improve erectile function and sexual performance. A provider consultation determines whether treatment is appropriate.',
+    bestFor: ['Erectile function concerns', 'Patients exploring autologous PRP options', 'Provider-guided sexual health support'],
     whatToBring: ['Photo ID', 'Medication list', 'Relevant health history or prior treatment notes'],
     visitFlow: ['Private consultation', 'Provider assessment and treatment planning', 'Procedure instructions and follow-up guidance'],
     faq: [
@@ -449,30 +463,29 @@ export const services = [
     title: 'Bocox',
     slug: 'bocox',
     category: serviceCategories.mensHealth,
-    image:
-      'https://images.unsplash.com/photo-1616391182219-e080b4d1043a?auto=format&fit=crop&w=1600&q=85',
+    image: '/images/services/mens-health-bocox-treatment.jpg',
     summary:
-      'A cosmetic treatment option focused on refinement, appearance, and a refreshed natural look.',
+      'A provider-assessed botulinum toxin injection option for erectile dysfunction.',
     details:
-      'Bocox is offered as a provider-guided aesthetic service for patients interested in targeted cosmetic refinement.',
-    bestFor: ['Aesthetic consultation', 'Natural-looking refresh', 'Patients exploring non-surgical options'],
-    whatToBring: ['Photo ID', 'Medication and allergy list', 'Previous cosmetic treatment details if available'],
-    visitFlow: ['Aesthetic consultation', 'Treatment area review', 'Personalized plan and aftercare instructions'],
+      'Bocox is a provider-guided, off-label injectable option being studied for erectile dysfunction. A consultation is required to review the evolving evidence, risks, alternatives, and whether treatment may be appropriate.',
+    bestFor: ['Erectile dysfunction concerns', 'Provider-guided injectable treatment options', 'Private treatment consultation'],
+    whatToBring: ['Photo ID', 'Medication list', 'Relevant medical history and prior erectile dysfunction treatments'],
+    visitFlow: ['Private consultation', 'Treatment suitability and risk review', 'Personalized plan and follow-up guidance'],
     faq: [
       {
-        question: 'Will the provider review my goals first?',
+        question: 'What is Bocox?',
         answer:
-          'Yes. The visit begins with a discussion of goals, health history, and whether the treatment is appropriate.'
+          'Bocox is the informal name for botulinum toxin injections being studied as an option for erectile dysfunction.'
       },
       {
-        question: 'Is there downtime?',
+        question: 'Is Bocox appropriate for everyone?',
         answer:
-          'Downtime varies by patient and treatment plan. The provider will explain what to expect before you proceed.'
+          'No. A qualified provider must review your symptoms, health history, medications, prior treatments, and potential risks.'
       },
       {
-        question: 'Can this be combined with other services?',
+        question: 'Is the evidence established?',
         answer:
-          'The provider can discuss whether combining treatments is appropriate during the consultation.'
+          'Research is still evolving. Your provider will discuss the available evidence and established alternatives before recommending care.'
       },
       {
         question: 'Where is this service available?',
@@ -593,8 +606,7 @@ export const services = [
     title: 'PRP Treatment for Hair and Facials',
     slug: 'prp-hair-treatment-restoration',
     category: serviceCategories.aesthetics,
-    image:
-      'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=1600&q=85',
+    image: '/images/aesthetics-prp-treatment.jpg',
     summary:
       'PRP treatments for patients seeking support with hair restoration or facial rejuvenation.',
     details:
@@ -629,8 +641,7 @@ export const services = [
     title: 'Vampire Breast Lift',
     slug: 'vampire-breast-lift',
     category: serviceCategories.aesthetics,
-    image:
-      'https://images.unsplash.com/photo-1579154341098-e4e158cc7f55?auto=format&fit=crop&w=1600&q=85',
+    image: '/images/aesthetics-vampire-breast-lift.jpg',
     summary:
       'A non-surgical PRP aesthetic treatment option focused on natural breast-area rejuvenation.',
     details:
@@ -665,8 +676,7 @@ export const services = [
     title: 'Vampire Wing Lift',
     slug: 'vampire-wing-lift',
     category: serviceCategories.aesthetics,
-    image:
-      'https://images.unsplash.com/photo-1579684453377-48ec05c6b30a?auto=format&fit=crop&w=1600&q=85',
+    image: '/images/aesthetics-vampire-wing-lift.jpg',
     summary:
       'A non-surgical PRP labia rejuvenation treatment focused on appearance and tissue fullness.',
     details:
@@ -737,8 +747,7 @@ export const services = [
     title: 'Elderly Care',
     slug: 'elderly-care',
     category: serviceCategories.homeCare,
-    image:
-      'https://images.unsplash.com/photo-1581579186913-45ac3e6efe93?auto=format&fit=crop&w=1600&q=85',
+    image: '/images/services/home-care-elderly-care.jpg',
     summary:
       'Tailored senior care focused on independence, dignity, daily activity support, and quality of life.',
     details:
@@ -773,8 +782,7 @@ export const services = [
     title: 'Client Directed Homecare Invoicing Program',
     slug: 'client-directed-homecare-invoicing-program',
     category: serviceCategories.homeCare,
-    image:
-      'https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=1600&q=85',
+    image: '/images/services/home-care-client-directed-invoicing.jpg',
     summary:
       'Approved-provider support for Alberta Health Services’ Client-Directed Home Care Invoicing program.',
     details:
@@ -809,8 +817,7 @@ export const services = [
     title: 'Personal Care',
     slug: 'personal-care',
     category: serviceCategories.homeCare,
-    image:
-      'https://images.unsplash.com/photo-1576765608622-067973a79f53?auto=format&fit=crop&w=1600&q=85',
+    image: '/images/services/home-care-personal-care.jpg',
     summary:
       'Dignified support with personal hygiene and mobility to improve comfort, safety, and well-being.',
     details:
@@ -843,7 +850,7 @@ export const services = [
   },
   {
     title: 'Botox', slug: 'botox', category: serviceCategories.aesthetics,
-    image: 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=1600&q=85',
+    image: '/images/aesthetics-botox-treatment.jpg',
     summary: 'Personalized cosmetic Botox consultations and treatment by a qualified provider.',
     details: 'A provider reviews your goals, medical history and treatment areas before creating an individualized plan.',
     bestFor: ['Expression lines', 'Forehead and eye-area concerns', 'Personalized aesthetic goals'],
@@ -853,7 +860,7 @@ export const services = [
   },
   {
     title: 'Fillers', slug: 'fillers', category: serviceCategories.aesthetics,
-    image: 'https://images.unsplash.com/photo-1515377905703-c4788e51af15?auto=format&fit=crop&w=1600&q=85',
+    image: '/images/aesthetics-fillers.jpg',
     summary: 'Dermal filler treatments planned around your features and aesthetic goals.',
     details: 'A personalized consultation covers treatment areas, product options, expectations and aftercare.',
     bestFor: ['Facial volume', 'Contour and balance', 'Personalized aesthetic goals'],

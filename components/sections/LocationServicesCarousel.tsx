@@ -109,30 +109,32 @@ export function LocationServicesCarousel({ services }: { services: Service[] }) 
         {count >= 4 && (
           <div className="relative w-full">
             <div className="flex gap-8 overflow-x-auto pb-8 scrollbar-thin scrollbar-thumb-neutral-200 scroll-smooth snap-x snap-mandatory">
-              {services.map((service, index) => (
-                <Link href={`/services/details/${service.slug}`}
-                  key={`${service.slug}-${service.title}`} 
-                  className="group relative flex h-[400px] w-[82vw] shrink-0 snap-start flex-col justify-end overflow-hidden rounded-xl border border-[#333333]/5 p-5 shadow-sm sm:h-[440px] sm:w-[420px] sm:p-8 lg:h-[500px] lg:w-[480px] lg:p-10"
-                >
-                  <img 
-                    src={serviceImages[index % serviceImages.length]} 
-                    alt={service.title}
-                    className="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent transition-all duration-300" />
-                  <div className="relative z-10 space-y-4">
-                    <h4 className="text-[28px] font-normal leading-tight text-white sm:text-3xl">
-                      {getCarouselTitle(service.title)}
-                    </h4>
-                    <p className="text-sm text-white/80 line-clamp-2">
-                      {service.summary}
-                    </p>
-                    <span className="inline-flex border-b border-white/45 pb-1 text-sm text-white">
-                      View service details &rarr;
-                    </span>
-                  </div>
-                </Link>
-              ))}
+              {services.map((service, index) => {
+                return (
+                  <Link href={`/services/details/${service.slug}`}
+                    key={`${service.slug}-${service.title}`}
+                    className="group relative flex h-[400px] w-[82vw] shrink-0 snap-start flex-col justify-end overflow-hidden rounded-xl border border-[#333333]/5 p-5 shadow-sm sm:h-[440px] sm:w-[420px] sm:p-8 lg:h-[500px] lg:w-[480px] lg:p-10"
+                  >
+                    <img
+                      src={service.image || serviceImages[index % serviceImages.length]}
+                      alt={service.title}
+                      className="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent transition-all duration-300" />
+                    <div className="relative z-10 space-y-4">
+                      <h4 className="text-[28px] font-normal leading-tight text-white sm:text-3xl">
+                        {getCarouselTitle(service.title)}
+                      </h4>
+                      <p className="text-sm text-white/80 line-clamp-2">
+                        {service.summary}
+                      </p>
+                      <span className="inline-flex border-b border-white/45 pb-1 text-sm text-white">
+                        View service details &rarr;
+                      </span>
+                    </div>
+                  </Link>
+                )
+              })}
             </div>
             {/* Swipe prompt */}
             <div className="mt-4 flex justify-end">

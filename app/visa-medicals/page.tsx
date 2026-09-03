@@ -18,19 +18,6 @@ import {
 import { locations } from '@/data/site'
 import { visaMedicalCountries } from '@/data/visa-medicals'
 
-const visaMedicalLocationImages: Record<string, string> = {
-  'griffin-road-medical-clinic':
-    'https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=900&q=85',
-  'centre-street-north-medical-clinic':
-    'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=900&q=85',
-  lewisburg:
-    'https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=900&q=85',
-  northmount:
-    'https://images.unsplash.com/photo-1581056771107-24ca5f033842?auto=format&fit=crop&w=900&q=85',
-  fairview:
-    'https://images.unsplash.com/photo-1586773860418-d37222d8fce3?auto=format&fit=crop&w=900&q=85'
-}
-
 export default function VisaMedicalsPage() {
   const [searchQuery, setSearchQuery] = useState('')
   const [introVisible, setIntroVisible] = useState(false)
@@ -250,11 +237,8 @@ export default function VisaMedicalsPage() {
                 {/* Clinic Cover Image - Clean (Pill Overlays Removed) */}
                 <div className="relative aspect-[1.55/1] overflow-hidden bg-[#F4F6F7] sm:aspect-[1.65/1]">
                   <img
-                    src={
-                      visaMedicalLocationImages[location.slug] ??
-                      'https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=900&q=85'
-                    }
-                    alt={`${location.name} clinic`}
+                    src={location.heroImageUrl}
+                    alt={location.heroImageAlt}
                     className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#333333]/10 via-transparent to-transparent" />

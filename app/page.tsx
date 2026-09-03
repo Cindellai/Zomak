@@ -10,24 +10,33 @@ import { PatientReviews } from '@/components/sections/PatientReviews'
 import { FAQ } from '@/components/sections/FAQ'
 import { CTA } from '@/components/sections/Cta'
 import { GriffinAesthetics } from '@/components/sections/GriffinAesthetics'
+import { WalkInStatusBanner } from '@/components/sections/WalkInStatusBanner'
+import { LewisburgNowOpen } from '@/components/sections/LewisburgNowOpen'
+import { getHomepageContent } from '@/lib/sanity/homepage'
 
-export default function Home() {
+export default async function Home() {
+  const homepage = await getHomepageContent()
+
   return (
     <>
-      <div className="sticky top-16 z-40 bg-[#2AA7A1] px-5 py-3 text-center text-sm font-medium text-white shadow-md">
-        Walk-ins now · Select a clinic or call ahead for live availability
-      </div>
-      <Hero />
-      <WalkInsAvailable />
-      <About />
-      <ServiceGrid />
-      <FamilyPracticeCta />
-      <HowItWorks />
-      <GriffinAesthetics />
-      <Locations />
-      <PatientReviews />
-      <FAQ />
-      <CTA />
+      <WalkInStatusBanner
+        status="Walk-ins now"
+        waitTime="Short wait"
+        href="/#locations"
+        actionLabel="View clinics"
+      />
+      <Hero content={homepage?.hero} />
+      <WalkInsAvailable content={homepage?.walkIns} />
+      <About content={homepage?.about} />
+      <ServiceGrid content={homepage?.services} serviceCards={homepage?.serviceCards} />
+      <LewisburgNowOpen />
+      <HowItWorks content={homepage?.howItWorks} />
+      <FamilyPracticeCta content={homepage?.familyPractice} />
+      <GriffinAesthetics content={homepage?.aesthetics} />
+      <Locations content={homepage?.locations} />
+      <PatientReviews content={homepage?.reviews} testimonials={homepage?.testimonials} />
+      <FAQ content={homepage?.faq} />
+      <CTA content={homepage?.finalCta} />
     </>
   )
 }

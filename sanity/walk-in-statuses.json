@@ -1,0 +1,7 @@
+[
+  { "_id": "walkInStatus.griffin-road", "_type": "walkInStatus", "clinic": { "_type": "reference", "_ref": "location.griffin-road-medical-clinic" }, "status": "Walk-ins now", "waitTime": "Short wait" },
+  { "_id": "walkInStatus.centre-street", "_type": "walkInStatus", "clinic": { "_type": "reference", "_ref": "location.centre-street-north-medical-clinic" }, "status": "Walk-ins now", "waitTime": "Short wait" },
+  { "_id": "walkInStatus.lewisburg", "_type": "walkInStatus", "clinic": { "_type": "reference", "_ref": "location.lewisburg" }, "status": "Call for walk-in availability", "waitTime": "Call for current wait" },
+  { "_id": "walkInStatus.northmount", "_type": "walkInStatus", "clinic": { "_type": "reference", "_ref": "location.northmount" }, "status": "Walk-ins now", "waitTime": "Short wait" },
+  { "_id": "walkInStatus.fairview", "_type": "walkInStatus", "clinic": { "_type": "reference", "_ref": "location.fairview" }, "status": "Call for walk-in availability", "waitTime": "Call for current wait" }
+]

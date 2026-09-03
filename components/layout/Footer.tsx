@@ -24,7 +24,7 @@ const followLinks = [
 
 export function Footer() {
   return (
-    <footer className="bg-[#333333] text-white">
+    <footer className="bg-black text-white">
       <div className="mx-auto max-w-[1400px] overflow-hidden px-5 py-10 sm:px-10 lg:px-16 lg:py-14">
         <div className="flex flex-col gap-7 md:flex-row md:items-center md:justify-between">
           <p

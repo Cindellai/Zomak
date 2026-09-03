@@ -25,48 +25,56 @@ const categoryDetails: Record<
     image: string
     overview: string
     accentImage?: string
+    heroImage?: string
   }
 > = {
   Aesthetics: {
     description: 'Aesthetic and regenerative treatments offered through personalized consultations.',
-    image: 'https://images.unsplash.com/photo-1519699047748-de8e457a634e?auto=format&fit=crop&w=1800&q=85',
-    accentImage: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=800&q=80',
+    image: '/images/services/aesthetics-facial-treatment.jpg',
+    heroImage: '/images/services/aesthetics-hero-women.jpg',
+    accentImage: '/images/services/aesthetics-botox-consultation.jpg',
     overview: 'Aesthetics services are organized for patients exploring non-surgical cosmetic, regenerative, and appearance-focused care.'
   },
   'Internal Medicine': {
     description: 'Referral-based specialist care for complex and chronic adult medical conditions.',
-    image: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1800&q=90',
-    accentImage: 'https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=900&q=85',
+    image: '/images/services/internal-medicine-exam.jpg',
+    heroImage: '/images/services/internal-medicine-hero-v2.jpg',
+    accentImage: '/images/services/internal-medicine-diabetes.jpg',
     overview: 'Internal Medicine provides specialist assessment and coordinated care for complex and chronic adult medical conditions.'
   },
   'Family Practice': {
     description: 'Primary care support for children, families, and routine health concerns.',
     image: 'https://images.unsplash.com/photo-1609220136736-443140cffec6?auto=format&fit=crop&w=1800&q=85',
+    heroImage: '/images/services/family-practice-hero.png',
     accentImage: 'https://images.unsplash.com/photo-1581056771107-24ca5f033842?auto=format&fit=crop&w=900&q=85',
     overview: 'Family practice visits focus on practical, relationship-based care for common concerns, routine checkups, and prevention.'
   },
   'Pediatric Care': {
     description: 'Specialist care for newborns, infants, children and adolescents. A clinic referral is required.',
     image: 'https://images.unsplash.com/photo-1609220136736-443140cffec6?auto=format&fit=crop&w=1800&q=85',
-    accentImage: 'https://images.unsplash.com/photo-1581056771107-24ca5f033842?auto=format&fit=crop&w=900&q=85',
+    heroImage: '/images/services/pediatric-care-hero.jpg',
+    accentImage: '/images/services/pediatric-care-children-activity.jpg',
     overview: 'Pediatric services include newborn care, ADHD and autism assessment, development support, and management of acute and chronic illness.'
   },
   "Women's Health": {
     description: 'Women’s preventive and reproductive health support across life stages.',
-    image: 'https://images.unsplash.com/photo-1584820927498-cfe5211fd8bf?auto=format&fit=crop&w=1800&q=85',
-    accentImage: 'https://images.unsplash.com/photo-1584820927498-cfe5211fd8bf?auto=format&fit=crop&w=900&q=85',
+    image: '/images/services/womens-health-wellness.jpg',
+    heroImage: '/images/services/womens-health-group-hero.jpg',
+    accentImage: '/images/services/womens-health-symbol-hero.jpg',
     overview: 'Women’s health services include menopausal support and treatment, PAP smears, and IUD consultations and referrals.'
   },
   "Men's Health": {
     description: 'Private men’s health and intimate wellness services reviewed with a provider.',
-    image: 'https://images.unsplash.com/photo-1537368910025-700350fe46c7?auto=format&fit=crop&w=1800&q=85',
-    accentImage: 'https://images.unsplash.com/photo-1582750433449-648ed127bb54?auto=format&fit=crop&w=900&q=85',
+    image: '/images/services/mens-health-cycling.jpg',
+    heroImage: '/images/services/mens-health-running.jpg',
+    accentImage: '/images/services/mens-health-battle-ropes.jpg',
     overview: 'Men’s health services are designed for patients seeking private, provider-guided support for specialized treatment planning.'
   },
   'Zomak Home Care': {
     description: 'Home care services for seniors, families, caregivers, and client-directed support.',
-    image: 'https://images.unsplash.com/photo-1584515933487-779824d29309?auto=format&fit=crop&w=1800&q=85',
-    accentImage: 'https://images.unsplash.com/photo-1581579186913-45ac3e6efe93?auto=format&fit=crop&w=900&q=85',
+    image: '/images/services/home-care-family-support.jpg',
+    heroImage: '/images/services/home-care-hero-caregiver.jpg',
+    accentImage: '/images/services/home-care-health-monitoring.jpg',
     overview: 'Zomak Home Care services support daily living, respite, personal care, and approved home care program coordination.'
   }
 }
@@ -125,7 +133,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
         {/* Full Cinematic Soft Background */}
         <div className="absolute inset-0 z-0">
           <img
-            src={details.image}
+            src={details.heroImage || details.image}
             alt={displayCategory}
             className="h-full w-full object-cover object-center brightness-[0.74] contrast-[0.98]"
           />
@@ -142,7 +150,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
               className="text-[38px] font-normal leading-tight text-white sm:text-[56px] lg:text-[68px]"
               style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
             >
-              Our {displayCategory.toLowerCase()} framework is a profound journey into wellness
+              {displayCategory}
             </h1>
             
             <p className="max-w-[620px] pt-2 text-sm font-medium leading-relaxed text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.45)] sm:text-base">
@@ -223,9 +231,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
         <section className="bg-[#BFEAE7] px-6 py-14 sm:px-10 lg:px-16 lg:py-20">
           <div className="mx-auto grid max-w-[1400px] gap-8 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
             <div>
-              <p className="text-sm font-medium uppercase tracking-[0.16em] text-[#247F7A]">
-                Referral required
-              </p>
+              
               <h2
                 className="mt-3 max-w-[820px] text-[34px] font-normal leading-tight text-[#333333] sm:text-[44px]"
                 style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
@@ -241,7 +247,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
               className="inline-flex min-w-[280px] flex-col rounded-2xl bg-[#333333] px-8 py-6 text-white shadow-lg"
               aria-label="Referral fax number 403-538-6747"
             >
-              <span className="text-sm text-white/65">Referral fax</span>
+              <span className="text-sm text-white/65">Fax</span>
               <span className="mt-1 text-[28px] font-medium tracking-tight sm:text-[32px]">
                 403-538-6747
               </span>
@@ -290,11 +296,47 @@ export default async function ServicePage({ params }: ServicePageProps) {
         <LocationServicesCarousel services={categoryServices} />
       </div>
 
-      <div className="mx-auto max-w-[1400px] px-6 py-8 sm:px-10 lg:px-16">
-        <ServiceLocationsCarousel locations={availableLocations} />
-      </div>
+      <ServiceLocationsCarousel locations={availableLocations} />
 
-      <ServiceContactCta label={serviceCtaLabel} href={serviceCtaHref} />
+      <ServiceContactCta
+        label={serviceCtaLabel}
+        href={serviceCtaHref}
+        image={
+          category === 'Aesthetics'
+            ? '/images/home-aesthetics-cta-group.jpg'
+            : category === 'Internal Medicine'
+              ? '/images/services/internal-medicine-patients.jpg'
+              : category === 'Family Practice'
+                ? '/images/services/family-practice-cta.jpg'
+                : category === "Women's Health"
+                  ? '/images/services/womens-health-hero.jpg'
+                  : category === "Men's Health"
+                    ? '/images/services/mens-health-training-pair.jpg'
+                    : category === 'Pediatric Care'
+                      ? '/images/services/pediatric-care-cta-family.jpg'
+                      : category === 'Zomak Home Care'
+                        ? '/images/services/home-care-cta-independence.jpg'
+                        : undefined
+        }
+        imageAlt={
+          category === 'Aesthetics'
+            ? 'A diverse group of women smiling together'
+            : category === 'Internal Medicine'
+              ? 'A diverse group of patients smiling together'
+              : category === 'Family Practice'
+                ? 'A family relaxing and laughing together at home'
+                : category === "Women's Health"
+                  ? 'A physician speaking with a patient about women’s healthcare'
+                  : category === "Men's Health"
+                    ? 'Two men training together outdoors'
+                    : category === 'Pediatric Care'
+                      ? 'Parents spending time at home with their young child'
+                      : category === 'Zomak Home Care'
+                        ? 'An older adult using a mobility aid at home'
+                        : undefined
+        }
+        imagePosition={category === 'Family Practice' ? 'center 28%' : undefined}
+      />
 
     </section>
   )
@@ -303,6 +345,13 @@ export default async function ServicePage({ params }: ServicePageProps) {
 function getDisplayedServices(category: string, categoryServices: typeof services) {
   if (category === 'Pediatric Care') {
     return categoryServices.filter((service) => service.slug !== 'pediatric-care')
+  }
+
+  if (category === "Men's Health") {
+    return categoryServices.map((service) => ({
+      ...service,
+      image: getMensHealthServiceImage(service.title)
+    }))
   }
 
   const expandableServiceTitles: Record<string, string> = {
@@ -324,13 +373,98 @@ function getDisplayedServices(category: string, categoryServices: typeof service
     ...expandableService,
     title,
     slug: `${expandableService.slug}?focus=${encodeURIComponent(title)}`,
-    summary: getSpecificServiceSummary(title)
+    summary: getSpecificServiceSummary(title),
+    image:
+      category === 'Internal Medicine'
+        ? getInternalMedicineServiceImage(title)
+        : category === 'Family Practice'
+          ? getFamilyPracticeServiceImage(title)
+          : category === "Women's Health"
+            ? getWomensHealthServiceImage(title)
+            : expandableService.image
   }))
+}
+
+function getMensHealthServiceImage(title: string) {
+  const serviceImages: Record<string, string> = {
+    'P-Shot (Priapus Shot)': '/images/services/mens-health-p-shot-prp.jpg',
+    Bocox: '/images/services/mens-health-bocox-treatment.jpg',
+    'Shockwave for Erectile Dysfunction':
+      '/images/services/mens-health-shockwave-graphic.jpg',
+    Trimix: '/images/services/mens-health-trimix-graphic.jpg',
+    'Testosterone Replacement': '/images/services/mens-health-running.jpg'
+  }
+
+  return serviceImages[title] || '/images/services/mens-health-running.jpg'
+}
+
+function getWomensHealthServiceImage(title: string) {
+  const serviceImages: Record<string, string> = {
+    'General Women’s Health': '/images/services/womens-health-hero.jpg',
+    'Menopausal support & treatment':
+      '/images/services/womens-health-menopause.jpg',
+    'PAP smears': '/images/services/womens-health-pap-smear.jpg',
+    'IUD consultations and referrals': '/images/services/womens-health-iud.jpg'
+  }
+
+  return serviceImages[title] || '/images/services/womens-health-hero.jpg'
+}
+
+function getFamilyPracticeServiceImage(title: string) {
+  const serviceImages: Record<string, string> = {
+    'Preventive health & screening':
+      '/images/services/internal-medicine-blood-pressure.jpg',
+    'Diagnosis and treatment of common illnesses':
+      '/images/services/internal-medicine-exam.jpg',
+    'Management of chronic conditions':
+      '/images/services/internal-medicine-diabetes.jpg',
+    'Children’s routine health visits':
+      '/images/services/pediatric-care-hero.jpg',
+    'Mental health assessment, treatment and support':
+      '/images/services/internal-medicine-consultation.jpg',
+    'Minor skin procedures':
+      '/images/services/internal-medicine-genital-dermatology.jpg',
+    'Medication review and management':
+      'https://images.unsplash.com/photo-1624711076872-ecdbc5ade023?auto=format&fit=crop&w=1200&q=85',
+    'Driver’s Medicals':
+      'https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?auto=format&fit=crop&w=1200&q=85'
+  }
+
+  return serviceImages[title] || '/images/services/family-practice-hero.png'
+}
+
+function getInternalMedicineServiceImage(title: string) {
+  const serviceImages: Record<string, string> = {
+    'Comprehensive care of chronic medical conditions':
+      '/images/services/internal-medicine-chronic.jpg',
+    'Cardiovascular risk assessment and risk reduction / stroke prevention clinics':
+      '/images/services/internal-medicine-cardiovascular.jpg',
+    'Chronic kidney disease, proteinuria or hematuria':
+      '/images/services/internal-medicine-kidney.jpg',
+    'Cognitive impairment or suspected dementia':
+      '/images/services/internal-medicine-cognitive.jpg',
+    'Bone health and osteoporosis': '/images/services/internal-medicine-bone.jpg',
+    'Coordinating care for multiple comorbidities':
+      '/images/services/internal-medicine-comorbidities.jpg',
+    'Hypermobility assessment': '/images/services/internal-medicine-exam.jpg',
+    'Medically unexplained symptoms':
+      '/images/services/internal-medicine-consultation.jpg',
+    'Unexplained myalgias and arthralgias, fibromyalgia':
+      '/images/services/internal-medicine-myalgia-fibromyalgia.jpg',
+    'Abnormal liver enzymes':
+      '/images/services/internal-medicine-liver-enzymes.jpg',
+    'Genital dermatology':
+      '/images/services/internal-medicine-genital-dermatology.jpg',
+    'Hepatitis B or Hepatitis C management':
+      '/images/services/internal-medicine-hepatitis.jpg'
+  }
+
+  return serviceImages[title] || '/images/services/internal-medicine-consultation.jpg'
 }
 
 function getSpecificServiceSummary(title: string) {
   const summaries: Record<string, string> = {
-    'Annual check-ups and preventative care': 'Routine health reviews, screening and preventive guidance.',
+    'Preventive health & screening': 'Age-appropriate screening, risk review and preventive health guidance.',
     'Diagnosis and treatment of common illnesses': 'Assessment and treatment for everyday illnesses and health concerns.',
     'Management of chronic conditions': 'Ongoing care for conditions such as diabetes, hypertension, asthma, and high cholesterol.',
     'Children’s routine health visits': 'Routine primary-care visits supporting children’s health and development.',

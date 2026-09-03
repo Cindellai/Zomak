@@ -2,6 +2,7 @@
 
 import { Minus, Plus, X } from 'lucide-react'
 import { useState } from 'react'
+import type { HomepageContent } from '@/lib/sanity/homepage'
 
 const FAQS = [
   {
@@ -41,8 +42,10 @@ const FAQS = [
   },
 ]
 
-export function FAQ() {
+export function FAQ({ content }: { content?: HomepageContent['faq'] }) {
   const [openIndex, setOpenIndex] = useState(0)
+  const cmsItems = content?.items?.filter((item) => item.question && item.answer)
+  const items = cmsItems?.length ? cmsItems.map((item) => ({ question: item.question!, answer: item.answer! })) : FAQS
 
   return (
     <section className="bg-white px-6 py-20 sm:px-10 lg:px-16 lg:py-28">
@@ -55,13 +58,13 @@ export function FAQ() {
               className="text-[42px] font-normal leading-tight text-[#333333] sm:text-[76px] lg:text-[92px]"
               style={{ fontFamily: 'Georgia, serif' }}
             >
-              FAQ<em className="italic">s</em>
+              {content?.heading || 'FAQs'}
             </h2>
           </div>
 
           {/* Right — accordion */}
           <div className="border-t border-[#333333]/15">
-            {FAQS.map((faq, index) => {
+            {items.map((faq, index) => {
               const isOpen = openIndex === index
 
               return (

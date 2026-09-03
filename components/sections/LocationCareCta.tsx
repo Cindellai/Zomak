@@ -56,8 +56,8 @@ export function LocationCareCta({
             <div className="h-full min-h-[500px] overflow-hidden rounded-[20px] lg:min-h-[580px]">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="https://images.unsplash.com/photo-1551190822-a9333d879b1f?w=1400&q=90"
-                alt="Doctor with patient"
+                src="/images/locations/centre-street-hero.jpg"
+                alt="Exterior of Zomak Medical Clinic on Centre Street North in Calgary"
                 className="h-full w-full object-cover object-center"
               />
             </div>

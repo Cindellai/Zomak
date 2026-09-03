@@ -184,7 +184,7 @@ function PanelPhysicianPage() {
 
 function getFocusedServiceDetails(title: string) {
   const details: Record<string, string> = {
-    'Annual check-ups and preventative care': 'A routine health visit focused on prevention, age-appropriate screening, risk-factor review, and practical steps to support long-term wellness.',
+    'Preventive health & screening': 'A preventive health visit focused on age-appropriate screening, risk-factor review, and practical steps to support long-term wellness.',
     'Diagnosis and treatment of common illnesses': 'Assessment and treatment for common symptoms and illnesses, with prescriptions, testing, or follow-up arranged when clinically appropriate.',
     'Management of chronic conditions': 'Ongoing primary-care support for conditions such as diabetes, hypertension, asthma, and high cholesterol, including monitoring, medication review, lifestyle guidance, and coordinated follow-up.',
     'Comprehensive care of chronic medical conditions': 'Specialist care for complex or ongoing conditions such as diabetes, hypertension, asthma, heart failure, COPD, and dyslipidemia, with coordinated monitoring and treatment planning.',

@@ -1,8 +1,8 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import Image from 'next/image'
 import Link from 'next/link'
+import type { HomepageContent } from '@/lib/sanity/homepage'
 
 const STATS = [
   { value: '5K+', label: 'Patients Served' },
@@ -11,7 +11,9 @@ const STATS = [
   { value: '98%', label: 'Patient Satisfaction' },
 ]
 
-export function About() {
+const fallbackStatement = 'We are dedicated to providing high-quality medical care tailored to your needs. Our team focuses on family health and walk-in care, ensuring every patient feels heard, supported, and confident in their care.'
+
+export function About({ content }: { content?: HomepageContent['about'] }) {
   const containerRef = useRef<HTMLDivElement>(null)
   const [scrollProgress, setScrollProgress] = useState(0)
 
@@ -47,42 +49,9 @@ export function About() {
     }
   }, [])
 
-  const leftImageY = -20 + scrollProgress * 80
-  const rightImageY = 30 - scrollProgress * 80
-  const words = [
-    'We',
-    'are',
-    'dedicated',
-    'to',
-    'providing',
-    'high-quality',
-    'medical',
-    'care',
-    'tailored',
-    'to',
-    'your',
-    'needs.',
-    'Our',
-    'team',
-    'focuses',
-    'on',
-    'family',
-    'health',
-    'and',
-    'walk-in',
-    'care,',
-    'ensuring',
-    'every',
-    'patient',
-    'feels',
-    'heard,',
-    'supported,',
-    'and',
-    'confident',
-    'in',
-    'their',
-    'care.'
-  ]
+  const statement = content?.statement || fallbackStatement
+  const words = statement.split(/\s+/)
+  const stats = content?.stats?.filter((item) => item.value && item.label) || STATS
 
   return (
     <section 
@@ -93,42 +62,14 @@ export function About() {
         
         <div className="relative text-center">
           <span className="relative z-20 mb-5 block text-[18px] font-normal text-[#2AA7A1] sm:mb-6 sm:text-[20px]">
-            About Us
+            {content?.eyebrow || 'About Us'}
           </span>
-
-          {/* Left Parallax Floating Image */}
-          <div 
-            style={{ transform: `translateY(${leftImageY}px)` }}
-            className="absolute left-[-40px] top-[100px] z-10 hidden xl:block opacity-90 hover:opacity-100 transition-opacity duration-300"
-          >
-            <Image
-              src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=700&q=90"
-              alt="Doctor consulting with patient"
-              width={220}
-              height={140}
-              className="h-[130px] w-[210px] rotate-[-4deg] rounded-[20px] object-cover shadow-[0_12px_32px_rgba(0,0,0,0.04)]"
-            />
-          </div>
-
-          {/* Right Parallax Floating Image */}
-          <div 
-            style={{ transform: `translateY(${rightImageY}px)` }}
-            className="absolute right-[-40px] top-[120px] z-10 hidden xl:block opacity-90 hover:opacity-100 transition-opacity duration-300"
-          >
-            <Image
-              src="https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?w=700&q=90"
-              alt="Medical instruments and tools"
-              width={220}
-              height={140}
-              className="h-[130px] w-[210px] rotate-[4deg] rounded-[20px] object-cover shadow-[0_12px_32px_rgba(0,0,0,0.04)]"
-            />
-          </div>
 
           {/* ================= SCROLL TEXT REVEAL ================= */}
           <div className="relative z-20 mx-auto max-w-[1040px] select-none">
             <h2
               className="text-[30px] font-normal leading-snug tracking-tight text-black sm:text-[40px] lg:text-[48px]"
-              aria-label="We are dedicated to providing high-quality medical care tailored to your needs. Our team focuses on family health and walk-in care, ensuring every patient feels heard, supported, and confident in their care."
+              aria-label={statement}
             >
               {words.map((word, index) => {
                 const threshold = index / words.length
@@ -152,17 +93,17 @@ export function About() {
           {/* Action Link Button */}
           <div className="relative z-20 mt-12">
             <Link
-              href="/about"
+              href={content?.buttonHref || '/about'}
               className="inline-flex items-center justify-center rounded-full bg-[#2AA7A1] px-10 py-4 text-[14px] font-normal text-white no-underline shadow-sm transition-all duration-200 hover:bg-[#228e89] hover:shadow-md"
             >
-              More About Us
+              {content?.buttonLabel || 'More About Us'}
             </Link>
           </div>
         </div>
 
         {/* Stats Grid Container */}
         <div className="mx-auto mt-20 grid max-w-[1200px] grid-cols-2 gap-x-5 gap-y-10 border-t border-neutral-100 pt-10 sm:mt-28 sm:gap-x-8 sm:gap-y-16 sm:pt-16 lg:grid-cols-4">
-          {STATS.map(({ value, label }) => (
+          {stats.map(({ value, label }) => (
             <div key={label} className="text-center">
               <p className="text-[38px] font-normal leading-none tracking-tight text-black sm:text-[58px] lg:text-[68px]">
                 {value}

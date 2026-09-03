@@ -5,12 +5,13 @@ import Link from 'next/link'
 import { useState } from 'react'
 
 import { locations } from '@/data/site'
+import type { HomepageContent } from '@/lib/sanity/homepage'
 
-export function Locations() {
+export function Locations({ content }: { content?: HomepageContent['locations'] }) {
   const [openIndex, setOpenIndex] = useState(0)
 
   return (
-    <section className="border-t border-[#333333]/10 bg-[#F4F6F7] px-4 py-16 antialiased sm:px-10 sm:py-20 lg:px-16 lg:py-32">
+    <section id="locations" className="border-t border-[#333333]/10 bg-[#F4F6F7] px-4 py-16 antialiased sm:px-10 sm:py-20 lg:px-16 lg:py-32">
       <div className="mx-auto max-w-[1400px]">
         <div className="grid gap-12 lg:grid-cols-12 lg:items-start xl:gap-16">
 
@@ -22,10 +23,10 @@ export function Locations() {
               <h2
                 className="text-[40px] font-normal leading-tight text-[#333333] sm:text-[58px] lg:text-[72px]"
               >
-                Our Locations
+                {content?.heading || 'Our Locations'}
               </h2>
               <p className="mt-5 max-w-[560px] text-[18px] leading-8 text-[#333333]">
-                Find ZOMAK clinics across Calgary and Cochrane, then open directions or review the clinic details before you visit.
+                {content?.description || 'Find ZOMAK clinics across Calgary and Cochrane, then open directions or review the clinic details before you visit.'}
               </p>
             </div>
 
@@ -126,8 +127,8 @@ export function Locations() {
             <div className="sticky top-28 relative aspect-[4/5] w-full overflow-hidden rounded-[2rem] bg-[#F4F6F7] shadow-[0_24px_70px_rgba(16,42,50,0.08)]">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=1600&q=90"
-                alt="Medical clinic pristine care interior reception hub"
+                src={locations[openIndex]?.heroImageUrl || content?.imageUrl}
+                alt={locations[openIndex]?.heroImageAlt || content?.imageAlt || locations[openIndex]?.name}
                 className="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-700 hover:scale-[1.02]"
               />
                 <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#333333]/68 to-transparent p-7 pt-24">

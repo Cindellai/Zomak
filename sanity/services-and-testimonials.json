@@ -1,0 +1,114 @@
+[
+  {
+    "_id": "service.pediatric-care",
+    "_type": "service",
+    "title": "Pediatric Care",
+    "slug": { "_type": "slug", "current": "pediatric-care" },
+    "category": "Pediatric Care",
+    "summary": "Friendly healthcare for infants, children, and adolescents, including routine checkups and family guidance.",
+    "imageAlt": "Pediatric care for children and families",
+    "featuredOnHomepage": true,
+    "highlights": ["Newborn and infant care", "ADHD assessment and management", "Autism spectrum assessment and support", "Growth and development support", "Acute and chronic illness management"]
+  },
+  {
+    "_id": "service.womens-health-care",
+    "_type": "service",
+    "title": "Women's Health Care",
+    "slug": { "_type": "slug", "current": "womens-health-care" },
+    "category": "Women's Health",
+    "summary": "Wellness visits, prenatal support, reproductive health, and menopause care across life stages.",
+    "imageAlt": "Women's healthcare consultation",
+    "featuredOnHomepage": true,
+    "highlights": ["General women's health", "Menopausal support and treatment", "PAP smears", "IUD consultations and referrals"]
+  },
+  {
+    "_id": "service.drivers-medical",
+    "_type": "service",
+    "title": "Driver's Medical",
+    "slug": { "_type": "slug", "current": "drivers-medical" },
+    "category": "Family Practice",
+    "summary": "Driver's medical exams for patients who need health documentation for licensing or driving requirements.",
+    "imageAlt": "Driver medical examination",
+    "featuredOnHomepage": true,
+    "highlights": ["Commercial driver medicals", "License renewal requirements", "Employer or regulatory forms"]
+  },
+  {
+    "_id": "service.family-practice-walk-in-care",
+    "_type": "service",
+    "title": "Family Practice & Walk-in Care",
+    "slug": { "_type": "slug", "current": "family-practice-walk-in-care" },
+    "category": "Family Practice",
+    "summary": "Comprehensive primary and walk-in care for patients and families.",
+    "imageAlt": "Family practice and walk-in care",
+    "featuredOnHomepage": true,
+    "highlights": ["Annual check-ups and preventative care", "Diagnosis and treatment of common illnesses", "Management of chronic conditions", "Children's routine health visits", "Mental health assessment, treatment and support", "Minor skin procedures", "Medication review and management", "Driver's Medicals"],
+    "whatToBring": ["Health card or ID", "Medication list", "Relevant records or forms"],
+    "visitFlow": ["Check in", "Provider assessment", "Treatment, prescription or follow-up plan"]
+  },
+  {
+    "_id": "service.internal-medicine-specialist-care",
+    "_type": "service",
+    "title": "Internal Medicine Specialist Care",
+    "slug": { "_type": "slug", "current": "internal-medicine-specialist-care" },
+    "category": "Internal Medicine",
+    "summary": "Specialist assessment and coordinated care for complex adult medical conditions. A clinic referral is required.",
+    "imageAlt": "Internal medicine specialist care",
+    "featuredOnHomepage": true,
+    "highlights": ["Comprehensive care of chronic medical conditions", "Cardiovascular risk assessment and stroke prevention", "Chronic kidney disease, proteinuria or hematuria", "Cognitive impairment or suspected dementia", "Bone health and osteoporosis", "Coordinating care for multiple comorbidities", "Hypermobility assessment", "Medically unexplained symptoms", "Unexplained myalgias, arthralgias and fibromyalgia", "Abnormal liver enzymes", "Genital dermatology", "Hepatitis B or Hepatitis C management"],
+    "whatToBring": ["Health card or ID", "Medication list", "Relevant test results and specialist records"],
+    "visitFlow": ["Clinic referral by fax", "Specialist consultation", "Care plan and follow-up"]
+  },
+  {
+    "_id": "service.botox",
+    "_type": "service",
+    "title": "Botox",
+    "slug": { "_type": "slug", "current": "botox" },
+    "category": "Aesthetics",
+    "summary": "Personalized cosmetic Botox consultations and treatment by a qualified provider.",
+    "imageAlt": "Personalized aesthetics consultation",
+    "featuredOnHomepage": true,
+    "highlights": ["Expression lines", "Forehead and eye-area concerns", "Personalized aesthetic goals"],
+    "whatToBring": ["Photo ID", "Medication list", "Questions and treatment goals"],
+    "visitFlow": ["Consultation", "Treatment planning", "Procedure and aftercare"]
+  },
+  {
+    "_id": "testimonial.family-medicine",
+    "_type": "testimonial",
+    "category": "Family Medicine",
+    "headline": "The team made me feel comfortable from the moment I walked in.",
+    "quote": "I was nervous about visiting a new clinic, but every staff member was warm and attentive. I left feeling reassured.",
+    "source": "Sarah M.",
+    "rating": 5,
+    "featuredOnHomepage": true
+  },
+  {
+    "_id": "testimonial.walk-in-care",
+    "_type": "testimonial",
+    "category": "Walk-In Care",
+    "headline": "Kind, professional, and helped me get care quickly.",
+    "quote": "The staff were efficient without feeling rushed. I would definitely recommend this clinic to anyone in Calgary.",
+    "source": "James T.",
+    "rating": 4,
+    "featuredOnHomepage": true
+  },
+  {
+    "_id": "testimonial.pediatric-care",
+    "_type": "testimonial",
+    "category": "Pediatric Care",
+    "headline": "Very gentle and patient with my child throughout the visit.",
+    "quote": "The visit felt calm, organized, and supportive. My daughter was at ease the entire time.",
+    "source": "Priya K.",
+    "rating": 5,
+    "featuredOnHomepage": true
+  },
+  {
+    "_id": "testimonial.womens-health",
+    "_type": "testimonial",
+    "category": "Women's Health",
+    "headline": "The provider listened carefully and made sure I understood every step.",
+    "quote": "She answered all my questions thoroughly and never made me feel rushed. Exceptional care.",
+    "source": "Linda R.",
+    "rating": 5,
+    "featuredOnHomepage": true
+  }
+]

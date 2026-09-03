@@ -9,21 +9,21 @@ export const metadata = {
 export default function AboutPage() {
   return (
     <div className="min-h-screen bg-[#F4F6F7] text-black antialiased">
-      <main className="min-h-screen w-full bg-[#F4F6F7] px-5 pb-16 pt-24 shadow-sm sm:px-10 sm:pb-20 sm:pt-28 lg:px-16">
+      <main className="min-h-screen w-full bg-[#F4F6F7] px-5 pb-16 pt-14 shadow-sm sm:px-10 sm:pb-20 sm:pt-16 lg:px-16 lg:pt-20">
         <div className="mx-auto max-w-[1400px]">
-        <header className="mb-8">
+        <header className="mb-6 sm:mb-8">
          
           <h1
-            className="mt-4 text-[46px] font-normal leading-tight text-black sm:text-[62px] lg:text-[76px]"
+            className="text-[44px] font-normal leading-[1.05] text-black sm:text-[56px] lg:text-[68px]"
           >
             About Us
           </h1>
         </header>
 
-        <div className="relative mb-12 aspect-[4/3] w-full overflow-hidden rounded-2xl bg-[#BFEAE7] sm:mb-14 sm:aspect-[21/9]">
+        <div className="relative mb-10 aspect-[4/3] w-full overflow-hidden rounded-2xl bg-[#BFEAE7] sm:mb-12 sm:h-[520px] sm:aspect-auto lg:h-[580px]">
           <img
-            src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=1500&q=85"
-            alt="Medical team in a clinic"
+              src="/images/about-hero.jpg"
+              alt="Reception desk and ZOMAK Medical Clinic sign"
             className="h-full w-full object-cover"
           />
         </div>

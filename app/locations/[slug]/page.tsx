@@ -2,11 +2,13 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
 import { LocationCareCta } from '@/components/sections/LocationCareCta'
+import { WalkInStatusBanner } from '@/components/sections/WalkInStatusBanner'
 import { GriffinAesthetics } from '@/components/sections/GriffinAesthetics'
 import { LocationProviders } from '@/components/sections/LocationProviders'
 import { LocationServicesCarousel } from '@/components/sections/LocationServicesCarousel'
 import { providers } from '@/data/providers'
 import { locations, services } from '@/data/site'
+import { getEditableWalkInStatus } from '@/lib/sanity/walkIns'
 
 type LocationPageProps = {
   params: Promise<{
@@ -26,9 +28,11 @@ export async function generateMetadata({ params }: LocationPageProps) {
     return {}
   }
 
+  const editableLocation = await getEditableWalkInStatus(slug)
+
   return {
-    title: `${location.name} | ZOMAK Medical`,
-    description: location.summary,
+    title: `${editableLocation?.name || location.name} | ZOMAK Medical`,
+    description: editableLocation?.summary || location.summary,
   }
 }
 
@@ -40,11 +44,23 @@ export default async function LocationPage({ params }: LocationPageProps) {
     notFound()
   }
 
+  const editableLocation = await getEditableWalkInStatus(location.slug)
+  const clinic = {
+    ...location,
+    ...Object.fromEntries(Object.entries(editableLocation || {}).filter(([, value]) => value !== undefined && value !== null && value !== '')),
+    services: editableLocation?.services?.length ? editableLocation.services : location.services,
+    heroImageUrl: editableLocation?.heroImageUrl || location.heroImageUrl,
+    heroImageAlt: editableLocation?.heroImageAlt || location.heroImageAlt,
+    philosophy: editableLocation?.philosophy
+  }
+  const walkInStatus = clinic.walkInStatus
+  const waitTime = clinic.waitTime
+
   const relatedServices = services.filter((service) =>
-    location.services.includes(service.title)
+    clinic.services.includes(service.title)
   )
 
-  const providerLocationKey = getProviderLocationKey(location.name)
+  const providerLocationKey = getProviderLocationKey(clinic.name)
   const locationProviders = providers.filter(
     (provider) =>
       provider.location === providerLocationKey ||
@@ -52,16 +68,21 @@ export default async function LocationPage({ params }: LocationPageProps) {
   )
 
   const mapQuery = encodeURIComponent(
-    [location.address, location.city, location.province, location.postalCode]
+    [clinic.address, clinic.city, clinic.province, clinic.postalCode]
       .filter(Boolean)
       .join(', ')
   )
 
   return (
     <section className="bg-white text-ink">
-      <div className="sticky top-0 z-50 bg-[#2AA7A1] px-5 py-3 text-center text-sm font-medium text-white shadow-md">
-        {location.walkInStatus} · Call {location.phone} for live availability
-      </div>
+      <WalkInStatusBanner
+        status={walkInStatus}
+        waitTime={waitTime}
+        href={`https://www.google.com/maps/search/?api=1&query=${mapQuery}`}
+        actionLabel="Directions"
+        phone={clinic.phone}
+        topClassName="top-0"
+      />
       {/* Split Screen Hero */}
       <header className="grid bg-white lg:min-h-screen lg:grid-cols-2">
         {/* Left Text Column */}
@@ -70,11 +91,11 @@ export default async function LocationPage({ params }: LocationPageProps) {
             <h1
               className="text-[36px] font-normal leading-tight text-[#333333] sm:text-[58px] lg:text-[72px]"
             >
-              {location.name}
+              {clinic.name}
             </h1>
 
             <p className="mt-6 max-w-[640px] text-[18px] font-normal leading-8 text-[#333333] sm:mt-7 sm:text-[21px]">
-              {location.summary}
+              {clinic.summary}
             </p>
 
             <div className="mt-10 grid gap-6 border-t border-[#333333]/10 pt-7 sm:grid-cols-2">
@@ -84,9 +105,9 @@ export default async function LocationPage({ params }: LocationPageProps) {
                 </p>
 
                 <p className="mt-4 text-[18px] font-normal leading-7 text-[#333333]/90">
-                  {location.address}
+                  {clinic.address}
                   <br />
-                  {[location.city, location.province, location.postalCode]
+                  {[clinic.city, clinic.province, clinic.postalCode]
                     .filter(Boolean)
                     .join(', ')}
                 </p>
@@ -106,18 +127,18 @@ export default async function LocationPage({ params }: LocationPageProps) {
                   Contact
                 </p>
 
-                {location.email && (
+                {clinic.email && (
                   <p className="mt-4 text-[18px] font-normal leading-7 text-[#333333]/90">
-                    {location.email}
+                    {clinic.email}
                   </p>
                 )}
 
-                {location.phone ? (
+                {clinic.phone ? (
                   <a
-                    href={`tel:${location.phone.replaceAll(' ', '')}`}
+                    href={`tel:${clinic.phone.replaceAll(' ', '')}`}
                     className="mt-4 inline-flex items-center justify-center rounded-[12px] bg-[#333333] px-5 py-3 text-[15px] font-normal text-white no-underline transition hover:bg-[#2AA7A1]"
                   >
-                    {location.phone}
+                    {clinic.phone}
                   </a>
                 ) : (
                   <span className="mt-4 inline-flex items-center justify-center rounded-[12px] bg-[#333333]/10 px-5 py-3 text-[15px] font-normal text-[#333333]/60">
@@ -134,12 +155,11 @@ export default async function LocationPage({ params }: LocationPageProps) {
         {/* Right Full-Half Image */}
         <div className="relative min-h-[320px] overflow-hidden sm:min-h-[460px] lg:min-h-[calc(100vh-82px)]">
           <div
-            aria-label="Bright medical clinic interior"
+            aria-label={clinic.heroImageAlt || 'Bright medical clinic interior'}
             className="absolute inset-0 bg-cover bg-center"
             role="img"
             style={{
-              backgroundImage:
-                "url('https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=1800&q=85')",
+              backgroundImage: `url('${clinic.heroImageUrl}')`,
             }}
           />
 
@@ -155,22 +175,74 @@ export default async function LocationPage({ params }: LocationPageProps) {
           <p
             className="text-[30px] font-normal leading-tight text-white sm:text-[48px] lg:text-[66px]"
           >
-            We help <em className="font-normal italic text-[#BFEAE7]">families</em>{' '}
-            turn everyday{' '}
-            <em className="font-normal italic text-[#BFEAE7]">health needs</em>{' '}
-            into simpler, supported care.
+            {clinic.philosophy || 'We help families turn everyday health needs into simpler, supported care.'}
           </p>
         </div>
       </section>
 
-      {location.slug === 'griffin-road-medical-clinic' && <GriffinAesthetics />}
+      {clinic.slug === 'griffin-road-medical-clinic' && <GriffinAesthetics />}
 
       <LocationServicesCarousel services={relatedServices} />
       <LocationProviders providers={locationProviders} />
+      {clinic.slug === 'griffin-road-medical-clinic' && (
+        <ClinicVideo
+          label="Video tour of Zomak Medical Clinic on Griffin Road"
+          poster="/images/locations/griffin-road-hero.jpg"
+          src="/videos/griffin-road-clinic.mp4"
+        />
+      )}
+      {clinic.slug === 'lewisburg' && (
+        <ClinicVideo
+          label="Video tour of Zomak Medical Clinic in Lewisburg"
+          poster={clinic.heroImageUrl}
+          src="/videos/lewisburg-clinic.mp4"
+        />
+      )}
+      {clinic.slug === 'northmount' && (
+        <ClinicVideo
+          label="Video tour of Zomak Medical Clinic in Northmount"
+          poster="/images/locations/northmount-hero.jpg"
+          src="/videos/northmount-clinic.mp4"
+        />
+      )}
+      {clinic.slug === 'centre-street-north-medical-clinic' && (
+        <section className="bg-white px-6 py-16 sm:px-10 lg:px-16 lg:py-24">
+          <div className="mx-auto max-w-[1400px]">
+            <video
+              aria-label="Video tour of Zomak Medical Clinic on Centre Street North"
+              className="aspect-video w-full rounded-[20px] bg-[#333333] object-cover shadow-sm"
+              controls
+              playsInline
+              poster="/images/locations/centre-street-hero.jpg"
+              preload="metadata"
+            >
+              <source src="/videos/centre-street-clinic.mp4" type="video/mp4" />
+              Your browser does not support embedded video.
+            </video>
+          </div>
+        </section>
+      )}
+      {clinic.slug === 'fairview' && (
+        <section className="bg-white px-6 py-16 sm:px-10 lg:px-16 lg:py-24">
+          <div className="mx-auto max-w-[1400px]">
+            <video
+              aria-label="Video tour of Zomak Medical Clinic in Fairview"
+              className="aspect-video w-full rounded-[20px] bg-[#333333] object-cover shadow-sm"
+              controls
+              playsInline
+              poster="/images/locations/fairview-hero.jpg"
+              preload="metadata"
+            >
+              <source src="/videos/fairview-clinic.mp4" type="video/mp4" />
+              Your browser does not support embedded video.
+            </video>
+          </div>
+        </section>
+      )}
       <LocationCareCta
-        clinicName={location.name}
-        phone={location.phone}
-        walkInStatus={location.walkInStatus}
+        clinicName={clinic.name}
+        phone={clinic.phone}
+        walkInStatus={walkInStatus}
       />
     </section>
   )
@@ -182,4 +254,24 @@ function getProviderLocationKey(locationName: string) {
   if (locationName.includes('Northmount')) return 'Zomak Northmount'
   if (locationName.includes('Fairview')) return 'Zomak Fairview'
   return locationName
+}
+
+function ClinicVideo({ label, poster, src }: { label: string; poster: string; src: string }) {
+  return (
+    <section className="bg-white px-6 py-16 sm:px-10 lg:px-16 lg:py-24">
+      <div className="mx-auto max-w-[1400px]">
+        <video
+          aria-label={label}
+          className="aspect-video w-full rounded-[20px] bg-[#333333] object-cover shadow-sm"
+          controls
+          playsInline
+          poster={poster}
+          preload="metadata"
+        >
+          <source src={src} type="video/mp4" />
+          Your browser does not support embedded video.
+        </video>
+      </div>
+    </section>
+  )
 }

@@ -1,0 +1,119 @@
+{
+  "_id": "siteSettings",
+  "_type": "siteSettings",
+  "title": "ZOMAK Medical",
+  "primaryPhone": "403-250-2150",
+  "bookingUrl": "http://localhost:3000/contact",
+  "metaDescription": "A unified ZOMAK Medical platform for clinic locations, booking, directions, and priority healthcare services.",
+  "homeHero": {
+    "_type": "object",
+    "title": "ZOMAK Medical,",
+    "accentTitle": "Care made simple",
+    "description": "One trusted digital home for ZOMAK clinics, intuitive booking, directions, service pages, and future patient care workflows.",
+    "imageAlt": "Modern clinic care environment for coordinated patient services",
+    "primaryLabel": "Book appointment",
+    "primaryHref": "/contact",
+    "secondaryLabel": "Browse Services",
+    "secondaryHref": "/services/family-practice"
+  },
+  "homeWalkIns": {
+    "_type": "object",
+    "title": "Walk-ins are available at all ZOMAK clinics",
+    "firstParagraph": "Visit any ZOMAK clinic for walk-in support across everyday health needs, family care, forms, testing direction, and same-day questions.",
+    "secondParagraph": "Availability can vary by provider schedule and daily clinic volume, so calling ahead is recommended when timing matters.",
+    "imageAlt": "Friendly clinical walk-in care appointment",
+    "buttonLabel": "Find a clinic",
+    "buttonHref": "/locations"
+  },
+  "homeAbout": {
+    "_type": "object",
+    "eyebrow": "About Us",
+    "statement": "We are dedicated to providing high-quality medical care tailored to your needs. Our team focuses on family health and walk-in care, ensuring every patient feels heard, supported, and confident in their care.",
+    "leftImageAlt": "Doctor consulting with patient",
+    "rightImageAlt": "Medical instruments and tools",
+    "buttonLabel": "More About Us",
+    "buttonHref": "/about",
+    "stats": [
+      { "_key": "patients", "_type": "object", "value": "5K+", "label": "Patients Served" },
+      { "_key": "clinics", "_type": "object", "value": "5", "label": "Clinic Locations" },
+      { "_key": "providers", "_type": "object", "value": "10+", "label": "Healthcare Providers" },
+      { "_key": "satisfaction", "_type": "object", "value": "98%", "label": "Patient Satisfaction" }
+    ]
+  },
+  "homeServices": {
+    "_type": "object",
+    "heading": "ZOMAK\nServices",
+    "cards": [
+      { "_key": "pediatric", "_type": "object", "service": { "_type": "reference", "_ref": "service.pediatric-care" } },
+      { "_key": "womens", "_type": "object", "service": { "_type": "reference", "_ref": "service.womens-health-care" }, "displayTitle": "Women’s Health Care" },
+      { "_key": "drivers", "_type": "object", "service": { "_type": "reference", "_ref": "service.drivers-medical" }, "displayTitle": "Driver’s Medical" },
+      { "_key": "internal", "_type": "object", "service": { "_type": "reference", "_ref": "service.internal-medicine-specialist-care" }, "displayTitle": "Internal Medicine" },
+      { "_key": "aesthetics", "_type": "object", "service": { "_type": "reference", "_ref": "service.botox" }, "displayTitle": "Aesthetics" },
+      { "_key": "family", "_type": "object", "service": { "_type": "reference", "_ref": "service.family-practice-walk-in-care" } },
+      { "_key": "homecare", "_type": "object", "service": { "_type": "reference", "_ref": "service.zomak-home-care" }, "displayTitle": "Zomak Home Care", "href": "/services/zomak-home-care" }
+    ]
+  },
+  "homeFamilyPractice": {
+    "_type": "object",
+    "headingBefore": "Everyday care for ",
+    "headingAccent": "children",
+    "headingAfter": ", families, and routine health needs",
+    "description": "Family practice visits support common concerns, preventive care, pediatric guidance, and follow-up planning with ZOMAK clinic teams.",
+    "imageAlt": "Family practice care for parents and children",
+    "buttonLabel": "Explore family practice",
+    "buttonHref": "/services/family-practice"
+  },
+  "homeHowItWorks": {
+    "_type": "object",
+    "heading": "How it",
+    "accent": "Works",
+    "description": "Getting the right care is easier than ever. Just follow these simple steps.",
+    "steps": [
+      { "_key": "contact", "_type": "object", "title": "Contact Clinic", "description": "Contact us via phone or email to set up a convenient appointment time that works for you.", "cta": "Contact Us", "href": "/contact", "imageAlt": "Contact a ZOMAK clinic" },
+      { "_key": "visit", "_type": "object", "title": "Visit Our Clinic", "description": "Arrive at our welcoming clinic, where our friendly staff will guide you through check-in.", "cta": "Find Nearest Clinic", "href": "/locations", "imageAlt": "Visit a ZOMAK clinic" },
+      { "_key": "care", "_type": "object", "title": "Receive Care", "description": "Our healthcare professionals assess your needs and provide tailored treatment.", "cta": "Begin The Process", "href": "/services/family-practice", "imageAlt": "Receive personalized medical care" },
+      { "_key": "followup", "_type": "object", "title": "Follow-Up Support", "description": "Reach out after your visit for questions, support, and next steps.", "cta": "Complete Follow-Up", "href": "/contact", "imageAlt": "Receive follow-up support" }
+    ]
+  },
+  "homeAesthetics": {
+    "_type": "object",
+    "eyebrow": "Now offering",
+    "heading": "Aesthetics at Zomak Medical Clinic - Griffin Road",
+    "description": "Explore personalized Botox, fillers, PRP treatments for hair and facials, Vampire Breast Lift, and Vampire Wing Lift services.",
+    "imageAlt": "Patient discussing personalized facial aesthetics treatment with a provider",
+    "buttonLabel": "Explore Aesthetics",
+    "buttonHref": "/services/aesthetics"
+  },
+  "homeLocations": {
+    "_type": "object",
+    "heading": "Our Locations",
+    "description": "Find ZOMAK clinics across Calgary and Cochrane, then open directions or review the clinic details before you visit.",
+    "imageAlt": "Medical clinic pristine care interior reception hub"
+  },
+  "homeReviews": {
+    "_type": "object",
+    "headingNumber": "1800+",
+    "headingAccent": "Reviews",
+    "description": "Real patient clinical feedback collected directly from our active care centers in Alberta."
+  },
+  "homeFaq": {
+    "_type": "object",
+    "heading": "FAQs",
+    "items": [
+      { "_key": "booking", "_type": "object", "question": "How do I book an appointment at ZOMAK Medical Clinic?", "answer": "You can book an appointment by contacting the clinic by phone, visiting the clinic website, or using the booking options provided on the ZOMAK platform." },
+      { "_key": "walkins", "_type": "object", "question": "Do ZOMAK clinics accept walk-in patients?", "answer": "Some ZOMAK locations provide walk-in and same-day care depending on provider availability, clinic hours, and patient volume. We recommend calling ahead before visiting." },
+      { "_key": "network", "_type": "object", "question": "Which locations are part of the ZOMAK clinic network?", "answer": "ZOMAK includes Zomak Medical Clinic - Griffin Road, Zomak Medical Clinic - Centre St, Zomak Medical Clinic - Lewisburg, Zomak Medical Clinic - Northmount, and Zomak Medical Clinic - Fairview." },
+      { "_key": "services", "_type": "object", "question": "What services are available?", "answer": "Available services include family practice, pediatric care, internal medicine, women’s and men’s health, aesthetics, visa medical exams, medical piercings at Centre St., and driver’s medical exams." },
+      { "_key": "directions", "_type": "object", "question": "Can I get directions to a specific clinic?", "answer": "Yes. Each location includes a Get Directions option so patients can quickly open the clinic address in Google Maps." },
+      { "_key": "contact", "_type": "object", "question": "How should I contact a clinic directly?", "answer": "Each clinic location includes its direct phone number, fax number when available, website link, and directions so you can contact the right location quickly." },
+      { "_key": "followup", "_type": "object", "question": "Do you offer follow-up support after a visit?", "answer": "Yes. Patients can contact the clinic after their visit with questions, next steps, or follow-up needs related to their care." }
+    ]
+  },
+  "homeFinalCta": {
+    "_type": "object",
+    "heading": "Care is close.\nYour next visit is simple.",
+    "imageAlt": "A happy, diverse group of patients",
+    "buttonLabel": "Contact",
+    "buttonHref": "/contact"
+  }
+}

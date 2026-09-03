@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import type { HomepageContent } from '@/lib/sanity/homepage'
 
 const AVATARS = [
   { initials: 'ZN', bg: 'bg-[#2AA7A1]' },
@@ -7,56 +8,67 @@ const AVATARS = [
   { initials: 'HC', bg: 'bg-[#2AA7A1]' },
 ]
 
-export function Hero() {
+const fallback = {
+  title: 'ZOMAK Medical Clinic',
+  accentTitle: '',
+  description: 'Accessible, patient-focused medical care for individuals and families across Calgary and Cochrane.',
+  imageUrl: '/images/locations/fairview-hero.jpg',
+  imageAlt: 'Reception desk and branded sign at Zomak Medical Clinic in Fairview',
+  primaryLabel: 'Book appointment',
+  primaryHref: '/contact',
+  secondaryLabel: 'Browse Services',
+  secondaryHref: '/services/family-practice'
+}
+
+export function Hero({ content }: { content?: HomepageContent['hero'] }) {
+  const hero = {
+    ...fallback,
+    ...Object.fromEntries(Object.entries(content || {}).filter(([, value]) => value)),
+    title: fallback.title,
+    accentTitle: fallback.accentTitle,
+    description: fallback.description,
+    imageUrl: fallback.imageUrl,
+    imageAlt: fallback.imageAlt
+  }
+
   return (
-    <section className="relative min-h-[100svh] overflow-hidden rounded-b-[2rem] bg-[#333333] ">
+    <section className="relative min-h-[720px] overflow-hidden rounded-b-[2rem] bg-[#333333] sm:min-h-[780px] lg:min-h-[820px]">
       <Image
-        src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=2200&q=90"
-        alt="Modern clinic care environment for coordinated patient services"
+        src={hero.imageUrl}
+        alt={hero.imageAlt}
         fill
         priority
         className="object-cover object-center"
       />
 
-      <div className="absolute inset-0 bg-[#333333]/35 backdrop-blur-[1px]" />
-      <div className="absolute inset-x-0 bottom-0 h-[70%] bg-gradient-to-t from-[#333333]/90 via-[#333333]/45 to-transparent" />
+      <div className="absolute inset-0 bg-[#173F42]/15" />
+      <div className="absolute inset-x-0 bottom-0 h-[72%] bg-gradient-to-t from-[#202929]/80 via-[#263E3E]/30 to-transparent" />
 
-      <div className="relative z-10 mx-auto flex min-h-[100svh] max-w-[1360px] items-end px-5 pb-16 pt-28 sm:px-10 sm:pb-20 sm:pt-32 lg:px-16">
-        <div className="grid w-full items-end gap-10 lg:grid-cols-12 lg:gap-16">
-          <div className="space-y-6 lg:col-span-7">
-          
-
-            <h1 className="text-[42px] font-normal leading-tight text-white sm:text-[66px] lg:text-[82px]">
-              ZOMAK Medical,
-              <br />
-              <span className="font-serif italic text-[#BFEAE7] lowercase first-letter:uppercase">
-                Care made simple
-              </span>
+      <div className="relative z-10 mx-auto flex min-h-[720px] max-w-[1360px] items-end px-5 pb-16 pt-28 sm:min-h-[780px] sm:px-10 sm:pb-20 lg:min-h-[820px] lg:px-16 lg:pb-24">
+        <div className="max-w-[780px]">
+            <h1 className="font-serif text-[44px] font-normal leading-[1.02] text-white sm:text-[64px] lg:text-[76px]">
+              {hero.title}
             </h1>
-          </div>
 
-          <div className="space-y-8 lg:col-span-5 lg:pb-3">
-            <p className="max-w-[460px] text-[17px] font-medium leading-7 text-white/85">
-              One trusted digital home for ZOMAK clinics, intuitive booking, 
-              directions, service pages, and future patient care workflows.
+            <p className="mt-6 max-w-[620px] text-[18px] font-normal leading-8 text-white/90 sm:text-[20px]">
+              {hero.description}
             </p>
 
-            <div className="flex flex-wrap items-center gap-3 pt-2">
+            <div className="mt-8 flex flex-wrap items-center gap-3">
               <Link
-                href="/contact"
+                href={hero.primaryHref}
                 className="inline-flex h-12 items-center justify-center rounded-full bg-[#2AA7A1] px-7 text-sm font-normal text-white no-underline  transition-all duration-200 hover:scale-[1.01]"
               >
-                Book appointment
+                {hero.primaryLabel}
               </Link>
 
               <Link
-                href="/services/family-practice"
+                href={hero.secondaryHref}
                 className="inline-flex h-12 items-center justify-center rounded-full bg-white px-7 text-sm font-normal text-[#333333] no-underline shadow-md transition-all duration-200 hover:bg-[#F4F6F7] hover:scale-[1.01]"
               >
-                Browse Services
+                {hero.secondaryLabel}
               </Link>
             </div>
-          </div>
         </div>
       </div>
     </section>

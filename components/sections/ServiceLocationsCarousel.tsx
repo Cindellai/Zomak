@@ -65,8 +65,8 @@ export function ServiceLocationsCarousel({ locations }: { locations: Location[] 
             >
               <div className="relative aspect-[1.45/1] overflow-hidden rounded-[12px] bg-cloud">
                 <img
-                  src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=900&q=85"
-                  alt={location.name}
+                  src={location.heroImageUrl}
+                  alt={location.heroImageAlt || location.name}
                   className="h-full w-full object-cover transition duration-300 group-hover:scale-[1.03]"
                 />
               </div>
