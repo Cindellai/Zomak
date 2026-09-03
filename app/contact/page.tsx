@@ -26,8 +26,8 @@ export default function ContactPage() {
 
             <div className="relative h-[340px] w-full overflow-hidden border border-[#333333]/10 bg-white shadow-sm sm:h-[520px] lg:h-[640px]">
               <img
-                src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1800&q=90"
-                alt="Bright medical office reception and clinic interior"
+                src="/images/locations/northmount-hero.jpg"
+                alt="ZOMAK Medical Clinic Northmount reception area"
                 className="w-full h-full object-cover object-center sm:object-center"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-white/12 via-transparent to-transparent" />
