@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
+import { homeActionPrimary } from '@/components/ui/homeActionStyles'
 import type { HomepageContent } from '@/lib/sanity/homepage'
 
 const fallback = {
@@ -51,9 +52,9 @@ export function WalkInsAvailable({ content }: { content?: HomepageContent['walkI
 
           <Link
             href={section.buttonHref}
-            className="mt-8 inline-flex items-center gap-2 rounded-full bg-[#333333] px-6 py-3.5 text-sm font-normal  text-white no-underline transition hover:bg-[#2AA7A1]"
+            className={`${homeActionPrimary} mt-8`}
           >
-            {section.buttonLabel} <ArrowRight size={15} />
+            {section.buttonLabel} <ArrowRight className="transition-transform group-hover:translate-x-1" size={16} aria-hidden="true" />
           </Link>
         </div>
       </div>

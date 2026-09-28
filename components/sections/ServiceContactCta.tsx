@@ -9,8 +9,8 @@ type ServiceContactCtaProps = {
 }
 
 export function ServiceContactCta({
-  label = 'Book Now',
-  href = '/contact',
+  label = 'Choose a clinic',
+  href = '/locations#choose-clinic',
   image = 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=2000&q=90',
   imageAlt = 'Zomak patient education and consultation environment',
   imagePosition
@@ -38,12 +38,12 @@ export function ServiceContactCta({
             className="text-4xl font-normal leading-[1.1] tracking-tight sm:text-6xl lg:text-[76px]" 
             style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
           >
-            We treat <br />
-            the whole person
+            Choose your <br />
+            next step
           </h2>
           
           <p className="max-w-[520px] text-[15px] sm:text-[17px] leading-relaxed text-white/90 font-light">
-            Every patient path is unique. Connect with us to ask questions about this service, prepare for your visit, and verify your health needs.
+            Continue to the clinic, physician-registration or specialist-referral path for this service without searching again.
           </p>
 
           <div className="pt-2">

@@ -4,8 +4,9 @@ import { ArrowRight, Clock, MapPin } from 'lucide-react'
 import Link from 'next/link'
 import { useState } from 'react'
 
-import { locations } from '@/data/site'
+import { clinicHoursSummary, locations } from '@/data/site'
 import type { HomepageContent } from '@/lib/sanity/homepage'
+import { homeActionSecondary } from '@/components/ui/homeActionStyles'
 
 export function Locations({ content }: { content?: HomepageContent['locations'] }) {
   const [openIndex, setOpenIndex] = useState(0)
@@ -50,10 +51,10 @@ export function Locations({ content }: { content?: HomepageContent['locations'] 
                           
                           <Link
                             href={`/locations/${location.slug}`}
-                            className="inline-flex w-full min-w-0 items-center justify-center gap-2 rounded-full border border-[#2AA7A1]/30 px-4 py-3 text-[16px] font-normal text-[#2AA7A1] no-underline transition hover:bg-[#2AA7A1] hover:text-white sm:w-auto sm:py-2 sm:text-[11px]"
+                            className={`${homeActionSecondary} w-full min-w-0 sm:w-auto`}
                           >
-                            <ArrowRight size={12} className="stroke-[2.5]" />
                             View Clinic
+                            <ArrowRight size={16} aria-hidden="true" />
                           </Link>
                         </div>
 
@@ -86,7 +87,7 @@ export function Locations({ content }: { content?: HomepageContent['locations'] 
                               Hours of Operation
                             </p>
                             <p className="mt-3 text-[16px] font-normal leading-7 text-[#333333] sm:text-[14px]">
-                              Contact the clinic directly to confirm daily operating hours.
+                              {clinicHoursSummary}
                             </p>
                           </div>
 

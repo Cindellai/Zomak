@@ -2,6 +2,7 @@ import { ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 import { services } from '@/data/site'
 import type { HomepageContent } from '@/lib/sanity/homepage'
+import { getServiceDetailHref } from '@/lib/routes'
 
 export function ServiceGrid({
   content,
@@ -14,7 +15,7 @@ export function ServiceGrid({
     const placement = placementIndex === undefined ? undefined : content?.cards?.[placementIndex]
     const lookupTitle = placement?.title || title
     const cmsService = serviceCards?.find((service) => service.slug === placement?.slug || service.title === lookupTitle)
-    const fallbackService = services.find((service) => service.slug === placement?.slug || service.title === lookupTitle) || services.find((service) => service.title === title) || (title === 'Zomak Home Care' ? services.find((service) => service.title === 'Respite Care') : undefined)
+    const fallbackService = services.find((service) => service.slug === placement?.slug || service.title === lookupTitle) || services.find((service) => service.title === title) || (title === 'ZOMAK Home Care' ? services.find((service) => service.title === 'Respite Care') : undefined)
 
     return {
       slug: placement?.slug || cmsService?.slug || fallbackService?.slug,
@@ -25,7 +26,7 @@ export function ServiceGrid({
   }
   const serviceHref = (title: string, placementIndex?: number) => {
     const service = getService(title, placementIndex)
-    return service.href || (service.slug ? `/services/details/${service.slug}` : '/services/family-practice')
+    return service.href || (service.slug ? getServiceDetailHref(service.slug) : '/services/family-practice')
   }
   const serviceImage = (title: string, placementIndex?: number) =>
     getService(title, placementIndex).image ||
@@ -120,9 +121,9 @@ export function ServiceGrid({
             image={serviceImage('Family Practice & Walk-in Care', 5)}
           />
           <BottomCard
-            href={serviceHref('Zomak Home Care', 6)}
-            title={getService('Zomak Home Care', 6).displayTitle}
-            image={serviceImage('Zomak Home Care', 6)}
+            href={serviceHref('ZOMAK Home Care', 6)}
+            title={getService('ZOMAK Home Care', 6).displayTitle}
+            image={serviceImage('ZOMAK Home Care', 6)}
             dark
           />
         </div>

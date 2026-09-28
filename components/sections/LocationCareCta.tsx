@@ -1,68 +1,71 @@
-import Link from 'next/link'
-import { Sparkle } from 'lucide-react'
-
 export function LocationCareCta({
   clinicName,
+  directionsHref,
   phone,
-  walkInStatus
+  walkInStatus,
+  image = '/images/locations/centre-street-hero.jpg',
+  imageAlt = 'Exterior of Zomak Medical Clinic on Centre Street North in Calgary'
 }: {
   clinicName: string
+  directionsHref: string
   phone: string
   walkInStatus: string
+  image?: string
+  imageAlt?: string
 }) {
   return (
-    <section className="border-y border-[#2AA7A1]/10 bg-[#EFF9F8]">
-      <div className="mx-auto max-w-[1400px]">
-        <div className="grid lg:grid-cols-[1fr_1.2fr]">
+    <section className="border-y border-[#333333]/10 bg-white">
+      <div className="mx-auto max-w-[1500px]">
+        <div className="grid lg:grid-cols-[0.9fr_1.1fr]">
+          <div className="flex flex-col justify-center px-7 py-12 sm:px-10 lg:px-14 lg:py-16 xl:px-16">
+            <div className="h-[92px] w-[92px] overflow-hidden bg-white">
+              <img
+                src="/images/zomak-logo.jpg"
+                alt="ZOMAK Medical Clinic logo"
+                className="h-full w-full scale-[1.04] object-contain"
+              />
+            </div>
 
-          {/* Left — text centered */}
-          <div className="flex flex-col items-center justify-center px-10 py-20 text-center lg:px-16 lg:py-28">
             <h2
-              className="text-[42px] font-normal leading-tight text-[#333333] sm:text-[58px] lg:text-[72px]"
-              style={{ fontFamily: 'Georgia, serif' }}
+              className="mt-8 max-w-[520px] font-serif text-[40px] font-normal leading-[1.05] text-[#333333] sm:text-[50px] lg:text-[56px]"
             >
               Walk-ins are available
             </h2>
 
-            <div className="my-8">
-              <Sparkle size={44} className="text-[#2AA7A1]" strokeWidth={1.2} />
-            </div>
-
-            <p className="max-w-[460px] text-[17px] leading-8 text-[#333333]/70">
-              Visit {clinicName} for walk-in care. Current status:{' '}
-              <strong className="font-medium text-[#333333]">{walkInStatus}</strong>.
-              Availability can change with provider schedules and patient volume,
-              so call ahead when timing matters.
+            <p className="mt-6 max-w-[500px] text-[16px] leading-7 text-[#333333]/72">
+              Visit {clinicName} for walk-in care.{' '}
+              <strong className="font-medium text-[#333333]">{walkInStatus}.</strong>{' '}
+              Availability changes with provider schedules and patient volume, so call ahead before visiting.
             </p>
 
-            <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <a
                 href={`tel:${phone.replaceAll(' ', '')}`}
-                className="inline-block bg-[#333333] px-8 py-4 text-sm font-normal text-white no-underline transition hover:bg-[#2AA7A1]"
+                aria-label={`Call ${clinicName} at ${phone}`}
+                className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#333333] px-7 py-3 text-sm font-medium text-white no-underline transition hover:bg-[#2AA7A1]"
               >
-                Call {phone}
+                Call now
               </a>
-              <Link
-                href="/contact"
-                className="inline-block border border-[#333333]/30 px-8 py-4 text-sm font-normal text-[#333333] no-underline transition hover:border-[#2AA7A1] hover:text-[#247F7A]"
+              <a
+                href={directionsHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex min-h-12 items-center justify-center rounded-full border border-[#333333]/25 px-7 py-3 text-sm font-medium text-[#333333] no-underline transition hover:border-[#2AA7A1] hover:text-[#247F7A]"
               >
-                Contact the clinic
-              </Link>
+                Get directions
+              </a>
             </div>
           </div>
 
-          {/* Right — image with padding so it floats */}
-          <div className="p-6 lg:py-10 lg:pr-10 lg:pl-0">
-            <div className="h-full min-h-[500px] overflow-hidden rounded-[20px] lg:min-h-[580px]">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
+          <div className="p-5 sm:p-7 lg:py-10 lg:pl-0 lg:pr-10">
+            <div className="h-full min-h-[360px] overflow-hidden rounded-[24px] lg:min-h-[580px]">
               <img
-                src="/images/locations/centre-street-hero.jpg"
-                alt="Exterior of Zomak Medical Clinic on Centre Street North in Calgary"
+                src={image}
+                alt={imageAlt}
                 className="h-full w-full object-cover object-center"
               />
             </div>
           </div>
-
         </div>
       </div>
     </section>

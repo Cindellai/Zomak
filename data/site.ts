@@ -1,9 +1,17 @@
 const commonLocationServices = [
-  'Visa Medical Experts',
-  'Pediatric Care',
+  'Family Practice & Walk-in Care',
   "Women's Health Care",
   "Driver's Medical"
 ]
+
+export const clinicHours = [
+  { days: 'Monday to Friday', hours: '9:00 a.m. to 6:00 p.m.' },
+  { days: 'Saturday', hours: '10:00 a.m. to 3:00 p.m.' },
+  { days: 'Sunday', hours: 'Closed' }
+] as const
+
+export const clinicHoursSummary = 'Monday to Friday 9:00 a.m. to 6:00 p.m.; Saturday 10:00 a.m. to 3:00 p.m.; Sunday Closed.'
+export const walkInCapacityNotice = 'Walk-ins are available, subject to daily capacity and provider availability.'
 
 const revitalizeServices = [
   'P-Shot (Priapus Shot)',
@@ -30,7 +38,7 @@ const serviceCategories = {
   womensHealth: "Women's Health",
   mensHealth: "Men's Health",
   pediatrics: 'Pediatric Care',
-  homeCare: 'Zomak Home Care'
+  homeCare: 'ZOMAK Home Care'
 } as const
 
 export const serviceCategoryOrder = [
@@ -58,15 +66,24 @@ export const getServiceCategorySlug = (category: string) =>
 
 export const getServiceCategoryBySlug = (slug: string) =>
   serviceCategoryOrder.find((category) =>
-    serviceCategorySlugs[category] === (slug === '360-home-care' ? 'zomak-home-care' : slug)
+    serviceCategorySlugs[category] === slug
   )
 
 export const locations = [
   {
     name: 'Zomak Medical Clinic - Griffin Road',
     slug: 'griffin-road-medical-clinic',
+    pageTitle: 'Walk-In and Family Medical Clinic Cochrane | ZOMAK Griffin Road',
+    metaDescription:
+      'Find family doctors accepting patients, walk-in care and referral-based internal medicine at ZOMAK Griffin Road in Cochrane. Call to confirm availability.',
+    h1: 'Walk-In and Family Medical Clinic in Cochrane',
+    introduction:
+      'ZOMAK Medical Clinic Griffin Road provides walk-in care, family medicine and same-day medical care in Cochrane. Dr. Abimbola Uwaoluetan (Dr. Bola) is accepting new patients and walk-ins, while Dr. Rose Kalu, Dr. Ijeoma Ofoto and Dr. Anderimam Waquong accept patients on a case-by-case basis. Contact the clinic to confirm availability.',
+    localCareHeading: 'Same-day medical care and family doctors in Cochrane',
+    localCareDescription:
+      'Griffin Road combines everyday primary care with selected services available at this location, including medical aesthetics. Internal medicine consultations are arranged by referral, with the appointment location and timing confirmed after review.',
     summary:
-      "Multi-service clinic supporting medical exams, pediatric care, women's health care, testing, and specialty patient needs.",
+      'Family practice with Dr. Abimbola Uwaoluetan (Dr. Bola), Dr. Rose Kalu, Dr. Ijeoma Ofoto and Dr. Anderimam Waquong.',
     address: '239 Griffin Rd E #2145',
     city: 'Cochrane',
     province: 'AB',
@@ -75,17 +92,44 @@ export const locations = [
     email: 'griffinrdmedreception@gmail.com',
     fax: '403-538-6747',
     status: 'Active',
-    walkInStatus: 'Walk-ins now',
-    waitTime: 'Short wait',
+    walkInStatus: 'Call to confirm walk-in availability',
+    waitTime: '',
+    hours: clinicHours,
     heroImageUrl: '/images/locations/griffin-road-hero.jpg',
     heroImageAlt: 'Reception area and branded sign at Zomak Medical Clinic on Griffin Road',
+    faqs: [
+      {
+        question: 'Is a family doctor accepting new patients at Griffin Road?',
+        answer:
+          'Dr. Abimbola Uwaoluetan (Dr. Bola) is accepting new patients and walk-ins. Patient acceptance by Dr. Rose Kalu, Dr. Ijeoma Ofoto and Dr. Anderimam Waquong is assessed by the clinic on a case-by-case basis.'
+      },
+      {
+        question: 'Are medical aesthetics available at Griffin Road?',
+        answer:
+          'Yes. Griffin Road is the current ZOMAK location for medical aesthetics. Review the Medical Aesthetics section or contact the clinic for consultation and booking information.'
+      },
+      {
+        question: 'How do I access internal medicine at Griffin Road?',
+        answer:
+          'Internal medicine consultations with Dr. Izuchukwu Ezeh require a referral. The appointment location and timing are confirmed after the referral is reviewed.'
+      }
+    ],
     services: [...commonLocationServices, 'Internal Medicine Specialist Care', 'Botox', 'Fillers', 'PRP Treatment for Hair and Facials', 'Vampire Breast Lift', 'Vampire Wing Lift']
   },
   {
     name: 'Zomak Medical Clinic - Centre St',
     slug: 'centre-street-north-medical-clinic',
+    pageTitle: 'IRCC Panel Physician and Walk-In Clinic Calgary | ZOMAK Centre Street',
+    metaDescription:
+      'Book IRCC examinations and international visa medicals or access family medicine and walk-in care with accepting physicians at ZOMAK Centre Street in North Calgary.',
+    h1: 'Walk-In Clinic, Family Medical Clinic and IRCC Panel Physician in North Calgary',
+    introduction:
+      'ZOMAK Medical Clinic Centre Street provides walk-in and family medical care in North Calgary and is the only current ZOMAK location for IRCC panel-physician examinations and international visa medicals. The clinic’s family physicians are accepting new patients. Contact Centre Street to confirm walk-in capacity or book an immigration medical.',
+    localCareHeading: 'IRCC panel physician and immigration medical exams in Calgary',
+    localCareDescription:
+      'Patients can contact Centre Street for family medicine, walk-in availability and immigration-exam preparation. Required laboratory testing and X-rays are completed at partner facilities approximately ten minutes away, not inside the clinic.',
     summary:
-      "North Calgary clinic supporting medical exams, pediatric care, women's health care, testing, and specialty patient needs.",
+      'North Calgary family practice and walk-in care. Centre Street is the only current ZOMAK location offering IRCC panel-physician services and international visa medicals.',
     address: '6213 Centre St NW Suite 10',
     city: 'Calgary',
     province: 'AB',
@@ -94,17 +138,44 @@ export const locations = [
     email: 'info@csnmc.ca',
     fax: '403-538-6747',
     status: 'Active',
-    walkInStatus: 'Walk-ins now',
-    waitTime: 'Short wait',
+    walkInStatus: 'Call to confirm walk-in availability',
+    waitTime: '',
+    hours: clinicHours,
     heroImageUrl: '/images/locations/centre-street-hero.jpg',
     heroImageAlt: 'Exterior of Zomak Medical Clinic on Centre Street North in Calgary',
-    services: [...commonLocationServices, 'Medical Piercings', 'Panel Physician Appointments']
+    faqs: [
+      {
+        question: 'Which ZOMAK clinic provides IRCC and international visa medicals?',
+        answer:
+          'Centre Street is the only current ZOMAK location offering IRCC panel-physician examinations and international visa medicals.'
+      },
+      {
+        question: 'Are Centre Street family physicians accepting new patients?',
+        answer:
+          'Yes. The family physicians at Centre Street are listed as accepting new patients. Contact the clinic to confirm registration and appointment availability.'
+      },
+      {
+        question: 'Where are laboratory tests and X-rays completed?',
+        answer:
+          'Required laboratory testing and X-rays are completed at partner facilities approximately ten minutes away. The clinic provides instructions based on the examination requirements.'
+      }
+    ],
+    services: [...commonLocationServices, 'Visa Medical Experts', 'Medical Piercings', 'Panel Physician Appointments', 'Internal Medicine Specialist Care']
   },
   {
     name: 'Zomak Medical Clinic - Lewisburg',
     slug: 'lewisburg',
+    pageTitle: 'Family Doctors Accepting New Patients in NE and NW Calgary | ZOMAK Lewisburg',
+    metaDescription:
+      'Meet Dr. Ngozi Ohaka-Ibe and Dr. Yetunde Agbeja, accepting new family-practice patients at ZOMAK Lewisburg. Call for walk-in availability in Northeast and Northwest Calgary.',
+    h1: 'Family Doctors Accepting New Patients and Walk-ins at ZOMAK Lewisburg',
+    introduction:
+      'ZOMAK Lewisburg provides family practice and walk-in care for Lewisburg and nearby North Calgary communities. Dr. Ngozi Ohaka-Ibe and Dr. Yetunde Agbeja are accepting new patients. Call the clinic to register or confirm same-day walk-in availability.',
+    localCareHeading: 'Family doctors accepting new patients in NE Calgary',
+    localCareDescription:
+      'Lewisburg patients can register with a family physician, call about same-day walk-in capacity or start a referral through the clinic. The location serves growing communities on both sides of Calgary’s north-central corridor.',
     summary:
-      'Lewisburg location supporting ZOMAK patients with medical exams, pediatric care, testing, and specialty services.',
+      'Family practice and walk-in care with Dr. Ngozi Ohaka-Ibe and Dr. Yetunde Agbeja. Both physicians are accepting new patients and walk-ins.',
     address: '1100 140 Avenue NE, Unit 220',
     city: 'Calgary',
     province: 'AB',
@@ -113,17 +184,44 @@ export const locations = [
     email: '',
     fax: '403-906-4775',
     status: 'Active',
-    walkInStatus: 'Call for walk-in availability',
-    waitTime: 'Call for current wait',
-    heroImageUrl: '/images/locations/fairview-hero.jpg',
-    heroImageAlt: 'Zomak Medical Clinic reception desk and branded sign',
-    services: commonLocationServices
+    walkInStatus: 'Call to confirm walk-in availability',
+    waitTime: '',
+    hours: clinicHours,
+    heroImageUrl: '/images/locations/lewisburg-hero.jpg',
+    heroImageAlt: 'Reception desk and Zomak Medical Clinic logo at Lewisburg',
+    faqs: [
+      {
+        question: 'Which Lewisburg family doctors are accepting new patients?',
+        answer:
+          'Dr. Ngozi Ohaka-Ibe and Dr. Yetunde Agbeja are accepting new family-practice patients at ZOMAK Lewisburg.'
+      },
+      {
+        question: 'Does ZOMAK Lewisburg accept walk-ins?',
+        answer:
+          'Yes, subject to daily capacity and provider availability. Contact the clinic to confirm same-day walk-in availability before travelling.'
+      },
+      {
+        question: 'Which communities does the Lewisburg clinic serve?',
+        answer:
+          'The clinic serves Lewisburg, Lewiston, Livingston, Carrington, Ambleton, Keystone Creek and surrounding Northwest and Northeast Calgary communities.'
+      }
+    ],
+    services: [...commonLocationServices, 'Internal Medicine Specialist Care']
   },
   {
     name: 'Zomak Medical Clinic - Northmount',
     slug: 'northmount',
+    pageTitle: 'Walk-In and Family Medical Clinic NW Calgary | ZOMAK Northmount',
+    metaDescription:
+      'Find family medicine, walk-in care and accepting physicians at ZOMAK Northmount in NW Calgary, plus referral-based pediatric and internal medicine consultations.',
+    h1: 'Walk-In and Family Medical Clinic in Northwest Calgary',
+    introduction:
+      'ZOMAK Medical Clinic Northmount provides walk-in and family medical care in Northwest Calgary. Dr. Fatima Yerima Bulama and Dr. Kehinde S. King-Kaka are accepting new patients and walk-ins. Referral-based pediatric care is provided by Dr. Chika Olijo, who rotates between Northmount and Fairview, while Dr. Izuchukwu Ezeh rotates across all five ZOMAK locations for internal medicine consultations.',
+    localCareHeading: 'Family doctors and walk-in care in Northwest Calgary',
+    localCareDescription:
+      'Northmount supports ongoing family medicine and same-day concerns, subject to daily capacity. Pediatric and internal medicine consultations require referrals, and specialist appointment details are confirmed after review.',
     summary:
-      'Northmount location supporting ZOMAK patients with medical exams, pediatric care, testing, and specialty services.',
+      'Family practice with Dr. Fatima Yerima Bulama and Dr. Kehinde S. King-Kaka. Dr. Izuchukwu Ezeh provides referral-only internal medicine while rotating across all five ZOMAK clinics.',
     address: '555 Northmount Dr NW',
     city: 'Calgary',
     province: 'AB',
@@ -132,17 +230,44 @@ export const locations = [
     email: 'zomakmedreception@gmail.com',
     fax: '403-538-6747',
     status: 'Active',
-    walkInStatus: 'Walk-ins now',
-    waitTime: 'Short wait',
+    walkInStatus: 'Call to confirm walk-in availability',
+    waitTime: '',
+    hours: clinicHours,
     heroImageUrl: '/images/locations/northmount-hero.jpg',
     heroImageAlt: 'Prescription counter at Zomak Medical Clinic in Northmount',
-    services: [...commonLocationServices, 'Internal Medicine Specialist Care']
+    faqs: [
+      {
+        question: 'Which Northmount family doctors are accepting new patients?',
+        answer:
+          'Dr. Fatima Yerima Bulama and Dr. Kehinde S. King-Kaka are accepting new family-practice patients and walk-ins at Northmount.'
+      },
+      {
+        question: 'How is pediatric care arranged at Northmount?',
+        answer:
+          'Pediatric care with Dr. Chika Olijo is available by referral. Dr. Olijo rotates between Northmount and Fairview, and referrals may be initiated through any ZOMAK clinic.'
+      },
+      {
+        question: 'Is internal medicine available as a walk-in service?',
+        answer:
+          'No. Internal medicine consultations with Dr. Izuchukwu Ezeh require a referral. Appointment location and timing are confirmed after referral review.'
+      }
+    ],
+    services: [...commonLocationServices, 'Pediatric Care', 'Internal Medicine Specialist Care']
   },
   {
     name: 'Zomak Medical Clinic - Fairview',
     slug: 'fairview',
+    pageTitle: 'Walk-In and Family Medical Clinic SE Calgary | ZOMAK Fairview',
+    metaDescription:
+      'Visit ZOMAK Fairview for family medicine and walk-in care in SE Calgary with Dr. Oloko Abdulmujeeb Olugbenga, plus referral-based pediatric care with Dr. Chika Olijo.',
+    h1: 'Walk-In and Family Medical Clinic in Southeast Calgary',
+    introduction:
+      'ZOMAK Medical Clinic Fairview provides walk-in and family medical care in Southeast Calgary near Chinook, Haysboro and Acadia. Dr. Oloko Abdulmujeeb Olugbenga is accepting new family-practice patients. Referral-based pediatric care is provided by Dr. Chika Olijo, who rotates between Fairview and Northmount, and internal medicine consultations with Dr. Izuchukwu Ezeh are arranged after referral review.',
+    localCareHeading: 'Family doctors accepting new patients in Southeast Calgary',
+    localCareDescription:
+      'Fairview offers ongoing family medicine and walk-in access for nearby Southeast Calgary communities. Call the clinic to confirm current walk-in capacity, family-doctor registration or the next step for a specialist referral.',
     summary:
-      'Fairview location supporting ZOMAK patients with medical exams, pediatric care, testing, and specialty services.',
+      'Family practice with Dr. Oloko Abdulmujeeb Olugbenga, plus referral-only pediatric care from Dr. Chika Olijo, who rotates between Fairview and Northmount.',
     address: '7640 Fairmount Dr SE',
     city: 'Calgary',
     province: 'AB',
@@ -151,11 +276,29 @@ export const locations = [
     email: 'dmmc.calgary1@gmail.com',
     fax: '403-538-6747',
     status: 'Active',
-    walkInStatus: 'Call for walk-in availability',
-    waitTime: 'Call for current wait',
+    walkInStatus: 'Call to confirm walk-in availability',
+    waitTime: '',
+    hours: clinicHours,
     heroImageUrl: '/images/locations/fairview-hero.jpg',
     heroImageAlt: 'Reception desk and branded sign at Zomak Medical Clinic in Fairview',
-    services: commonLocationServices
+    faqs: [
+      {
+        question: 'Is a Fairview family doctor accepting new patients?',
+        answer:
+          'Yes. Dr. Oloko Abdulmujeeb Olugbenga is accepting new family-practice patients at ZOMAK Fairview.'
+      },
+      {
+        question: 'Does Dr. Chika Olijo provide pediatric care at Fairview?',
+        answer:
+          'Yes, by referral. Dr. Olijo rotates between Fairview and Northmount, and pediatric referrals may be initiated through any ZOMAK clinic location.'
+      },
+      {
+        question: 'Can I walk in for an internal medicine consultation?',
+        answer:
+          'No. Internal medicine with Dr. Izuchukwu Ezeh is referral only. The appointment location and timing are confirmed after referral review.'
+      }
+    ],
+    services: [...commonLocationServices, 'Pediatric Care', 'Internal Medicine Specialist Care']
   }
 ]
 
@@ -169,10 +312,10 @@ export const services = [
     summary:
       'Specializing in visa medical exams, we help patients prepare required health documentation efficiently and accurately.',
     details:
-      'Support for patients completing immigration, residency, employment, or travel-related medical exam requirements.',
+      'ZOMAK completes the clinical examination and documentation at Centre Street. Required laboratory testing and X-rays are completed at partner facilities approximately ten minutes away.',
     bestFor: ['Immigration medical forms', 'Work or school requirements', 'Travel documentation'],
     whatToBring: ['Government-issued photo ID', 'Required forms or case documents', 'Medication list and relevant medical records'],
-    visitFlow: ['Document review and intake', 'Provider assessment', 'Required forms, tests, or follow-up instructions'],
+    visitFlow: ['Document review and intake', 'Provider assessment', 'Partner-facility testing and follow-up instructions'],
     faq: [
       {
         question: 'Do I need to bring paperwork?',
@@ -192,7 +335,7 @@ export const services = [
       {
         question: 'Will I need follow-up testing?',
         answer:
-          'Some exams may require additional testing or documentation. The provider will explain next steps during the appointment.'
+          'Some exams may require additional testing or documentation. Required laboratory testing and X-rays are completed at partner facilities approximately ten minutes away.'
       }
     ]
   },
@@ -738,7 +881,7 @@ export const services = [
       {
         question: 'Where is this service offered?',
         answer:
-          'Respite Care is listed for Zomak Zomak Home Care.'
+          'Respite Care is available through the new ZOMAK Home Care service line.'
       }
     ]
   },
@@ -773,7 +916,7 @@ export const services = [
       {
         question: 'Where is this service offered?',
         answer:
-          'Elderly Care is listed for Zomak Zomak Home Care.'
+          'Elderly Care is available through the new ZOMAK Home Care service line.'
       }
     ]
   },
@@ -785,7 +928,7 @@ export const services = [
     summary:
       'Approved-provider support for Alberta Health Services’ Client-Directed Home Care Invoicing program.',
     details:
-      'Zomak Home Care Agency is recognized as an approved provider under Alberta Health Services’ Client-Directed Home Care Invoicing program.',
+      'The new ZOMAK Home Care service line is recognized as an approved provider under Alberta Health Services’ Client-Directed Home Care Invoicing program.',
     bestFor: ['AHS CDHCI program clients', 'Client-directed home care support', 'Families coordinating approved provider services'],
     whatToBring: ['Program approval details', 'Client care requirements', 'Contact and invoicing information'],
     visitFlow: ['Program eligibility review', 'Care and invoicing coordination', 'Approved provider support'],
@@ -796,9 +939,9 @@ export const services = [
           'CDHCI refers to Alberta Health Services’ Client-Directed Home Care Invoicing program.'
       },
       {
-        question: 'Is Zomak Home Care an approved provider?',
+        question: 'Is ZOMAK Home Care an approved provider?',
         answer:
-          'Yes. Zomak Home Care Agency is described as an approved provider under the AHS CDHCI program.'
+          'Yes. ZOMAK Home Care is described as an approved provider under the AHS CDHCI program.'
       },
       {
         question: 'What should clients prepare?',
@@ -808,7 +951,7 @@ export const services = [
       {
         question: 'Where is this service offered?',
         answer:
-          'This program support is listed for Zomak Zomak Home Care.'
+          'This program support is available through the new ZOMAK Home Care service line.'
       }
     ]
   },
@@ -843,7 +986,7 @@ export const services = [
       {
         question: 'Where is this service offered?',
         answer:
-          'Personal Care is listed for Zomak Zomak Home Care.'
+          'Personal Care is available through the new ZOMAK Home Care service line.'
       }
     ]
   },
@@ -881,11 +1024,11 @@ export const services = [
     title: 'Panel Physician Appointments', slug: 'panel-physician-appointments', category: 'Centre St Services',
     image: 'https://images.unsplash.com/photo-1584982751601-97dcc096659c?auto=format&fit=crop&w=1600&q=85',
     summary: 'Panel physician appointments are offered exclusively at Zomak Medical Clinic - Centre St.',
-    details: 'Bring the documents and identification issued for your immigration medical examination. Contact the Centre St clinic before your visit to confirm the current appointment requirements.',
+    details: 'Bring the documents and identification issued for your immigration medical examination. Required laboratory testing and X-rays are completed at partner facilities approximately ten minutes away. Contact the Centre St clinic before your visit to confirm the current appointment requirements.',
     bestFor: ['Immigration medical examinations', 'Panel physician documentation', 'Patients directed to complete an immigration medical'],
     whatToBring: ['Valid government-issued identification or passport', 'Immigration medical form or IME/UMI number, if issued', 'Eyeglasses or contact lenses', 'Medication list and relevant medical records'],
-    visitFlow: ['Confirm requirements with Centre St', 'Document review and examination', 'Testing and submission instructions'],
-    faq: [{ question: 'Where are panel physician appointments offered?', answer: 'Only at Zomak Medical Clinic - Centre St. Call 403-906-0210 to confirm requirements and book.' }]
+    visitFlow: ['Confirm requirements with Centre St', 'Document review and examination', 'Partner-facility testing and submission instructions'],
+    faq: [{ question: 'Where are panel physician appointments offered?', answer: 'Only at Zomak Medical Clinic - Centre St. Call the dedicated immigration line at 587-586-6999 or use the Centre Street IRCC booking portal.' }]
   }
 ]
 

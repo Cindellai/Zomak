@@ -6,20 +6,14 @@ import {
   locations,
   serviceCategoryOrder
 } from '@/data/site'
-import { cta } from '@/lib/routes'
 
 const resourceLinks = [
   { label: 'About', href: '/about' },
   { label: 'Contact', href: '/contact' },
   { label: 'Doctors', href: '/doctors' },
-  { label: 'Visa Medicals', href: '/visa-medicals' },
+  { label: 'Visa Medicals', href: '/visa-medical-calgary' },
+  { label: 'IRCC Panel Physicians', href: '/ircc-panel-physician-calgary' },
   { label: 'Patient FAQ', href: '/#faq' }
-]
-
-const followLinks = [
-  { label: 'Phone', href: `tel:${cta.phone}` },
-  { label: 'Directions', href: cta.directionsHref },
-  { label: 'Contact', href: '/contact' }
 ]
 
 export function Footer() {
@@ -35,10 +29,10 @@ export function Footer() {
           </p>
 
           <Link
-            href="/contact"
+            href="/locations#choose-clinic"
             className="inline-flex h-11 w-full items-center justify-center rounded-md bg-white px-6 text-[13px] font-normal text-[#333333] no-underline transition hover:bg-[#BFEAE7] sm:w-fit"
           >
-            Contact
+            Choose a Clinic
           </Link>
         </div>
 
@@ -60,7 +54,7 @@ export function Footer() {
             </p>
           </div>
 
-          <div className="grid grid-cols-2 gap-x-6 gap-y-9 sm:gap-x-8 md:grid-cols-3 xl:grid-cols-5">
+          <div className="grid grid-cols-2 gap-x-6 gap-y-9 sm:gap-x-8 md:grid-cols-4">
             <FooterColumn title="Clinics">
               {locations.map((location) => (
                 <FooterLink
@@ -92,19 +86,18 @@ export function Footer() {
             </FooterColumn>
 
             <FooterColumn title="Contact">
-              <FooterLink href={`tel:${cta.phone}`}>{cta.phone}</FooterLink>
-              <FooterLink href={cta.directionsHref}>Directions</FooterLink>
+              <FooterLink href="/locations#choose-clinic">Choose a Clinic</FooterLink>
               <FooterLink href="/contact">Contact Support</FooterLink>
-              <FooterLink href="/contact">Clinic Hours</FooterLink>
+              <FooterLink href="/locations">Clinic Hours</FooterLink>
             </FooterColumn>
-
-            <FooterColumn title="Follow">
-              {followLinks.map((link) => (
-                <FooterLink href={link.href} key={link.href}>
-                  {link.label}
-                </FooterLink>
-              ))}
-            </FooterColumn>
+          </div>
+        </div>
+        <div className="mt-10 border-t border-white/20 pt-7 text-[12px] leading-6 text-white/70">
+          <p>ZOMAK does not provide emergency care through this website. If you have a medical emergency, call 911 or go to the nearest emergency department.</p>
+          <div className="mt-3 flex flex-wrap gap-x-5 gap-y-2">
+            <FooterLink href="/privacy">Privacy</FooterLink>
+            <FooterLink href="/accessibility">Accessibility</FooterLink>
+            <FooterLink href="/terms">Website Terms</FooterLink>
           </div>
         </div>
       </div>

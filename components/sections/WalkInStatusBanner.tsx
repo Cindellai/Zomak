@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 type WalkInStatusBannerProps = {
   status: string
-  waitTime: string
+  waitTime?: string
   href: string
   actionLabel: string
   phone?: string
@@ -18,16 +18,24 @@ export function WalkInStatusBanner({
   topClassName = 'top-16'
 }: WalkInStatusBannerProps) {
   return (
-    <aside className={`sticky ${topClassName} z-40 bg-[#2AA7A1] px-3 py-2 text-[13px] font-medium text-white shadow-md sm:px-5 sm:py-3 sm:text-center sm:text-sm`} aria-label="Walk-in live status">
+    <aside className={`sticky ${topClassName} z-40 bg-[#2AA7A1] px-3 py-2 text-[13px] font-medium text-white shadow-md sm:px-5 sm:py-3 sm:text-center sm:text-sm`} aria-label="Walk-in availability">
       <div className="flex items-center justify-center gap-2 whitespace-nowrap sm:hidden">
         <span>{status}</span>
-        <span aria-hidden="true">·</span>
-        <span>Estimated wait: {waitTime}</span>
+        {waitTime && (
+          <>
+            <span aria-hidden="true">·</span>
+            <span>Estimated wait: {waitTime}</span>
+          </>
+        )}
       </div>
       <div className="mx-auto hidden max-w-[1400px] flex-wrap items-center justify-center gap-x-2 gap-y-1 sm:flex">
         <span>{status}</span>
-        <span aria-hidden="true">·</span>
-        <span>Estimated wait: {waitTime}</span>
+        {waitTime && (
+          <>
+            <span aria-hidden="true">·</span>
+            <span>Estimated wait: {waitTime}</span>
+          </>
+        )}
         {phone && (
           <>
             <span aria-hidden="true">·</span>

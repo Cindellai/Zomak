@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
 import { LocationCareCta } from '@/components/sections/LocationCareCta'
+import { JsonLd } from '@/components/seo/JsonLd'
 import { WalkInStatusBanner } from '@/components/sections/WalkInStatusBanner'
 import { GriffinAesthetics } from '@/components/sections/GriffinAesthetics'
 import { LocationProviders } from '@/components/sections/LocationProviders'
@@ -9,6 +10,7 @@ import { LocationServicesCarousel } from '@/components/sections/LocationServices
 import { providers } from '@/data/providers'
 import { locations, services } from '@/data/site'
 import { getEditableWalkInStatus } from '@/lib/sanity/walkIns'
+import { absoluteUrl, pageMetadata } from '@/lib/seo'
 
 type LocationPageProps = {
   params: Promise<{
@@ -29,12 +31,8 @@ export async function generateMetadata({ params }: LocationPageProps) {
   }
 
   const editableLocation = await getEditableWalkInStatus(slug)
-  const displayName = removeTitleDash(editableLocation?.name || location.name)
 
-  return {
-    title: `${displayName} | ZOMAK Medical`,
-    description: editableLocation?.summary || location.summary,
-  }
+  return pageMetadata({ pathname: `/locations/${location.slug}`, title: location.pageTitle, description: location.metaDescription, image: location.heroImageUrl })
 }
 
 export default async function LocationPage({ params }: LocationPageProps) {
@@ -54,12 +52,16 @@ export default async function LocationPage({ params }: LocationPageProps) {
     heroImageAlt: editableLocation?.heroImageAlt || location.heroImageAlt,
     philosophy: editableLocation?.philosophy
   }
-  const walkInStatus = clinic.walkInStatus
-  const waitTime = clinic.waitTime
+  const liveWaitTimesEnabled = process.env.NEXT_PUBLIC_LIVE_WAIT_TIMES_ENABLED === 'true'
+  const walkInStatus = liveWaitTimesEnabled
+    ? clinic.walkInStatus
+    : 'Call to confirm walk-in availability'
+  const waitTime = liveWaitTimesEnabled ? clinic.waitTime : ''
   const displayClinicName = removeTitleDash(clinic.name)
 
+  const allowedServiceTitles = filterLocationServices(clinic.slug, clinic.services)
   const relatedServices = services
-    .filter((service) => clinic.services.includes(service.title))
+    .filter((service) => allowedServiceTitles.includes(service.title))
     .map((service) => ({
       ...service,
       image: getUpdatedServiceCardImage(service.title, service.image)
@@ -69,122 +71,147 @@ export default async function LocationPage({ params }: LocationPageProps) {
   const locationProviders = providers.filter(
     (provider) =>
       provider.location === providerLocationKey ||
-      provider.secondaryLocation === providerLocationKey
+      provider.secondaryLocation === providerLocationKey ||
+      provider.locations?.includes(providerLocationKey)
   )
+  const heroImageStyle = {
+    backgroundImage: `url('${clinic.heroImageUrl}')`,
+    backgroundPosition: clinic.slug === 'lewisburg' ? '25% center' : 'center'
+  }
 
   const mapQuery = encodeURIComponent(
     [clinic.address, clinic.city, clinic.province, clinic.postalCode]
       .filter(Boolean)
       .join(', ')
   )
+  const directionsUrl = `https://www.google.com/maps/search/?api=1&query=${mapQuery}`
+  const mapEmbedUrl = `https://www.google.com/maps?q=${mapQuery}&output=embed`
+  const locationSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'MedicalClinic',
+    name: displayClinicName,
+    url: absoluteUrl(`/locations/${clinic.slug}`),
+    image: absoluteUrl(clinic.heroImageUrl),
+    description: clinic.introduction,
+    telephone: clinic.phone,
+    faxNumber: clinic.fax,
+    ...(clinic.email ? { email: clinic.email } : {}),
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: clinic.address,
+      addressLocality: clinic.city,
+      addressRegion: clinic.province,
+      postalCode: clinic.postalCode,
+      addressCountry: 'CA'
+    },
+    openingHoursSpecification: [
+      {
+        '@type': 'OpeningHoursSpecification',
+        dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+        opens: '09:00',
+        closes: '18:00'
+      },
+      {
+        '@type': 'OpeningHoursSpecification',
+        dayOfWeek: 'Saturday',
+        opens: '10:00',
+        closes: '15:00'
+      }
+    ],
+    hasMap: directionsUrl,
+    parentOrganization: {
+      '@type': 'MedicalOrganization',
+      name: 'ZOMAK Medical',
+      url: absoluteUrl('/')
+    }
+  }
+  const faqSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: clinic.faqs.map((item) => ({
+      '@type': 'Question',
+      name: item.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: item.answer
+      }
+    }))
+  }
 
   return (
     <section className="bg-white text-ink">
+      <JsonLd data={locationSchema} />
+      <JsonLd data={faqSchema} />
       <WalkInStatusBanner
         status={walkInStatus}
         waitTime={waitTime}
-        href={`https://www.google.com/maps/search/?api=1&query=${mapQuery}`}
+        href={directionsUrl}
         actionLabel="Directions"
         phone={clinic.phone}
         topClassName="top-0"
       />
-      {/* Split Screen Hero */}
-      <header className="grid bg-white lg:min-h-screen lg:grid-cols-2">
-        {/* Left Text Column */}
-        <div className="order-2 flex items-center px-5 py-9 sm:px-10 sm:py-12 lg:order-1 lg:px-16 lg:py-16 xl:px-20">
-          <div className="w-full max-w-[720px]">
-            <h1
-              className="text-[34px] font-normal leading-[1.08] text-[#333333] sm:text-[50px] lg:text-[72px]"
-            >
-              {displayClinicName}
-            </h1>
-
-            <p className="mt-4 max-w-[640px] text-[16px] font-normal leading-7 text-[#333333]/80 sm:mt-6 sm:text-[19px] sm:leading-8 lg:text-[21px]">
-              {clinic.summary}
-            </p>
-
-            <div className="mt-7 grid gap-5 border-t border-[#333333]/10 pt-5 sm:grid-cols-2 sm:gap-6 lg:mt-10 lg:pt-7">
-              <div>
-                <p className="text-sm font-normal text-[#333333]">
-                  Address
-                </p>
-
-                <p className="mt-4 text-[18px] font-normal leading-7 text-[#333333]/90">
-                  {clinic.address}
-                  <br />
-                  {[clinic.city, clinic.province, clinic.postalCode]
-                    .filter(Boolean)
-                    .join(', ')}
-                </p>
-
-                <a
-                  href={`https://www.google.com/maps/search/?api=1&query=${mapQuery}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-4 inline-flex items-center border-b border-[#333333]/40 pb-1 text-[15px] font-normal text-[#333333] no-underline transition hover:text-[#2AA7A1]"
-                >
-                  Get Directions →
-                </a>
-              </div>
-
-              <div className="sm:border-l sm:border-[#333333]/10 sm:pl-7">
-                <p className="text-sm font-normal text-[#333333]">
-                  Contact
-                </p>
-
-                {clinic.email && (
-                  <p className="mt-3 break-words text-[16px] font-normal leading-6 text-[#333333]/80 sm:text-[18px] sm:leading-7">
-                    {clinic.email}
-                  </p>
-                )}
-
-                {clinic.phone ? (
-                  <a
-                    href={`tel:${clinic.phone.replaceAll(' ', '')}`}
-                    className="mt-4 inline-flex items-center justify-center rounded-[12px] bg-[#333333] px-5 py-3 text-[15px] font-normal text-white no-underline transition hover:bg-[#2AA7A1]"
-                  >
-                    {clinic.phone}
-                  </a>
-                ) : (
-                  <span className="mt-4 inline-flex items-center justify-center rounded-[12px] bg-[#333333]/10 px-5 py-3 text-[15px] font-normal text-[#333333]/60">
-                    Phone to confirm
-                  </span>
-                )}
-              </div>
-            </div>
-
-           
-          </div>
-        </div>
-
-        {/* Right Full-Half Image */}
-        <div className="relative order-1 min-h-[280px] overflow-hidden sm:min-h-[400px] lg:order-2 lg:min-h-[calc(100vh-82px)]">
+      <header className="grid overflow-hidden bg-white lg:min-h-[calc(100svh-42px)] lg:grid-cols-2">
+        <div className="relative z-0 min-h-[340px] bg-[#293538] sm:min-h-[500px] lg:min-h-0 lg:w-[calc(100%+72px)]">
           <div
             aria-label={clinic.heroImageAlt || 'Bright medical clinic interior'}
-            className="absolute inset-0 bg-cover bg-center"
+            className="absolute inset-0 bg-cover"
             role="img"
-            style={{
-              backgroundImage: `url('${clinic.heroImageUrl}')`,
-            }}
+            style={heroImageStyle}
           />
+        </div>
 
-          <div className="absolute inset-0 bg-gradient-to-t from-[#333333]/45 via-transparent to-transparent" />
+        <div className="relative z-10 -mt-8 rounded-t-[38px] bg-white px-5 py-12 sm:px-10 sm:py-14 lg:mt-0 lg:flex lg:items-center lg:rounded-l-[72px] lg:rounded-r-none lg:px-12 lg:py-10 xl:px-16">
+          <div className="mx-auto w-full max-w-[720px]">
+            <h1 className="text-balance font-serif text-[34px] font-normal leading-[1.06] tracking-[-0.025em] text-[#333333] sm:text-[42px] lg:text-[40px] xl:text-[44px]">
+              {clinic.h1}
+            </h1>
+            <p className="mt-5 max-w-[680px] text-[16px] leading-[1.65] text-[#52605E]">
+              {clinic.introduction}
+            </p>
 
-          
+            <div className="mt-7 grid border-t border-[#333333]/10 pt-6 lg:grid-cols-2 lg:gap-10">
+              <div id="clinic-hours" className="scroll-mt-24">
+                <h2 className="font-serif text-[24px] font-normal text-[#333333]">Clinic hours</h2>
+                <dl className="mt-3 divide-y divide-[#333333]/10 border-y border-[#333333]/10">
+                  {clinic.hours.map((item) => (
+                    <div className="grid min-h-11 grid-cols-[1fr_auto] items-center gap-4 py-2.5" key={item.days}>
+                      <dt className="text-[14px] font-medium text-[#333333]">{item.days}</dt>
+                      <dd className="text-right text-[14px] text-[#333333]">{item.hours}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </div>
+
+              <div className="mt-5 border-t border-[#333333]/10 pt-5 lg:mt-0 lg:border-l lg:border-t-0 lg:pl-10 lg:pt-0">
+                <h2 className="font-serif text-[24px] font-normal text-[#333333]">Contact</h2>
+                <dl className="mt-3 divide-y divide-[#333333]/10 border-y border-[#333333]/10 text-[14px] leading-5 text-[#333333]">
+                  <div className="grid min-h-11 grid-cols-[72px_1fr] items-center gap-3 py-2.5">
+                    <dt className="font-medium">Phone</dt>
+                    <dd><a className="transition-colors hover:text-[#247F7A]" href={`tel:${clinic.phone.replace(/\D/g, '')}`}>{clinic.phone}</a></dd>
+                  </div>
+                  {clinic.fax && (
+                    <div className="grid min-h-11 grid-cols-[72px_1fr] items-center gap-3 py-2.5">
+                      <dt className="font-medium">Fax</dt>
+                      <dd>{clinic.fax}</dd>
+                    </div>
+                  )}
+                  <div className="grid grid-cols-[72px_1fr] items-start gap-3 py-2.5">
+                    <dt className="font-medium">Address</dt>
+                    <dd>
+                      <a className="transition-colors hover:text-[#247F7A]" href={directionsUrl} target="_blank" rel="noopener noreferrer">
+                        {clinic.address}<br />
+                        {[clinic.city, clinic.province, clinic.postalCode].filter(Boolean).join(', ')}
+                      </a>
+                    </dd>
+                  </div>
+                </dl>
+              </div>
+            </div>
+          </div>
         </div>
       </header>
 
-      {/* Philosophy Statement Section */}
-      <section className="border-y border-[#333333]/10 bg-[#EAF7F6] px-6 py-14 sm:px-10 sm:py-16 lg:px-16 lg:py-20">
-        <div className="mx-auto max-w-[920px] text-center">
-          <span className="mx-auto mb-7 block h-px w-14 bg-[#2AA7A1]" aria-hidden="true" />
-          <p
-            className="font-serif text-[30px] font-normal leading-[1.12] text-[#333333] sm:text-[40px] lg:text-[48px]"
-          >
-            {clinic.philosophy || 'We help families turn everyday health needs into simpler, supported care.'}
-          </p>
-        </div>
-      </section>
+      <SpecialistReferrals clinicSlug={clinic.slug} />
 
       {clinic.slug === 'griffin-road-medical-clinic' && <GriffinAesthetics />}
 
@@ -198,11 +225,7 @@ export default async function LocationPage({ params }: LocationPageProps) {
         />
       )}
       {clinic.slug === 'lewisburg' && (
-        <ClinicVideo
-          label="Video tour of Zomak Medical Clinic in Lewisburg"
-          poster={clinic.heroImageUrl}
-          src="/videos/lewisburg-clinic.mp4"
-        />
+        <LewisburgVideoTour />
       )}
       {clinic.slug === 'northmount' && (
         <ClinicVideo
@@ -245,11 +268,110 @@ export default async function LocationPage({ params }: LocationPageProps) {
           </div>
         </section>
       )}
+      <LocationMapAndFaq
+        clinicName={displayClinicName}
+        directionsUrl={directionsUrl}
+        faqs={clinic.faqs}
+        mapEmbedUrl={mapEmbedUrl}
+      />
       <LocationCareCta
         clinicName={displayClinicName}
+        directionsHref={directionsUrl}
         phone={clinic.phone}
         walkInStatus={walkInStatus}
+        image={clinic.slug === 'lewisburg' ? '/images/locations/lewisburg-exterior.jpg' : undefined}
+        imageAlt={clinic.slug === 'lewisburg' ? 'Exterior of Zomak Medical Clinic Lewisburg' : undefined}
       />
+    </section>
+  )
+}
+
+function SpecialistReferrals({ clinicSlug }: { clinicSlug: string }) {
+  const offersPediatricReferrals = clinicSlug === 'northmount' || clinicSlug === 'fairview'
+
+  return (
+    <section id="specialist-referrals" className="scroll-mt-24 border-y border-[#333333]/10 bg-[#EAF7F6] px-5 py-14 sm:px-10 sm:py-16 lg:px-16 lg:py-20">
+      <div className="mx-auto grid max-w-[1200px] gap-6 lg:grid-cols-[0.85fr_1.15fr] lg:items-start lg:gap-20">
+        <h2 className="max-w-[500px] font-serif text-[32px] font-normal leading-[1.1] text-[#333333] sm:text-[40px] lg:text-[46px]">
+          When a specialist referral is needed
+        </h2>
+        <div className="max-w-[680px] text-[17px] leading-8 text-[#333333]/75">
+          <p>
+            {offersPediatricReferrals
+              ? 'A referral is required to see pediatrician Dr. Chika Olijo or internal-medicine specialist Dr. Izuchukwu Ezeh.'
+              : 'A referral is required to see internal-medicine specialist Dr. Izuchukwu Ezeh.'}{' '}
+            Any ZOMAK clinic or outside healthcare provider can initiate the referral. Referring providers should fax it to 403-538-6747.
+          </p>
+          <p className="mt-4">
+            After review, the clinic will contact the patient to confirm the appointment location and timing.{' '}
+            {offersPediatricReferrals && 'Dr. Olijo rotates between Northmount and Fairview. '}
+            Dr. Ezeh rotates across all five ZOMAK clinics.
+          </p>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function LocationMapAndFaq({
+  clinicName,
+  directionsUrl,
+  faqs,
+  mapEmbedUrl
+}: {
+  clinicName: string
+  directionsUrl: string
+  faqs: { question: string; answer: string }[]
+  mapEmbedUrl: string
+}) {
+  return (
+    <section id="location-details" className="scroll-mt-24 border-t border-[#333333]/10 bg-[#F7FAFA] px-5 py-14 sm:px-10 sm:py-16 lg:px-16 lg:py-20">
+      <div className="mx-auto grid max-w-[1280px] gap-10 lg:grid-cols-[0.78fr_1.22fr] lg:items-start lg:gap-14">
+        <div className="lg:pt-2">
+          <h2 className="font-serif text-[34px] font-normal leading-tight text-[#333333] sm:text-[42px]">
+            Before you visit
+          </h2>
+          <p className="mt-3 max-w-[480px] text-[16px] leading-7 text-[#333333]/65">
+            Quick answers about visiting this clinic.
+          </p>
+          <div className="mt-7 divide-y divide-[#333333]/12 border-y border-[#333333]/12">
+            {faqs.map((item) => (
+              <details className="group py-5" key={item.question}>
+                <summary className="flex cursor-pointer list-none items-start justify-between gap-5 text-[16px] font-medium leading-7 text-[#333333] marker:content-none">
+                  <span>{item.question}</span>
+                  <span className="mt-0.5 text-xl font-light leading-none text-[#247F7A] transition-transform group-open:rotate-45" aria-hidden="true">+</span>
+                </summary>
+                <p className="mt-3 max-w-[680px] text-[15px] leading-7 text-[#333333]/70">
+                  {item.answer}
+                </p>
+              </details>
+            ))}
+          </div>
+        </div>
+
+        <div className="overflow-hidden rounded-[24px] border border-[#333333]/10 bg-white shadow-sm">
+          <div className="overflow-hidden">
+            <iframe
+              className="h-[380px] w-full border-0 sm:h-[460px]"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              src={mapEmbedUrl}
+              title={`Map showing ${clinicName}`}
+            />
+          </div>
+          <div className="flex items-center justify-between gap-4 border-t border-[#333333]/10 px-5 py-4 sm:px-6">
+            <p className="text-sm text-[#333333]/65">Find the clinic and plan your route.</p>
+            <a
+              className="shrink-0 text-sm font-medium text-[#333333] underline decoration-[#333333]/25 underline-offset-4 transition hover:text-[#2AA7A1]"
+              href={directionsUrl}
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Open in Google Maps
+            </a>
+          </div>
+        </div>
+      </div>
     </section>
   )
 }
@@ -278,10 +400,37 @@ function getUpdatedServiceCardImage(title: string, fallback: string) {
 
 function getProviderLocationKey(locationName: string) {
   if (locationName.includes('Griffin Road')) return 'Zomak Griffin Road'
-  if (locationName.includes('Centre Street')) return 'Zomak Centre Street'
+  if (locationName.includes('Centre Street') || locationName.includes('Centre St')) return 'Zomak Centre Street'
   if (locationName.includes('Northmount')) return 'Zomak Northmount'
   if (locationName.includes('Fairview')) return 'Zomak Fairview'
+  if (locationName.includes('Lewisburg')) return 'Zomak Lewisburg'
   return locationName
+}
+
+function filterLocationServices(locationSlug: string, serviceTitles: string[]) {
+  const centreStreetOnly = new Set([
+    'Visa Medical Experts',
+    'Panel Physician Appointments'
+  ])
+  const griffinRoadOnly = new Set([
+    'Botox',
+    'Fillers',
+    'PRP Treatment for Hair and Facials',
+    'Vampire Breast Lift',
+    'Vampire Wing Lift'
+  ])
+
+  return Array.from(new Set(serviceTitles)).filter((title) => {
+    if (centreStreetOnly.has(title)) {
+      return locationSlug === 'centre-street-north-medical-clinic'
+    }
+
+    if (griffinRoadOnly.has(title)) {
+      return locationSlug === 'griffin-road-medical-clinic'
+    }
+
+    return true
+  })
 }
 
 function ClinicVideo({ label, poster, src }: { label: string; poster: string; src: string }) {
@@ -299,6 +448,40 @@ function ClinicVideo({ label, poster, src }: { label: string; poster: string; sr
           <source src={src} type="video/mp4" />
           Your browser does not support embedded video.
         </video>
+      </div>
+    </section>
+  )
+}
+
+function LewisburgVideoTour() {
+  return (
+    <section className="bg-white px-6 py-16 sm:px-10 lg:px-16 lg:py-24">
+      <div className="mx-auto max-w-[1400px]">
+        <div className="mb-8 max-w-[720px] sm:mb-10">
+          <h2 className="font-serif text-[32px] font-normal leading-tight text-[#333333] sm:text-[42px]">
+            Take a look around our clinic
+          </h2>
+        </div>
+
+        <div className="grid items-stretch gap-6 lg:grid-cols-[0.72fr_1.28fr]">
+          <video
+            aria-label="Video tour of Zomak Medical Clinic Lewisburg"
+            className="mx-auto aspect-[9/16] h-full max-h-[720px] w-full max-w-[405px] rounded-[20px] bg-black object-cover shadow-sm"
+            controls
+            playsInline
+            preload="metadata"
+          >
+            <source src="/videos/lewisburg-tour-2.mp4" type="video/mp4" />
+            Your browser does not support embedded video.
+          </video>
+          <div className="min-h-[360px] overflow-hidden rounded-[20px] bg-[#F3F8F7] lg:min-h-[620px]">
+            <img
+              src="/images/locations/lewisburg-reception.jpg"
+              alt="Waiting area inside Zomak Medical Clinic Lewisburg"
+              className="h-full w-full object-cover"
+            />
+          </div>
+        </div>
       </div>
     </section>
   )

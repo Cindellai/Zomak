@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { ArrowLeft, ArrowRight } from 'lucide-react'
+import { ArrowLeft, ArrowRight, MapPin, Phone } from 'lucide-react'
 import { useRef } from 'react'
 import type { Location } from '@/data/site'
 
@@ -22,7 +22,7 @@ export function ServiceLocationsCarousel({ locations }: { locations: Location[] 
   }
 
   return (
-    <section className="relative left-1/2 w-screen -translate-x-1/2 overflow-hidden bg-cloud px-6 py-20 sm:px-10 lg:px-16 lg:py-28">
+    <section id="service-locations" className="relative left-1/2 w-screen -translate-x-1/2 scroll-mt-24 overflow-hidden bg-cloud px-6 py-20 sm:px-10 lg:px-16 lg:py-28">
       <div className="mx-auto max-w-[1400px]">
         <div className="flex items-center justify-between gap-6">
           <h2
@@ -58,9 +58,8 @@ export function ServiceLocationsCarousel({ locations }: { locations: Location[] 
           style={{ scrollbarWidth: 'none' }}
         >
           {locations.map((location) => (
-            <Link
+            <article
               className="group flex min-h-[455px] w-[335px] shrink-0 snap-start flex-col rounded-[16px] bg-white p-3 text-ink no-underline shadow-[0_12px_34px_rgba(10,32,38,0.06)] ring-1 ring-ink/5 transition hover:-translate-y-1 hover:shadow-[0_18px_44px_rgba(10,32,38,0.1)]"
-              href={`/locations/${location.slug}`}
               key={location.slug}
             >
               <div className="relative aspect-[1.45/1] overflow-hidden rounded-[12px] bg-cloud">
@@ -83,17 +82,37 @@ export function ServiceLocationsCarousel({ locations }: { locations: Location[] 
                     .join(', ')}
                 </p>
 
-                <div className="mt-auto flex items-center justify-between border-t border-ink/8 pt-4">
-                  <span className="text-[13px] font-normal text-ink">
-                    Booking Now
-                  </span>
-                  <ArrowRight size={18} className="text-teal" />
+                <p className="mt-3 text-xs text-ink/55">Fax {location.fax}</p>
+
+                <div className="mt-auto grid grid-cols-2 gap-2 border-t border-ink/8 pt-4 text-[13px] font-medium">
+                  <a className="inline-flex items-center justify-center gap-1.5 rounded-lg bg-ink px-3 py-2.5 text-white no-underline transition hover:bg-teal" href={`tel:${location.phone.replace(/\D/g, '')}`}>
+                    <Phone size={14} /> Call clinic
+                  </a>
+                  <a className="inline-flex items-center justify-center gap-1.5 rounded-lg border border-ink/15 px-3 py-2.5 text-ink no-underline transition hover:border-teal hover:text-teal" href={getDirectionsHref(location)} target="_blank" rel="noopener noreferrer">
+                    <MapPin size={14} /> Directions
+                  </a>
+                  <Link className="col-span-2 inline-flex items-center justify-between px-1 pt-2 text-ink no-underline hover:text-teal" href={`/locations/${location.slug}`}>
+                    View clinic details <ArrowRight size={16} />
+                  </Link>
                 </div>
               </div>
-            </Link>
+            </article>
           ))}
         </div>
       </div>
     </section>
   )
+}
+
+function getDirectionsHref(location: Location) {
+  const query = [
+    location.address,
+    location.city,
+    location.province,
+    location.postalCode
+  ]
+    .filter(Boolean)
+    .join(', ')
+
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`
 }

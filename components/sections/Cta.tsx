@@ -1,4 +1,6 @@
 import Link from 'next/link'
+import { ArrowRight } from 'lucide-react'
+import { homeActionPrimary } from '@/components/ui/homeActionStyles'
 
 import { cta } from '@/lib/routes'
 import type { HomepageContent } from '@/lib/sanity/homepage'
@@ -45,9 +47,10 @@ export function CTA({ content }: { content?: HomepageContent['finalCta'] }) {
 
         <Link
           href={content?.buttonHref || '/contact'}
-          className="mt-8 inline-flex h-12 w-full max-w-[260px] items-center justify-center rounded-full bg-[#333333] px-7 text-[15px] font-normal text-white no-underline shadow-[0_12px_30px_rgba(10,15,15,0.24)] transition hover:bg-[#2AA7A1] focus:outline-none focus:ring-2 focus:ring-white/70 focus:ring-offset-2 focus:ring-offset-[#2AA7A1] sm:mt-9 sm:w-auto sm:min-w-[178px]"
+          className={`${homeActionPrimary} mt-8 w-full max-w-[260px] sm:mt-9 sm:w-auto sm:min-w-[178px]`}
         >
           {content?.buttonLabel || 'Contact'}
+          <ArrowRight className="transition-transform group-hover:translate-x-1" size={16} aria-hidden="true" />
         </Link>
       </div>
     </section>

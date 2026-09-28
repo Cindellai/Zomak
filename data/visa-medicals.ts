@@ -7,6 +7,17 @@ export type VisaMedicalCountry = {
   results: string
 }
 
+export const offsiteTestingNotice =
+  'Required laboratory testing and X-rays are completed at partner facilities approximately ten minutes away.'
+
+export const centreStreetImmigrationPhone = '587-586-6999'
+export const centreStreetImmigrationPhoneHref = 'tel:5875866999'
+export const centreStreetIrccBookingUrl = 'https://booking.csnmc.ca/'
+export const centreStreetIrccDetailsUrl = 'https://csnmc.ca/panel-physicians/'
+
+const visaMedicalVisitFlow =
+  `Your ZOMAK appointment covers the clinical examination and document review. ${offsiteTestingNotice}`
+
 export const visaMedicalCountries: VisaMedicalCountry[] = [
   {
     country: 'Angola',
@@ -18,8 +29,7 @@ export const visaMedicalCountries: VisaMedicalCountry[] = [
       'Bring one passport-sized photograph.',
       'Stay hydrated before the appointment.'
     ],
-    during:
-      'A physician completes a physical examination and arranges the required chest X-ray.',
+    during: visaMedicalVisitFlow,
     results: 'Most results are available within 3 days.'
   },
   {
@@ -32,7 +42,7 @@ export const visaMedicalCountries: VisaMedicalCountry[] = [
       'Bring one passport-sized photograph.',
       'Drink enough fluids before blood collection.'
     ],
-    during: 'A healthcare professional completes the required exam and testing.',
+    during: visaMedicalVisitFlow,
     results: 'Most results are ready within 3 days.'
   },
   {
@@ -50,8 +60,7 @@ export const visaMedicalCountries: VisaMedicalCountry[] = [
       'Bring your passport.',
       'Bring one passport-sized photograph.'
     ],
-    during:
-      'The clinic reviews your medical history and collects blood and urine samples.',
+    during: visaMedicalVisitFlow,
     results: 'Most results are ready within 3 days.'
   },
   {
@@ -65,8 +74,7 @@ export const visaMedicalCountries: VisaMedicalCountry[] = [
       'Arrive with a full bladder for the urine test.',
       'Hepatitis A and typhoid vaccines may be recommended for travellers.'
     ],
-    during:
-      'The clinic collects a urine sample and completes a physical examination.',
+    during: visaMedicalVisitFlow,
     results: 'Most results are ready within 3 days.'
   },
   {
@@ -85,8 +93,7 @@ export const visaMedicalCountries: VisaMedicalCountry[] = [
       'Bring two passport-sized photographs.',
       'Hold urine for up to 4 hours before the urine test if possible.'
     ],
-    during:
-      'A licensed doctor reviews your medical history and completes the required chest X-ray.',
+    during: visaMedicalVisitFlow,
     results: 'Most results are ready within 3 days.'
   },
   {
@@ -99,7 +106,7 @@ export const visaMedicalCountries: VisaMedicalCountry[] = [
       'Bring one passport-sized photograph.',
       'Take enough fluids before the appointment.'
     ],
-    during: 'The clinic collects blood and urine samples.',
+    during: visaMedicalVisitFlow,
     results: 'Most results are ready within 3 days.'
   },
   {
@@ -115,14 +122,13 @@ export const visaMedicalCountries: VisaMedicalCountry[] = [
       'Bring your passport or driver’s license.',
       'Bring one passport-sized photograph.'
     ],
-    during:
-      'The clinic reviews your medical history and completes chest X-ray and resting ECG requirements.',
+    during: visaMedicalVisitFlow,
     results: 'Most results are ready within 3 days.'
   },
   {
-    country: 'Dubai',
+    country: 'United Arab Emirates',
     summary:
-      'Completing Dubai visa medical tests before travel may help speed up the visa process.',
+      'United Arab Emirates visa applications may require medical testing before travel. Confirm the current requirements for your visa category with Centre Street before booking.',
     tests: [
       'HIV, syphilis, hepatitis B, hepatitis C, and liver function blood tests',
       'Chest X-ray',
@@ -132,8 +138,7 @@ export const visaMedicalCountries: VisaMedicalCountry[] = [
       'Bring your passport or driver’s license.',
       'Bring one passport-sized photograph.'
     ],
-    during:
-      'A licensed healthcare professional reviews your medical history and requests a urine sample.',
+    during: visaMedicalVisitFlow,
     results: 'Most results are ready within 3 days.'
   },
   {
@@ -149,8 +154,7 @@ export const visaMedicalCountries: VisaMedicalCountry[] = [
       'Bring your passport or driver’s license.',
       'Bring two passport-sized photographs.'
     ],
-    during:
-      'The doctor discusses your current health and medical history, collects a urine sample, and arranges a chest X-ray.',
+    during: visaMedicalVisitFlow,
     results: 'Most results are ready within 3 days.'
   },
   {
@@ -167,7 +171,7 @@ export const visaMedicalCountries: VisaMedicalCountry[] = [
       'Bring your passport.',
       'Bring one passport-sized photograph.'
     ],
-    during: 'You provide a urine sample for the required screening.',
+    during: visaMedicalVisitFlow,
     results: 'Most results are ready within 3 days.'
   },
   {
@@ -179,8 +183,7 @@ export const visaMedicalCountries: VisaMedicalCountry[] = [
       'Bring your passport.',
       'Bring one passport-sized photograph.'
     ],
-    during:
-      'A certified healthcare professional completes a full medical consultation.',
+    during: visaMedicalVisitFlow,
     results: 'Most results are ready within 3 days.'
   },
   {
@@ -192,8 +195,7 @@ export const visaMedicalCountries: VisaMedicalCountry[] = [
       'Bring your passport.',
       'Bring one passport-sized photograph.'
     ],
-    during:
-      'The clinic completes a physical examination and chest X-ray in line with Kuwait visa form requirements.',
+    during: visaMedicalVisitFlow,
     results: 'Most results are ready within 3 days.'
   },
   {
@@ -209,8 +211,7 @@ export const visaMedicalCountries: VisaMedicalCountry[] = [
       'Bring your passport.',
       'Bring one passport-sized photograph.'
     ],
-    during:
-      'A licensed doctor reviews your medical history, requests a urine sample, and arranges a chest X-ray.',
+    during: visaMedicalVisitFlow,
     results: 'Most results are ready within 3 days.'
   },
   {
@@ -227,7 +228,7 @@ export const visaMedicalCountries: VisaMedicalCountry[] = [
       'Bring your passport or driver’s license.',
       'Bring one passport-sized photograph.'
     ],
-    during: 'You provide a urine sample during the visit.',
+    during: visaMedicalVisitFlow,
     results: 'Most results are ready within 3 days.'
   },
   {
@@ -236,8 +237,7 @@ export const visaMedicalCountries: VisaMedicalCountry[] = [
       'Work visas for Papua New Guinea may require a medical visa test; vacationers may not require medicals.',
     tests: ['Urine test', 'HIV blood test', 'Chest X-ray'],
     preparation: ['Bring your passport.'],
-    during:
-      'A licensed healthcare professional requests a urine sample and arranges a chest X-ray.',
+    during: visaMedicalVisitFlow,
     results: 'Most results are ready within 3 days.'
   },
   {
@@ -257,7 +257,7 @@ export const visaMedicalCountries: VisaMedicalCountry[] = [
       'Bring one passport-sized photograph.',
       'Stay well hydrated before blood collection.'
     ],
-    during: 'You provide a urine sample and complete the required chest X-ray.',
+    during: visaMedicalVisitFlow,
     results: 'Most results are ready within 3 days.'
   },
   {
@@ -269,8 +269,7 @@ export const visaMedicalCountries: VisaMedicalCountry[] = [
       'Bring your passport.',
       'Bring one passport-sized photograph.'
     ],
-    during:
-      'A healthcare professional requests a urine sample and arranges a chest X-ray.',
+    during: visaMedicalVisitFlow,
     results: 'Most results are ready within 3 days.'
   },
   {
@@ -287,8 +286,7 @@ export const visaMedicalCountries: VisaMedicalCountry[] = [
       'Bring your original passport or driver’s license.',
       'Bring one passport-sized photograph.'
     ],
-    during:
-      'The clinic collects a urine sample, completes a chest X-ray, performs a general medical examination, and reviews medical history, vision, and hearing.',
+    during: visaMedicalVisitFlow,
     results: 'Most results are ready within 3 days.'
   },
   {
@@ -304,8 +302,7 @@ export const visaMedicalCountries: VisaMedicalCountry[] = [
       'Bring your original passport or driver’s license.',
       'Bring one passport-sized photograph.'
     ],
-    during:
-      'The doctor reviews your medical history, requests urine and stool samples, and arranges a chest X-ray.',
+    during: visaMedicalVisitFlow,
     results: 'Most results are ready within 3 days.'
   },
   {
@@ -317,8 +314,7 @@ export const visaMedicalCountries: VisaMedicalCountry[] = [
       'Bring your original passport or driver’s license.',
       'Bring one passport-sized photograph.'
     ],
-    during:
-      'The doctor reviews your medical history, requests urine and stool samples, and arranges a chest X-ray.',
+    during: visaMedicalVisitFlow,
     results: 'Most results are ready within 3 days.'
   },
   {
@@ -331,8 +327,7 @@ export const visaMedicalCountries: VisaMedicalCountry[] = [
       'Bring one passport-sized photograph.',
       'Hepatitis A and typhoid vaccinations may be recommended before travel.'
     ],
-    during:
-      'A licensed healthcare professional conducts a routine physical examination.',
+    during: visaMedicalVisitFlow,
     results: 'Most results are ready within 3 days.'
   },
   {
@@ -351,8 +346,7 @@ export const visaMedicalCountries: VisaMedicalCountry[] = [
       'Drink enough fluids for urinalysis.',
       'Fast for at least 6 hours before fasting glucose testing.'
     ],
-    during: 'The doctor reviews your medical history.',
+    during: visaMedicalVisitFlow,
     results: 'Most results are ready within 3 days.'
   }
 ]
-

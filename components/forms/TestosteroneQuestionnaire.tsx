@@ -83,8 +83,8 @@ export function TestosteroneQuestionnaire() {
                     : 'This screening does not show a strong symptom pattern, but it cannot rule out a medical concern. Book an appointment if symptoms persist, change, or affect your wellbeing.'}
                 </p>
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                  <Link href="/contact" className="inline-flex justify-center rounded-full bg-[#333333] px-7 py-4 text-sm font-medium text-white no-underline transition hover:bg-[#2AA7A1]">
-                    Book an appointment
+                  <Link href="/locations#choose-clinic" className="inline-flex justify-center rounded-full bg-[#333333] px-7 py-4 text-sm font-medium text-white no-underline transition hover:bg-[#2AA7A1]">
+                    Choose a clinic
                   </Link>
                   <button type="button" onClick={() => setSubmitted(false)} className="rounded-full border border-[#333333]/20 px-7 py-4 text-sm font-medium text-[#333333] transition hover:border-[#2AA7A1] hover:text-[#247F7A]">Review answers</button>
                 </div>

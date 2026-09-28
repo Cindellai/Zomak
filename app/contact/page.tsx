@@ -1,13 +1,11 @@
-import { Printer, MapPin, Phone, ArrowDown, ArrowUpRight } from 'lucide-react'
+import { Printer, MapPin, Phone, ArrowDown, ArrowUpRight, Clock3 } from 'lucide-react'
 import type { ReactNode } from 'react'
 
-import { locations } from '@/data/site'
+import { clinicHoursSummary, locations } from '@/data/site'
 import { RegistrationChat } from '@/components/contact/RegistrationChat'
+import { pageMetadata } from '@/lib/seo'
 
-export const metadata = {
-  title: 'Contact ZOMAK Medical',
-  description: 'Call, book, or find directions for ZOMAK Medical clinic locations.'
-}
+export const metadata = pageMetadata({ pathname: '/contact', title: 'Contact ZOMAK Medical', description: 'Call, book, or find directions for ZOMAK Medical clinic locations.' })
 
 export default function ContactPage() {
   return (
@@ -55,7 +53,7 @@ export default function ContactPage() {
               </h2>
 
               {/* Responsive Cards Grid */}
-              <div className="grid gap-6 sm:grid-cols-3">
+              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
                 
                 <ContactInfoCard
                   href={location.phone ? `tel:${location.phone.replaceAll(' ', '')}` : undefined}
@@ -74,6 +72,12 @@ export default function ContactPage() {
                   href={getDirectionsHref(location)}
                   icon={<MapPin size={22} />}
                   value={formatLocationAddress(location)}
+                  valueStyle="body"
+                />
+
+                <ContactInfoCard
+                  icon={<Clock3 size={22} />}
+                  value={clinicHoursSummary}
                   valueStyle="body"
                 />
                 

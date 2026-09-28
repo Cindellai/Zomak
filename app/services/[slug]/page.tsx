@@ -11,6 +11,7 @@ import {
   serviceCategoryOrder,
   services
 } from '@/data/site'
+import { pageMetadata } from '@/lib/seo'
 
 type ServicePageProps = {
   params: Promise<{
@@ -70,12 +71,12 @@ const categoryDetails: Record<
     accentImage: '/images/services/mens-health-battle-ropes.jpg',
     overview: 'Men’s health services are designed for patients seeking private, provider-guided support for specialized treatment planning.'
   },
-  'Zomak Home Care': {
+  'ZOMAK Home Care': {
     description: 'Home care services for seniors, families, caregivers, and client-directed support.',
     image: '/images/services/home-care-family-support.jpg',
     heroImage: '/images/services/home-care-hero-caregiver.jpg',
     accentImage: '/images/services/home-care-health-monitoring.jpg',
-    overview: 'Zomak Home Care services support daily living, respite, personal care, and approved home care program coordination.'
+    overview: 'The new ZOMAK Home Care service line supports daily living, respite, personal care, and approved home care program coordination.'
   }
 }
 
@@ -93,10 +94,7 @@ export async function generateMetadata({ params }: ServicePageProps) {
   const details = categoryDetails[category]
   const cleanedCategory = category.replace(/-too/gi, '').replace(/-/g, ' ')
 
-  return {
-    title: `${cleanedCategory} | ZOMAK`,
-    description: details.description
-  }
+  return pageMetadata({ pathname: `/services/${slug}`, title: `${cleanedCategory} | ZOMAK`, description: details.description, image: details.heroImage || details.image })
 }
 
 export default async function ServicePage({ params }: ServicePageProps) {
@@ -117,11 +115,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
   const availableLocations = locations.filter((location) =>
     allCategoryServices.some((service) => location.services.includes(service.title))
   )
-  const usesContactCta =
-    category === 'Internal Medicine' ||
-    categoryServices.some((service) => service.title === 'Pediatric Care')
-  const serviceCtaLabel = usesContactCta ? 'Contact Us' : 'Book Now'
-  const serviceCtaHref = '/contact'
+  const serviceAction = getServiceCategoryAction(category)
 
   const displayCategory = category.replace(/-too/gi, '').replace(/-/g, ' ');
 
@@ -228,10 +222,13 @@ export default async function ServicePage({ params }: ServicePageProps) {
       </section>
 
       {(category === 'Internal Medicine' || category === 'Pediatric Care') && (
-        <section className="bg-[#BFEAE7] px-6 py-14 sm:px-10 lg:px-16 lg:py-20">
-          <div className="mx-auto grid max-w-[1400px] gap-8 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
-            <div>
-              
+        <section id="referral-process" className="scroll-mt-24 bg-[#BFEAE7] px-6 py-14 sm:px-10 lg:px-16 lg:py-20">
+          <div className="mx-auto max-w-[1400px]">
+            <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
+              <div>
+                <p className="text-sm font-medium uppercase tracking-[0.16em] text-[#247F7A]">
+                  Referral required
+                </p>
               <h2
                 className="mt-3 max-w-[820px] text-[34px] font-normal leading-tight text-[#333333] sm:text-[44px]"
                 style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
@@ -239,19 +236,43 @@ export default async function ServicePage({ params }: ServicePageProps) {
                 Ask your clinic to send your {category.toLowerCase()} referral by fax.
               </h2>
               <p className="mt-4 max-w-[760px] text-base leading-7 text-[#333333]/75 sm:text-lg">
-                Patients do not need to fax the referral themselves. Your referring clinic should send it directly to the ZOMAK specialist team.
+                A referral can be initiated through any ZOMAK clinic or by an outside healthcare provider. Patients do not need to fax the referral themselves.
               </p>
+              </div>
+
+              <div
+                className="inline-flex min-w-[280px] flex-col rounded-2xl bg-[#333333] px-8 py-6 text-white shadow-lg"
+                aria-label="Referral fax number 403-538-6747"
+              >
+                <span className="text-sm text-white/65">Referring provider fax</span>
+                <span className="mt-1 text-[28px] font-medium tracking-tight sm:text-[32px]">
+                  403-538-6747
+                </span>
+              </div>
             </div>
 
-            <div
-              className="inline-flex min-w-[280px] flex-col rounded-2xl bg-[#333333] px-8 py-6 text-white shadow-lg"
-              aria-label="Referral fax number 403-538-6747"
-            >
-              <span className="text-sm text-white/65">Fax</span>
-              <span className="mt-1 text-[28px] font-medium tracking-tight sm:text-[32px]">
-                403-538-6747
-              </span>
+            <div className="mt-9 grid gap-5 border-t border-[#333333]/15 pt-8 md:grid-cols-3">
+              <div>
+                <p className="text-xs font-medium uppercase tracking-[0.14em] text-[#247F7A]">01 · Choose a starting clinic</p>
+                <p className="mt-3 text-sm leading-6 text-[#333333]/75">Select the nearest ZOMAK clinic, then call it directly if you need help initiating the referral.</p>
+              </div>
+              <div>
+                <p className="text-xs font-medium uppercase tracking-[0.14em] text-[#247F7A]">02 · Provider sends referral</p>
+                <p className="mt-3 text-sm leading-6 text-[#333333]/75">Your ZOMAK clinic or outside healthcare provider sends the referral to the specialist team for review.</p>
+              </div>
+              <div>
+                <p className="text-xs font-medium uppercase tracking-[0.14em] text-[#247F7A]">03 · Appointment confirmed</p>
+                <p className="mt-3 text-sm leading-6 text-[#333333]/75">
+                  {category === 'Pediatric Care'
+                    ? 'After review, the team confirms an appointment at Northmount or Fairview with Dr. Chika Olijo.'
+                    : 'After review, the team confirms the location and timing. Dr. Izuchukwu Ezeh rotates across all five ZOMAK clinics.'}
+                </p>
+              </div>
             </div>
+
+            <Link href="/locations#choose-clinic" className="mt-8 inline-flex rounded-full bg-[#333333] px-6 py-3.5 text-sm text-white no-underline transition hover:bg-[#247F7A]">
+              Choose a clinic to start
+            </Link>
           </div>
         </section>
       )}
@@ -299,8 +320,8 @@ export default async function ServicePage({ params }: ServicePageProps) {
       <ServiceLocationsCarousel locations={availableLocations} />
 
       <ServiceContactCta
-        label={serviceCtaLabel}
-        href={serviceCtaHref}
+        label={serviceAction.label}
+        href={serviceAction.href}
         image={
           category === 'Aesthetics'
             ? '/images/home-aesthetics-cta-group.jpg'
@@ -314,7 +335,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
                     ? '/images/services/mens-health-training-pair.jpg'
                     : category === 'Pediatric Care'
                       ? '/images/services/pediatric-care-cta-family.jpg'
-                      : category === 'Zomak Home Care'
+                      : category === 'ZOMAK Home Care'
                         ? '/images/services/home-care-cta-independence.jpg'
                         : undefined
         }
@@ -331,7 +352,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
                     ? 'Two men training together outdoors'
                     : category === 'Pediatric Care'
                       ? 'Parents spending time at home with their young child'
-                      : category === 'Zomak Home Care'
+                      : category === 'ZOMAK Home Care'
                         ? 'An older adult using a mobility aid at home'
                         : undefined
         }
@@ -340,6 +361,41 @@ export default async function ServicePage({ params }: ServicePageProps) {
 
     </section>
   )
+}
+
+function getServiceCategoryAction(category: string) {
+  if (category === 'Internal Medicine') {
+    return {
+      label: 'Review referral process',
+      href: '/services/internal-medicine#referral-process'
+    }
+  }
+
+  if (category === 'Pediatric Care') {
+    return {
+      label: 'Review referral process',
+      href: '/services/pediatric-care#referral-process'
+    }
+  }
+
+  if (category === 'Family Practice') {
+    return {
+      label: 'Find an accepting family doctor',
+      href: '/doctors?filter=accepting-new-patients#provider-directory'
+    }
+  }
+
+  if (category === 'Aesthetics') {
+    return {
+      label: 'View Griffin Road clinic',
+      href: '/locations/griffin-road-medical-clinic'
+    }
+  }
+
+  return {
+    label: 'Choose a clinic',
+    href: '/locations#choose-clinic'
+  }
 }
 
 function getDisplayedServices(category: string, categoryServices: typeof services) {

@@ -16,9 +16,9 @@ export const siteSettings = defineType({
       title: 'Homepage — Hero',
       type: 'object',
       fields: [
-        defineField({ name: 'title', title: 'Main Heading', type: 'string', initialValue: 'ZOMAK Medical,' }),
+        defineField({ name: 'title', title: 'Main Heading', type: 'string', initialValue: 'Walk-In Clinics and Family Doctors Across Calgary and Cochrane' }),
         defineField({ name: 'accentTitle', title: 'Accent Heading', type: 'string', initialValue: 'Care made simple' }),
-        defineField({ name: 'description', title: 'Description', type: 'text', rows: 3 }),
+        defineField({ name: 'description', title: 'Description', type: 'text', rows: 3, initialValue: 'Find same-day medical care or walk-in, register with a family physician, complete an immigration or visa medical, or access referral-based specialist care through five convenient ZOMAK locations.' }),
         defineField({ name: 'image', title: 'Background Image', type: 'image', options: { hotspot: true } }),
         defineField({ name: 'imageAlt', title: 'Background Image Alt Text', type: 'string' }),
         defineField({ name: 'primaryLabel', title: 'Primary Button Label', type: 'string' }),

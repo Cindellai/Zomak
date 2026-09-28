@@ -4,41 +4,6 @@ import { Star, ArrowLeft, ArrowRight } from 'lucide-react'
 import { useState } from 'react'
 import type { HomepageContent } from '@/lib/sanity/homepage'
 
-const REVIEWS = [
-  {
-    category: 'Family Medicine',
-    badgeColor: 'bg-[#F4F6F7] text-[#333333]',
-    headline: 'The team made me feel comfortable from the moment I walked in.',
-    body: 'I was nervous about visiting a new clinic, but every staff member was warm and attentive. I left feeling reassured.',
-    name: 'Sarah M.',
-    stars: 5,
-  },
-  {
-    category: 'Walk-In Care',
-    badgeColor: 'bg-[#BFEAE7] text-[#333333]',
-    headline: 'Kind, professional, and helped me get care quickly.',
-    body: 'The staff were efficient without feeling rushed. I would definitely recommend this clinic to anyone in Calgary.',
-    name: 'James T.',
-    stars: 4,
-  },
-  {
-    category: 'Pediatric Care',
-    badgeColor: 'bg-[#BFEAE7] text-[#333333]',
-    headline: 'Very gentle and patient with my child throughout the visit.',
-    body: 'The visit felt calm, organized, and supportive. My daughter was at ease the entire time.',
-    name: 'Priya K.',
-    stars: 5,
-  },
-  {
-    category: "Women's Health",
-    badgeColor: 'bg-[#BFEAE7] text-[#333333]',
-    headline: 'The provider listened carefully and made sure I understood every step.',
-    body: 'She answered all my questions thoroughly and never made me feel rushed. Exceptional care.',
-    name: 'Linda R.',
-    stars: 5,
-  },
-]
-
 export function PatientReviews({
   content,
   testimonials
@@ -48,7 +13,7 @@ export function PatientReviews({
 }) {
   const [start, setStart] = useState(0)
   const visible = 4
-  const cmsReviews = testimonials?.filter((review) => review.quote && review.source)
+  const cmsReviews = testimonials?.filter((review) => review.quote && review.source && review.googleProfileUrl)
   const reviewData = cmsReviews?.length
     ? cmsReviews.map((review, index) => ({
         category: review.category || 'Patient Care',
@@ -56,9 +21,12 @@ export function PatientReviews({
         headline: review.headline || review.quote!,
         body: review.quote!,
         name: review.source!,
-        stars: review.rating || 5
+        stars: review.rating || 5,
+        googleProfileUrl: review.googleProfileUrl!,
+        locationName: review.locationName
       }))
-    : REVIEWS
+    : []
+  if (!reviewData.length) return null
   const canPrev = start > 0
   const canNext = start + visible < reviewData.length
 
@@ -114,9 +82,10 @@ export function PatientReviews({
 
               {/* Card Footer with explicit line break divider */}
               <div className="mt-8 flex items-center justify-between gap-4 border-t border-[#333333]/8 pt-5">
-                <p className="text-[13px] font-bold text-[#333333]">
-                  {review.name}
-                </p>
+                <div>
+                  <p className="text-[13px] font-bold text-[#333333]">{review.name}</p>
+                  {review.locationName && <p className="mt-1 text-[11px] text-[#333333]/50">{review.locationName}</p>}
+                </div>
 
                 {/* Elegant Minimal Star Grid */}
                 <div className="flex items-center gap-0.5 text-[#2AA7A1]">
@@ -129,6 +98,7 @@ export function PatientReviews({
                   ))}
                 </div>
               </div>
+              <a href={review.googleProfileUrl} target="_blank" rel="noopener noreferrer" className="mt-4 text-xs font-medium text-[#178C87] no-underline hover:underline">View on Google</a>
             </article>
           ))}
         </div>

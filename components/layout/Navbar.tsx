@@ -2,317 +2,97 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import type { ReactNode } from 'react'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { ArrowUpRight, ChevronDown, Menu, X } from 'lucide-react'
 
-import {
-  getServiceCategorySlug,
-  locations,
-  serviceCategoryOrder
-} from '@/data/site'
-import type { NavigationServiceCategory } from '@/lib/sanity/navigation'
+const serviceLinks = [
+  ['Family Practice', '/services/family-practice'], ['Walk-In Care', '/locations#choose-clinic'],
+  ["Women's Health", '/services/womens-health'], ["Men's Health", '/services/mens-health'],
+  ['Pediatric Care', '/services/pediatric-care'], ['Internal Medicine', '/services/internal-medicine'],
+  ['Medical Aesthetics', '/services/aesthetics'], ['ZOMAK Home Care', '/services/zomak-home-care']
+] as const
+const locationLinks = [
+  ['Lewisburg', '/locations/lewisburg'],
+  ['Centre Street', '/locations/centre-street-north-medical-clinic'],
+  ['Northmount', '/locations/northmount'],
+  ['Fairview', '/locations/fairview'],
+  ['Griffin Road · Cochrane', '/locations/griffin-road-medical-clinic'],
+  ['View all locations', '/locations#choose-clinic']
+] as const
+const immigrationLinks = [
+  ['Canadian IRCC Medicals', '/immigration-medical-exam-calgary'],
+  ['IRCC Panel Physician', '/ircc-panel-physician-calgary'],
+  ['International Visa Medicals', '/visa-medical-calgary']
+] as const
+const resourceLinks = [
+  ['Articles', '/blog'],
+  ['About ZOMAK', '/about']
+] as const
+type MenuName = 'locations' | 'services' | 'immigration' | 'resources'
 
-export default function Navbar({ serviceCategories }: { serviceCategories?: NavigationServiceCategory[] }) {
+export default function Navbar() {
   const pathname = usePathname()
-  const [isScrolled, setIsScrolled] = useState(false)
-  const [showClinicNav, setShowClinicNav] = useState(true)
-  const lastScrollY = useRef(0)
-  const [openMenu, setOpenMenu] = useState<'services' | 'locations' | null>(
-    null
-  )
   const [mobileOpen, setMobileOpen] = useState(false)
-  const isArticleDetail = pathname.startsWith('/blog/')
-  const isServiceDetail = pathname.startsWith('/services/')
-  const isClinicDetail = pathname.startsWith('/locations/')
-  const isHomePage = pathname === '/'
-  const isPanelPhysicianPage = pathname === '/services/details/panel-physician-appointments'
-  const usesDarkImageHero =
-    pathname === '/doctors' || isArticleDetail || (isServiceDetail && !isPanelPhysicianPage)
-  const isOverlayNav = !isScrolled
-  const usesLightText = isOverlayNav && usesDarkImageHero && !mobileOpen
-  const linkTone = usesLightText ? 'text-white' : 'text-[#333333]'
-  const mutedHover = usesLightText ? 'hover:text-white/70' : 'hover:opacity-70'
-  const categoryLinks = serviceCategories?.length
-    ? serviceCategories
-    : serviceCategoryOrder.map((title) => ({ title, slug: getServiceCategorySlug(title) }))
-
-  useEffect(() => {
-    const updateScrolled = () => {
-      const currentScrollY = window.scrollY
-      setIsScrolled(currentScrollY > 24)
-
-      if (isClinicDetail) {
-        if (currentScrollY < 24 || currentScrollY < lastScrollY.current - 4) {
-          setShowClinicNav(true)
-        } else if (currentScrollY > lastScrollY.current + 4) {
-          setShowClinicNav(false)
-        }
-      }
-
-      lastScrollY.current = currentScrollY
-    }
-
-    updateScrolled()
-    window.addEventListener('scroll', updateScrolled, { passive: true })
-
-    return () => {
-      window.removeEventListener('scroll', updateScrolled)
-    }
-  }, [isClinicDetail])
-
-  useEffect(() => {
-    setOpenMenu(null)
-    setMobileOpen(false)
-  }, [pathname])
-
+  const [openMenu, setOpenMenu] = useState<MenuName | null>(null)
+  useEffect(() => { setMobileOpen(false); setOpenMenu(null) }, [pathname])
   useEffect(() => {
     if (!mobileOpen) return
-    const previousOverflow = document.body.style.overflow
+    const previous = document.body.style.overflow
     document.body.style.overflow = 'hidden'
-    return () => {
-      document.body.style.overflow = previousOverflow
-    }
+    return () => { document.body.style.overflow = previous }
   }, [mobileOpen])
 
-  return (
-    <header
-      className={`${
-        isClinicDetail
-          ? `${isScrolled ? 'fixed left-0 right-0 top-0' : 'relative'} ${
-              isScrolled && !showClinicNav && !mobileOpen ? '-translate-y-full' : 'translate-y-0'
-            }`
-          : 'fixed left-0 right-0 top-0'
-      } ${isClinicDetail ? 'z-[60]' : 'z-50'} transition-all duration-300 ${
-        isClinicDetail || isHomePage || isPanelPhysicianPage
-          ? 'bg-white shadow-sm'
-          : isServiceDetail && !mobileOpen
-            ? 'bg-transparent'
-            : isOverlayNav && !mobileOpen
-              ? 'bg-transparent'
-              : 'bg-white/95 shadow-sm backdrop-blur-md'
-      }`}
-    >
-      <nav className="relative mx-auto flex h-16 max-w-[1400px] items-center justify-between px-6 sm:px-10 lg:px-16">
-        
-        {/* Left Side: Brand Logo */}
-        <Link
-          href="/"
-          className={`text-[26px] font-bold no-underline ${linkTone}`}
-          style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
-        >
-          ZOMAK
-        </Link>
-
-        {/* Primary Navigation Hub */}
-        <div className={`absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 items-center gap-5 text-[14px] font-medium lg:flex xl:gap-6 ${linkTone}`}>
-          <Link href="/about" className={`no-underline transition ${mutedHover}`}>
-            About
-          </Link>
-
-          <div
-            className="relative"
-            onMouseEnter={() => setOpenMenu('services')}
-            onMouseLeave={() => setOpenMenu(null)}
-          >
-            <Link
-              href="/services/family-practice"
-              onClick={() => setOpenMenu(null)}
-              className={`flex items-center gap-1 no-underline transition ${mutedHover}`}
-            >
-              Services
-              <ChevronDown
-                aria-hidden="true"
-                size={14}
-                className={`transition duration-200 ${
-                  openMenu === 'services' ? 'rotate-180' : ''
-                }`}
-              />
-            </Link>
-
-            <div
-              className={`absolute left-1/2 top-full z-50 w-[340px] -translate-x-1/2 pt-4 transition-all duration-200 ${
-                openMenu === 'services'
-                  ? 'visible opacity-100'
-                  : 'invisible opacity-0'
-              }`}
-            >
-              <div className="max-h-[70vh] overflow-y-auto overscroll-contain rounded-xl border border-[#333333]/10 bg-white p-1.5 shadow-[0_12px_30px_rgba(0,0,0,0.08)]">
-                {categoryLinks.map((category) => (
-                  <Link
-                    href={`/services/${category.slug}`}
-                    key={category.slug}
-                    onClick={() => setOpenMenu(null)}
-                    className="block rounded-lg px-3.5 py-2.5 text-[13px] font-medium text-[#333333] no-underline transition hover:bg-[#F4F6F7] hover:text-[#333333]"
-                  >
-                    {category.title}
-                  </Link>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          <div
-            className="relative"
-            onMouseEnter={() => setOpenMenu('locations')}
-            onMouseLeave={() => setOpenMenu(null)}
-          >
-            <button
-              type="button"
-              onClick={() =>
-                setOpenMenu(openMenu === 'locations' ? null : 'locations')
-              }
-              className={`flex cursor-pointer items-center gap-1 font-medium no-underline transition ${mutedHover}`}
-            >
-              Locations
-              <ChevronDown
-                aria-hidden="true"
-                size={14}
-                className={`transition duration-200 ${
-                  openMenu === 'locations' ? 'rotate-180' : ''
-                }`}
-              />
-            </button>
-
-            <div
-              className={`absolute left-1/2 top-full z-50 w-[300px] -translate-x-1/2 pt-4 transition-all duration-200 ${
-                openMenu === 'locations'
-                  ? 'visible opacity-100'
-                  : 'invisible opacity-0'
-              }`}
-            >
-              <div className="max-h-[70vh] overflow-y-auto overscroll-contain rounded-xl border border-[#333333]/10 bg-white p-1.5 shadow-[0_12px_30px_rgba(0,0,0,0.08)]">
-                {locations.map((location) => (
-                  <Link
-                    href={`/locations/${location.slug}`}
-                    key={location.slug}
-                    onClick={() => setOpenMenu(null)}
-                    className="block rounded-lg px-3.5 py-2.5 text-[13px] font-medium text-[#333333] no-underline transition hover:bg-[#F4F6F7] hover:text-[#333333]"
-                  >
-                    {location.name}
-                    <span className="mt-0.5 block text-[11px] font-normal text-[#333333]/45">
-                      {location.city}, {location.province}
-                    </span>
-                  </Link>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          <Link href="/doctors" className={`no-underline transition ${mutedHover}`}>
-            Providers
-          </Link>
-
-          <Link href="/visa-medicals" className={`no-underline transition ${mutedHover}`}>
-            Visa Medicals
-          </Link>
-
-          <Link href="/services/details/panel-physician-appointments" className={`no-underline transition ${mutedHover}`}>
-            Panel Physicians
-          </Link>
-
-          <Link href="/blog" className={`no-underline transition ${mutedHover}`}>
-            Articles
-          </Link>
-        </div>
-
-        {/* Right-aligned Utilities */}
-        <div className={`relative z-10 hidden items-center gap-5 text-[14px] font-medium lg:flex xl:gap-6 ${linkTone}`}>
-          <Link
-            href="/contact"
-            className="inline-flex h-[38px] items-center gap-1.5 rounded-lg bg-[#333333] px-4 text-[13px] font-normal text-white no-underline transition hover:bg-[#2AA7A1]"
-          >
-            <ArrowUpRight size={15} strokeWidth={2.5} />
-            Contact
-          </Link>
-        </div>
-
-        <button
-          type="button"
-          aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
-          aria-expanded={mobileOpen}
-          onClick={() => setMobileOpen((open) => !open)}
-          className={`relative z-10 flex size-10 items-center justify-center bg-transparent transition lg:hidden ${
-            usesLightText ? 'text-white' : 'text-[#333333]'
-          }`}
-        >
-          {mobileOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
-      </nav>
-
-      <div
-        className={`lg:hidden ${
-          mobileOpen ? 'block' : 'hidden'
-        } absolute inset-x-0 top-full z-50 h-[calc(100dvh-4rem)] overflow-y-auto overscroll-contain border-t border-[#333333]/10 bg-white px-5 pb-10 pt-4 shadow-[0_18px_40px_rgba(51,51,51,0.12)] sm:px-10`}
-      >
-        <div className="mx-auto grid max-w-[720px] gap-2 text-[#333333]">
-          <MobileNavLink href="/">Home</MobileNavLink>
-          <MobileNavLink href="/about">About</MobileNavLink>
-
-          <button
-            type="button"
-            onClick={() => setOpenMenu(openMenu === 'services' ? null : 'services')}
-            className="flex w-full items-center justify-between rounded-lg px-3 py-3 text-left text-[15px] transition hover:bg-[#BFEAE7]"
-            aria-expanded={openMenu === 'services'}
-          >
-            Services
-            <ChevronDown size={17} className={`transition ${openMenu === 'services' ? 'rotate-180' : ''}`} />
-          </button>
-          {openMenu === 'services' && (
-            <div className="grid gap-1 rounded-xl bg-[#F4F6F7] p-3">
-              {categoryLinks.map((category) => (
-                <MobileNavLink href={`/services/${category.slug}`} key={category.slug}>{category.title}</MobileNavLink>
-              ))}
-            </div>
-          )}
-
-          <button
-            type="button"
-            onClick={() => setOpenMenu(openMenu === 'locations' ? null : 'locations')}
-            className="flex w-full items-center justify-between rounded-lg px-3 py-3 text-left text-[15px] transition hover:bg-[#BFEAE7]"
-            aria-expanded={openMenu === 'locations'}
-          >
-            Locations
-            <ChevronDown size={17} className={`transition ${openMenu === 'locations' ? 'rotate-180' : ''}`} />
-          </button>
-          {openMenu === 'locations' && (
-            <div className="grid gap-1 rounded-xl bg-[#F4F6F7] p-3">
-              {locations.map((location) => (
-                <MobileNavLink href={`/locations/${location.slug}`} key={location.slug}>{location.name}</MobileNavLink>
-              ))}
-            </div>
-          )}
-
-          <MobileNavLink href="/doctors">Providers</MobileNavLink>
-          <MobileNavLink href="/visa-medicals">Visa Medicals</MobileNavLink>
-          <MobileNavLink href="/services/details/panel-physician-appointments">Panel Physicians</MobileNavLink>
-          <MobileNavLink href="/blog">Articles</MobileNavLink>
-          <Link
-            href="/contact"
-            className="mt-2 inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-[#333333] px-5 text-[14px] font-normal text-white no-underline transition hover:bg-[#2AA7A1]"
-          >
-            <ArrowUpRight size={16} />
-            Contact
-          </Link>
-        </div>
+  return <header className="fixed inset-x-0 top-0 z-[80] bg-white/95 backdrop-blur-md">
+    <nav className="mx-auto flex h-16 max-w-[1500px] items-center justify-between px-5 sm:px-8 lg:px-10 xl:px-14">
+      <Link href="/" className="shrink-0 text-[25px] font-bold text-[#333333] no-underline" style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}>ZOMAK</Link>
+      <div className="hidden items-center gap-4 text-[13px] font-medium text-[#333333] xl:flex xl:gap-6 xl:text-[14px]">
+        <Dropdown label="Locations" name="locations" openMenu={openMenu} setOpenMenu={setOpenMenu} links={locationLinks} />
+        <Dropdown label="Services" name="services" openMenu={openMenu} setOpenMenu={setOpenMenu} links={serviceLinks} />
+        <NavLink href="/doctors">Doctors</NavLink>
+        <Dropdown label="Immigration & Visa Medicals" name="immigration" openMenu={openMenu} setOpenMenu={setOpenMenu} links={immigrationLinks} />
+        <Dropdown label="Patient Resources" name="resources" openMenu={openMenu} setOpenMenu={setOpenMenu} links={resourceLinks} />
       </div>
-    </header>
-  )
+      <Link href="/locations#choose-clinic" className="hidden h-10 shrink-0 items-center gap-1.5 rounded-lg bg-[#333333] px-4 text-[13px] text-white no-underline transition hover:bg-[#2AA7A1] xl:inline-flex"><ArrowUpRight size={15} /> Book or Contact</Link>
+      <button type="button" aria-label={mobileOpen ? 'Close menu' : 'Open menu'} aria-expanded={mobileOpen} onClick={() => setMobileOpen(!mobileOpen)} className="flex size-10 items-center justify-center text-[#333333] xl:hidden">{mobileOpen ? <X size={24} /> : <Menu size={24} />}</button>
+    </nav>
+    {mobileOpen && <div className="h-[calc(100dvh-4rem)] overflow-y-auto border-t border-[#333333]/10 bg-white px-5 pb-10 pt-4 sm:px-10 xl:hidden">
+      <div className="mx-auto grid max-w-[720px] gap-1 text-[#333333]">
+        <MobileDropdown label="Locations" name="locations" openMenu={openMenu} setOpenMenu={setOpenMenu} links={locationLinks} />
+        <MobileDropdown label="Services" name="services" openMenu={openMenu} setOpenMenu={setOpenMenu} links={serviceLinks} />
+        <MobileLink href="/doctors">Doctors</MobileLink>
+        <MobileDropdown label="Immigration & Visa Medicals" name="immigration" openMenu={openMenu} setOpenMenu={setOpenMenu} links={immigrationLinks} />
+        <MobileDropdown label="Patient Resources" name="resources" openMenu={openMenu} setOpenMenu={setOpenMenu} links={resourceLinks} />
+        <Link href="/locations#choose-clinic" className="mt-3 inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-[#333333] px-5 text-[14px] text-white no-underline"><ArrowUpRight size={16} /> Book or Contact</Link>
+      </div>
+    </div>}
+  </header>
 }
 
-function MobileNavLink({
-  children,
-  href
-}: {
-  children: ReactNode
-  href: string
-}) {
-  return (
-    <Link
-      href={href}
-      className="block rounded-lg px-3 py-2.5 text-[15px] font-normal text-[#333333] no-underline transition hover:bg-[#BFEAE7]"
-    >
-      {children}
-    </Link>
-  )
+function NavLink({ href, children }: { href: string; children: ReactNode }) { return <Link href={href} className="whitespace-nowrap text-[#333333] no-underline transition hover:text-[#2AA7A1]">{children}</Link> }
+function Dropdown({ label, name, openMenu, setOpenMenu, links }: { label: string; name: MenuName; openMenu: MenuName | null; setOpenMenu: (menu: MenuName | null) => void; links: readonly (readonly [string, string])[] }) {
+  const open = openMenu === name
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const openDropdown = () => {
+    if (closeTimer.current) clearTimeout(closeTimer.current)
+    setOpenMenu(name)
+  }
+  const scheduleClose = () => {
+    closeTimer.current = setTimeout(() => setOpenMenu(null), 140)
+  }
+
+  useEffect(() => () => {
+    if (closeTimer.current) clearTimeout(closeTimer.current)
+  }, [])
+
+  return <div className="relative" onMouseEnter={openDropdown} onMouseLeave={scheduleClose} onFocus={openDropdown} onBlur={(event) => {
+    if (!event.currentTarget.contains(event.relatedTarget)) scheduleClose()
+  }}>
+    <button type="button" aria-expanded={open} aria-haspopup="menu" onClick={() => setOpenMenu(open ? null : name)} className="flex items-center gap-1 whitespace-nowrap transition hover:text-[#2AA7A1]">{label}<ChevronDown size={14} className={`transition ${open ? 'rotate-180' : ''}`} /></button>
+    <div className={`absolute left-1/2 top-full z-[90] w-[300px] -translate-x-1/2 pt-3 transition duration-150 ${open ? 'visible translate-y-0 opacity-100' : 'invisible -translate-y-1 pointer-events-none opacity-0'}`}><div role="menu" className="rounded-xl border border-[#333333]/10 bg-white p-1.5 shadow-[0_12px_30px_rgba(0,0,0,.12)]">{links.map(([text, href]) => <Link role="menuitem" key={href} href={href} className="block rounded-lg px-3.5 py-2.5 text-[13px] text-[#333333] no-underline hover:bg-[#F4F6F7] focus:bg-[#F4F6F7] focus:outline-none">{text}</Link>)}</div></div>
+  </div>
+}
+function MobileLink({ href, children }: { href: string; children: ReactNode }) { return <Link href={href} className="rounded-lg px-3 py-3 text-[15px] text-[#333333] no-underline hover:bg-[#BFEAE7]">{children}</Link> }
+function MobileDropdown({ label, name, openMenu, setOpenMenu, links }: { label: string; name: MenuName; openMenu: MenuName | null; setOpenMenu: (menu: MenuName | null) => void; links: readonly (readonly [string, string])[] }) {
+  const open = openMenu === name
+  return <><button type="button" aria-expanded={open} onClick={() => setOpenMenu(open ? null : name)} className="flex items-center justify-between rounded-lg px-3 py-3 text-left text-[15px] hover:bg-[#BFEAE7]">{label}<ChevronDown size={17} className={`transition ${open ? 'rotate-180' : ''}`} /></button>{open && <div className="grid gap-1 rounded-xl bg-[#F4F6F7] p-3">{links.map(([text, href]) => <MobileLink key={href} href={href}>{text}</MobileLink>)}</div>}</>
 }

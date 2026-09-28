@@ -1,12 +1,9 @@
 import Link from 'next/link'
 
 import { articles } from '@/data/articles'
+import { pageMetadata } from '@/lib/seo'
 
-export const metadata = {
-  title: 'Articles | ZOMAK Medical',
-  description:
-    'Read ZOMAK Medical articles on clinic services, medical exams, family care, and patient preparation.'
-}
+export const metadata = pageMetadata({ pathname: '/blog', title: 'Articles | ZOMAK Medical', description: 'Read ZOMAK Medical articles on clinic services, medical exams, family care, and patient preparation.' })
 
 export default function ArticlesPage() {
   return (

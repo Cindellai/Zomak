@@ -1,6 +1,7 @@
 import { CheckCircle2 } from 'lucide-react'
 import Link from 'next/link'
 import type { Service } from '@/data/site'
+import { getServiceDetailHref } from '@/lib/routes'
 
 const serviceImages = [
   'https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&w=800&q=80',
@@ -32,7 +33,7 @@ export function LocationServicesCarousel({ services }: { services: Service[] }) 
         
         {/* Scenario A: exactly 1 service */}
         {count === 1 && (
-          <Link href={`/services/details/${services[0].slug}`} className="group relative block min-h-[560px] overflow-hidden rounded-2xl border border-[#333333]/10 bg-[#333333] shadow-sm sm:min-h-[680px] lg:min-h-[780px]">
+          <Link href={getServiceDetailHref(services[0].slug)} className="group relative block min-h-[560px] overflow-hidden rounded-2xl border border-[#333333]/10 bg-[#333333] shadow-sm sm:min-h-[680px] lg:min-h-[780px]">
             <img
               src={services[0].image || serviceImages[0]}
               alt={services[0].title}
@@ -77,7 +78,7 @@ export function LocationServicesCarousel({ services }: { services: Service[] }) 
         {count >= 2 && count <= 3 && (
           <div className={`grid ${count === 2 ? 'gap-6 md:grid-cols-2 lg:gap-8' : 'gap-8 sm:grid-cols-2 lg:grid-cols-3'}`}>
             {services.map((service, index) => (
-              <Link href={`/services/details/${service.slug}`}
+              <Link href={getServiceDetailHref(service.slug)}
                 key={`${service.slug}-${service.title}`} 
                 className={`group relative flex flex-col justify-end overflow-hidden rounded-xl border border-[#333333]/5 shadow-sm ${
                   count === 2 ? 'h-[440px] p-5 sm:h-[580px] sm:p-8 lg:h-[640px] lg:p-10' : 'h-[420px] p-5 sm:p-8 lg:h-[540px] lg:p-10'
@@ -111,7 +112,7 @@ export function LocationServicesCarousel({ services }: { services: Service[] }) 
             <div className="flex gap-8 overflow-x-auto pb-8 scrollbar-thin scrollbar-thumb-neutral-200 scroll-smooth snap-x snap-mandatory">
               {services.map((service, index) => {
                 return (
-                  <Link href={`/services/details/${service.slug}`}
+                  <Link href={getServiceDetailHref(service.slug)}
                     key={`${service.slug}-${service.title}`}
                     className="group relative flex h-[400px] w-[82vw] shrink-0 snap-start flex-col justify-end overflow-hidden rounded-xl border border-[#333333]/5 p-5 shadow-sm sm:h-[440px] sm:w-[420px] sm:p-8 lg:h-[500px] lg:w-[480px] lg:p-10"
                   >

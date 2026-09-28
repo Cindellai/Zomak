@@ -1,11 +1,46 @@
 import Link from 'next/link'
-import { CheckCircle2, FileText, MapPin, Phone } from 'lucide-react'
+import { ExternalLink, FileText, Glasses, Info, Phone, Pill, ShieldCheck } from 'lucide-react'
 import { notFound } from 'next/navigation'
 import { locations, services } from '@/data/site'
+import {
+  centreStreetImmigrationPhone,
+  centreStreetImmigrationPhoneHref,
+  centreStreetIrccBookingUrl,
+  centreStreetIrccDetailsUrl,
+  offsiteTestingNotice
+} from '@/data/visa-medicals'
 import { TestosteroneQuestionnaire } from '@/components/forms/TestosteroneQuestionnaire'
+import { pageMetadata } from '@/lib/seo'
 
 export function generateStaticParams() {
   return services.map(({ slug }) => ({ slug }))
+}
+
+export async function generateMetadata({
+  params
+}: {
+  params: Promise<{ slug: string }>
+}) {
+  const { slug } = await params
+  const service = services.find((item) => item.slug === slug)
+
+  if (!service) return {}
+
+  if (slug === 'panel-physician-appointments') {
+    return {
+      ...pageMetadata({ pathname: '/ircc-panel-physician-calgary', title: 'IRCC Panel Physician Calgary | ZOMAK Medical', description: 'Review IRCC panel-physician examinations in Calgary and contact ZOMAK Centre Street, the only current ZOMAK location for Canadian immigration medical exams.' }),
+      robots: { index: false, follow: true },
+    }
+  }
+
+  if (slug === 'visa-medical-experts') {
+    return {
+      ...pageMetadata({ pathname: '/visa-medical-calgary', title: 'Visa Medical Calgary | ZOMAK Medical', description: 'Review international visa medical requirements and contact ZOMAK Centre Street in Calgary.' }),
+      robots: { index: false, follow: true },
+    }
+  }
+
+  return pageMetadata({ pathname: `/services/details/${service.slug}`, title: `${service.title} | ZOMAK Medical`, description: service.summary, image: service.image })
 }
 
 export default async function ServiceDetailPage({
@@ -24,6 +59,7 @@ export default async function ServiceDetailPage({
   const displayDetails = focus ? getFocusedServiceDetails(focus) : service.details
   const displayHighlights = focus ? getFocusedServiceHighlights(focus) : service.bestFor
   const displayImage = getServiceCardImage(service.category, displayTitle, service.image)
+  const nextAction = getServiceNextAction(service)
 
   return (
     <main className="bg-[#F4F6F7] text-[#333333]">
@@ -31,8 +67,7 @@ export default async function ServiceDetailPage({
         <img src={displayImage} alt="" className="absolute inset-0 h-full w-full object-cover opacity-55" />
         <div className="absolute inset-0 bg-gradient-to-t from-[#333333] via-[#333333]/45 to-transparent" />
         <div className="relative mx-auto w-full max-w-[1200px]">
-          <p className="text-sm text-[#BFEAE7]">{service.category}</p>
-          <h1 className="mt-3 max-w-4xl font-serif text-5xl leading-tight text-white sm:text-7xl">{displayTitle}</h1>
+          <h1 className="max-w-4xl font-serif text-5xl leading-tight text-white sm:text-7xl">{displayTitle}</h1>
           <p className="mt-6 max-w-2xl text-lg leading-8 text-white/85">{displayDetails}</p>
         </div>
       </header>
@@ -40,14 +75,10 @@ export default async function ServiceDetailPage({
       <section className="bg-white px-6 py-16 sm:px-10 lg:px-16 lg:py-24">
         <div className="mx-auto grid max-w-[1200px] items-center gap-12 lg:grid-cols-2">
           <div>
-            {displayTitle !== 'Management of chronic conditions' &&
-              displayTitle !== 'Comprehensive care of chronic medical conditions' && (
-                <p className="text-sm font-medium uppercase tracking-[0.16em] text-[#2AA7A1]">Specific service information</p>
-              )}
-            <h2 className={`${displayTitle !== 'Management of chronic conditions' && displayTitle !== 'Comprehensive care of chronic medical conditions' ? 'mt-3 ' : ''}font-serif text-4xl leading-tight sm:text-5xl`}>Understanding {displayTitle}</h2>
+            <h2 className="font-serif text-4xl leading-tight sm:text-5xl">Understanding {displayTitle}</h2>
             <p className="mt-6 text-lg leading-8 text-[#333333]/72">{displayDetails}</p>
-            <p className="mt-5 leading-7 text-[#333333]/62">Your visit begins with a conversation about your symptoms, priorities, and health history. The provider will explain appropriate options, answer questions, and help you understand the next step before any treatment or referral is arranged.</p>
-            <Link href="/contact" className="mt-8 inline-flex rounded-full bg-[#333333] px-7 py-4 text-sm font-medium text-white no-underline transition hover:bg-[#2AA7A1]">Discuss this service with our team &rarr;</Link>
+            <p className="mt-5 text-lg leading-8 text-[#333333]/72">Your visit begins with a conversation about your symptoms, priorities, and health history. The provider will explain appropriate options, answer questions, and help you understand the next step before any treatment or referral is arranged.</p>
+            <Link href={nextAction.href} className="mt-8 inline-flex rounded-full bg-[#333333] px-7 py-4 text-sm font-medium text-white no-underline transition hover:bg-[#2AA7A1]">{nextAction.label} &rarr;</Link>
           </div>
           <div className="relative min-h-[360px] overflow-hidden rounded-3xl sm:min-h-[500px]">
             <img src={displayImage} alt={`${displayTitle} consultation`} className="absolute inset-0 h-full w-full object-cover" />
@@ -56,52 +87,50 @@ export default async function ServiceDetailPage({
         </div>
       </section>
 
-      <section className="px-6 py-16 sm:px-10 lg:px-16 lg:py-24">
+      <section className="border-y border-[#333333]/10 bg-[#F4F6F7] px-6 py-16 sm:px-10 lg:px-16 lg:py-24">
         <div className="mx-auto max-w-[1200px]">
           <div className="max-w-3xl">
-            <p className="text-sm font-medium uppercase tracking-[0.16em] text-[#2AA7A1]">How this service can help</p>
-            <h2 className="mt-3 font-serif text-4xl leading-tight sm:text-5xl">Care shaped around your needs</h2>
+            <h2 className="font-serif text-4xl leading-tight sm:text-5xl">What to know before your visit</h2>
+            <p className="mt-5 text-lg leading-8 text-[#333333]/70">
+              See what this service can help with, what to bring, and how the appointment usually works. Requirements can vary, and the provider will explain if additional information or follow-up is needed.
+            </p>
           </div>
-          <div className="mt-10 grid gap-5 md:grid-cols-3">
-            {displayHighlights.map((item, index) => (
-              <article className="rounded-2xl border border-[#333333]/[0.08] bg-white p-7 shadow-sm" key={item}>
-                <span className="flex size-10 items-center justify-center rounded-full bg-[#BFEAE7] text-sm font-medium text-[#2AA7A1]">0{index + 1}</span>
-                <h3 className="mt-6 text-xl font-medium leading-7">{item}</h3>
-                <p className="mt-3 text-sm leading-6 text-[#333333]/60">Your provider will tailor this part of care to your history, goals, and clinical needs.</p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
 
-      <section className="bg-[#333333] px-6 py-16 text-white sm:px-10 lg:px-16 lg:py-24">
-        <div className="mx-auto max-w-[1200px]">
-          <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr]">
-            <div>
-              <p className="text-sm font-medium uppercase tracking-[0.16em] text-[#BFEAE7]">Your appointment</p>
-              <h2 className="mt-3 font-serif text-4xl leading-tight sm:text-5xl">What to expect</h2>
-              <p className="mt-5 leading-7 text-white/65">We keep the process clear from your first conversation through follow-up, so you know what is happening and why.</p>
+          <div className="mt-12 grid border-y border-[#333333]/15 lg:grid-cols-3">
+            <div className="py-8 lg:pr-10">
+              <h3 className="font-serif text-2xl">This service can help with</h3>
+              <ul className="mt-5 space-y-4">
+                {displayHighlights.map((item) => (
+                  <li className="flex gap-3 text-[17px] leading-7" key={item}>
+                    <span className="mt-[10px] size-2 shrink-0 rounded-full bg-[#2AA7A1]" aria-hidden="true" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
-            <div className="grid gap-4 sm:grid-cols-3">
-              {service.visitFlow.map((item, index) => (
-                <article className="rounded-2xl border border-white/[0.12] bg-white/[0.07] p-6" key={item}>
-                  <span className="text-sm text-[#BFEAE7]">Step {index + 1}</span>
-                  <h3 className="mt-4 text-xl leading-7 text-white">{item}</h3>
-                  <p className="mt-3 text-sm leading-6 text-white/55">The clinic team will guide you through this stage and explain what comes next.</p>
-                </article>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
 
-      <section className="bg-white px-6 py-16 sm:px-10 lg:px-16 lg:py-24">
-        <div className="mx-auto max-w-[1200px]">
-          <div className="rounded-3xl bg-[#EAF7F6] p-7 sm:p-10">
-            <h2 className="font-serif text-3xl">Prepare for your visit</h2>
-            <p className="mt-4 leading-7 text-[#333333]/65">Bringing the right information helps your provider understand your needs and make the appointment more useful.</p>
-            <div className="mt-7 space-y-4">
-              {service.whatToBring.map((item) => <div className="flex gap-3 rounded-xl bg-white p-4 leading-6" key={item}><CheckCircle2 className="mt-0.5 shrink-0 text-[#2AA7A1]" size={19} />{item}</div>)}
+            <div className="border-t border-[#333333]/15 py-8 lg:border-l lg:border-t-0 lg:px-10">
+              <h3 className="font-serif text-2xl">Bring to your appointment</h3>
+              <ul className="mt-5 space-y-4">
+                {service.whatToBring.map((item) => (
+                  <li className="flex gap-3 text-[17px] leading-7" key={item}>
+                    <span className="mt-[10px] size-2 shrink-0 rounded-full bg-[#2AA7A1]" aria-hidden="true" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="border-t border-[#333333]/15 py-8 lg:border-l lg:border-t-0 lg:pl-10">
+              <h3 className="font-serif text-2xl">How the visit works</h3>
+              <ol className="mt-5 space-y-4">
+                {service.visitFlow.map((item, index) => (
+                  <li className="grid grid-cols-[30px_1fr] gap-3 text-[17px] leading-7" key={item}>
+                    <span className="font-serif text-[#247F7A]">{index + 1}.</span>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ol>
             </div>
           </div>
         </div>
@@ -109,10 +138,9 @@ export default async function ServiceDetailPage({
 
       <section className="bg-[#BFEAE7] px-6 py-16 text-center sm:px-10 lg:px-16 lg:py-24">
         <div className="mx-auto max-w-3xl">
-          <p className="text-sm font-medium uppercase tracking-[0.16em] text-[#2AA7A1]">Ready for the next step?</p>
-          <h2 className="mt-4 font-serif text-4xl leading-tight sm:text-5xl">Talk with ZOMAK about {displayTitle}</h2>
-          <p className="mt-5 text-lg leading-8 text-[#333333]/68">Contact our team to ask about availability, preparation, referrals, or booking.</p>
-          <Link href="/contact" className="mt-8 inline-flex rounded-full bg-[#333333] px-8 py-4 text-sm font-medium text-white no-underline transition hover:bg-[#2AA7A1]">Contact and booking</Link>
+          <h2 className="font-serif text-4xl leading-tight sm:text-5xl">Talk with ZOMAK about {displayTitle}</h2>
+          <p className="mt-5 text-lg leading-8 text-[#333333]/68">Continue to the correct clinic, registration or referral step for this service.</p>
+          <Link href={nextAction.href} className="mt-8 inline-flex rounded-full bg-[#333333] px-8 py-4 text-sm font-medium text-white no-underline transition hover:bg-[#2AA7A1]">{nextAction.label}</Link>
         </div>
       </section>
 
@@ -121,64 +149,111 @@ export default async function ServiceDetailPage({
   )
 }
 
+function getServiceNextAction(service: (typeof services)[number]) {
+  if (service.slug === 'visa-medical-experts') {
+    return { label: 'Review visa requirements', href: '/visa-medical-calgary' }
+  }
+
+  if (service.category === 'Internal Medicine') {
+    return { label: 'Review referral process', href: '/services/internal-medicine#referral-process' }
+  }
+
+  if (service.category === 'Pediatric Care') {
+    return { label: 'Review referral process', href: '/services/pediatric-care#referral-process' }
+  }
+
+  if (service.category === 'Family Practice') {
+    return { label: 'Find an accepting family doctor', href: '/doctors?filter=accepting-new-patients#provider-directory' }
+  }
+
+  if (service.category === 'Aesthetics') {
+    return { label: 'View Griffin Road clinic', href: '/locations/griffin-road-medical-clinic' }
+  }
+
+  if (service.category === 'ZOMAK Home Care') {
+    return { label: 'Contact the Home Care team', href: '/contact' }
+  }
+
+  return { label: 'Choose a clinic', href: '/locations#choose-clinic' }
+}
+
 function PanelPhysicianPage() {
-  const service = services.find((item) => item.slug === 'panel-physician-appointments')!
   const centre = locations.find((item) => item.slug === 'centre-street-north-medical-clinic')!
+  const whatToBring = [
+    { title: 'Valid identification', description: 'Government-issued photo ID or valid passport', icon: ShieldCheck },
+    { title: 'IRCC instructions', description: 'Official correspondence and IME, UMI or UCI number, if issued', icon: FileText },
+    { title: 'Prescription medications', description: 'Bring all current prescription medications or a complete medication list', icon: Pill },
+    { title: 'Medical reports', description: 'Relevant reports about existing or previous medical conditions', icon: FileText },
+    { title: 'Vision aids', description: 'Eyeglasses or contact lenses if worn', icon: Glasses },
+    { title: 'Language support', description: 'Arrange an interpreter if you cannot complete the examination in English', icon: Info }
+  ]
+  const visitFlow = [
+    { step: '01', title: 'Confirm Requirements', description: 'Contact Centre Street to verify specific requirements for your visa type.' },
+    { step: '02', title: 'Review & Exam', description: 'In-clinic identity verification and full physical examination.' },
+    { step: '03', title: 'Partner Testing & Submission', description: `${offsiteTestingNotice} Complete the testing within the timeframe Centre Street provides so results can be reviewed and submitted.` }
+  ]
 
   return (
-    <main className="min-h-screen bg-[#F4F6F7] pt-16 text-[#333333]">
-      <div className="grid min-h-[calc(100vh-4rem)] lg:grid-cols-[340px_minmax(0,1fr)] xl:grid-cols-[370px_minmax(0,1fr)]">
-        <aside className="bg-[#333333] px-6 py-10 text-white sm:px-10 lg:sticky lg:top-16 lg:flex lg:h-[calc(100vh-4rem)] lg:flex-col lg:justify-between lg:px-10 lg:py-12">
-          <div>
-            <p className="text-sm font-medium uppercase tracking-[0.18em] text-[#BFEAE7]">Immigration medical desk</p>
-            <h1 className="mt-6 font-serif text-[clamp(38px,11vw,48px)] leading-[0.98] sm:text-[50px] lg:text-[48px]">Panel Physician<span className="mt-2 block whitespace-nowrap">Appointments</span></h1>
-            <div className="mt-9 rounded-r-2xl border-l-2 border-[#BFEAE7] bg-white/[0.06] py-5 pl-5"><p className="text-sm font-medium uppercase tracking-[0.12em] text-[#BFEAE7]">Only available at</p><p className="mt-2 text-xl leading-7">Zomak Medical Clinic<br />Centre St.</p></div>
-          </div>
-          <div className="mt-12 space-y-3">
-            <a href={`tel:${centre.phone.replaceAll(' ', '')}`} className="flex w-full items-center justify-between rounded-full bg-[#BFEAE7] px-5 py-4 text-sm font-medium text-[#333333] no-underline transition hover:bg-white"><span>{centre.phone}</span><Phone size={17} /></a>
-            <Link href={`/locations/${centre.slug}`} className="flex w-full items-center justify-between rounded-full border border-white/30 px-5 py-4 text-sm text-white no-underline transition hover:bg-white/10"><span>Centre St. clinic page</span><MapPin size={17} /></Link>
-          </div>
-        </aside>
-
-        <div className="px-5 py-6 sm:px-10 sm:py-10 lg:px-12 lg:py-12 xl:px-16">
-          <div className="mx-auto max-w-[1080px]">
-            <section className="border-b border-[#333333]/15 py-10 lg:py-12">
-              <div className="grid gap-10 xl:grid-cols-[1.2fr_0.8fr] xl:items-start">
-                <div>
-                  <h2 className="max-w-2xl font-serif text-4xl leading-[1.08] sm:text-5xl">What is a panel physician?</h2>
-                  <p className="mt-6 text-lg leading-8 text-[#333333]/75">A panel physician is a doctor approved by Immigration, Refugees and Citizenship Canada (IRCC) to perform official Immigration Medical Exams for people applying for permanent residence and for some visitors, students, and workers.</p>
-                  <p className="mt-4 leading-7 text-[#333333]/[0.62]">A regular family doctor cannot complete an immigration medical exam unless that doctor appears on IRCC’s approved panel-physician list. The panel physician completes and submits the medical information, but IRCC makes the final immigration or visa decision.</p>
-                  <a href="https://www.cic.gc.ca/pp-md/pp-list.aspx" target="_blank" rel="noopener noreferrer" className="mt-8 inline-flex rounded-full bg-[#2AA7A1] px-6 py-3 text-sm font-medium text-white no-underline transition hover:bg-[#333333]">Open the official IRCC directory &rarr;</a>
-                </div>
-                <div className="overflow-hidden border-2 border-[#333333] bg-white">
-                  {[['ROLE', 'The clinic records and submits your medical-exam results to IRCC.'], ['DECISION', 'The panel physician does not decide whether an application is approved.'], ['COST', 'Patients pay the clinic for the exam and any required laboratory tests, X-rays, or related services. Fees can vary.']].map(([label, text]) => <div className="border-b border-[#333333]/20 p-6 last:border-0" key={label}><span className="text-sm font-semibold tracking-[0.14em] text-[#2AA7A1]">{label}</span><p className="mt-3 text-base leading-7">{text}</p></div>)}
-                </div>
-              </div>
-            </section>
-
-            <section className="grid gap-6 border-b border-[#333333]/20 py-10 md:grid-cols-[1.2fr_0.8fr]">
-              <div><span className="text-sm font-medium uppercase tracking-[0.1em] text-[#2AA7A1]">01 / Before booking</span><h2 className="mt-3 font-serif text-4xl">Confirm your instructions</h2><p className="mt-5 max-w-xl text-lg leading-8 text-[#333333]/68">Tell the Centre St. team which immigration medical you were instructed to complete. Requirements can vary, so the clinic will confirm the documents and identification needed for your appointment.</p></div>
-              <div className="relative min-h-[260px] overflow-hidden bg-[#BFEAE7]"><img src={service.image} alt="Immigration medical preparation" className="absolute inset-0 h-full w-full object-cover grayscale" /><span className="absolute bottom-4 left-4 bg-[#F4F6F7] px-3 py-2 text-xs">CENTRE ST. / CALGARY</span></div>
-            </section>
-
-            <section className="border-b border-[#333333]/20 py-10">
-              <span className="text-sm font-medium uppercase tracking-[0.1em] text-[#2AA7A1]">02 / Document check</span>
-              <h2 className="mt-3 font-serif text-4xl">Bring these items</h2>
-              <div className="mt-8 border-y-2 border-[#333333]">
-                {service.whatToBring.map((item, index) => <div className="grid grid-cols-[54px_1fr_auto] items-center gap-4 border-b border-[#333333]/20 py-5 last:border-0" key={item}><span className="text-sm text-[#2AA7A1]">0{index + 1}</span><p className="text-lg leading-7">{item}</p><FileText className="text-[#333333]/35" size={20} /></div>)}
-              </div>
-            </section>
-
-            <section className="border-b border-[#333333]/20 py-10">
-              <span className="text-sm font-medium uppercase tracking-[0.1em] text-[#2AA7A1]">03 / Appointment sequence</span>
-              <div className="mt-7 grid gap-px overflow-hidden border border-[#333333] bg-[#333333] md:grid-cols-3">
-                {service.visitFlow.map((item, index) => <div className="bg-[#F4F6F7] p-6" key={item}><span className="font-serif text-5xl text-[#2AA7A1]">{index + 1}</span><h3 className="mt-8 text-xl leading-7">{item}</h3></div>)}
-              </div>
-            </section>
-
+    <main className="min-h-screen overflow-x-hidden bg-white pt-16 text-[#333333]">
+      <header className="grid w-full min-w-0 overflow-hidden bg-[#EAF7F6] lg:grid-cols-[1.02fr_0.98fr]">
+        <div className="flex min-w-0 flex-col justify-center px-7 py-12 sm:px-12 lg:px-16 lg:py-20">
+          <h1 className="max-w-[700px] font-serif text-[39px] leading-[1.03] sm:text-[58px] lg:text-[66px]">IRCC Panel Physician in Calgary</h1>
+          <p className="mt-6 max-w-[650px] text-[18px] leading-8 text-[#333333]/72">An IRCC-approved panel physician completes the official medical examination required for Canadian immigration applications.</p>
+          <p className="mt-3 max-w-[650px] text-[15px] leading-7 text-[#333333]/62">Appointments are available only at ZOMAK Centre Street. IRCC—not the physician—makes the final immigration decision.</p>
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+            <a href={centreStreetIrccBookingUrl} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#333333] px-6 py-3 text-sm font-medium text-white no-underline transition hover:bg-[#2AA7A1]">Book at Centre Street <ExternalLink size={15} /></a>
+            <a href={centreStreetImmigrationPhoneHref} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-[#333333]/20 px-6 py-3 text-sm font-medium text-[#333333] no-underline transition hover:border-[#2AA7A1] hover:text-[#247F7A]"><Phone size={16} />Call Centre Street</a>
           </div>
         </div>
-      </div>
+        <div className="relative min-h-[360px] lg:min-h-[650px]"><img src={centre.heroImageUrl} alt={centre.heroImageAlt} className="absolute inset-0 h-full w-full object-cover" /></div>
+      </header>
+
+      <section className="w-full px-5 py-16 sm:px-10 lg:px-16 lg:py-24">
+        <div className="mx-auto grid w-full max-w-[1400px] gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-24">
+          <div>
+            <h2 className="font-serif text-[38px] leading-[1.08] sm:text-[50px]">What a panel physician does</h2>
+            <p className="mt-5 text-[17px] leading-8 text-[#333333]/70">A panel physician is approved by Immigration, Refugees and Citizenship Canada to perform official medical exams for permanent residence and for some visitors, students and workers.</p>
+            <a href="https://www.cic.gc.ca/pp-md/pp-list.aspx" target="_blank" rel="noopener noreferrer" className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-[#247F7A]">View the official IRCC directory <ExternalLink size={14} /></a>
+          </div>
+          <dl className="border-y border-[#333333]/15">
+            {[['Clinic responsibility', 'The panel physician records and submits your medical information through the IRCC process.'], ['IRCC responsibility', 'IRCC reviews the submitted information and makes the final decision on your application.'], ['Testing locations', offsiteTestingNotice]].map(([term, description]) => <div className="grid gap-2 border-b border-[#333333]/15 py-6 last:border-0 sm:grid-cols-[180px_1fr]" key={term}><dt className="font-medium">{term}</dt><dd className="text-[16px] leading-7 text-[#333333]/68">{description}</dd></div>)}
+          </dl>
+        </div>
+      </section>
+
+      <section className="w-full bg-[#F4F6F7] px-5 py-16 sm:px-10 lg:px-16 lg:py-24">
+        <div className="mx-auto w-full max-w-[1400px]">
+          <div className="max-w-[760px]"><h2 className="font-serif text-[38px] leading-[1.08] sm:text-[50px]">Prepare for your appointment</h2><p className="mt-5 text-[17px] leading-8 text-[#333333]/68">Confirm your IRCC instructions with Centre Street and bring the information needed to complete your examination.</p></div>
+          <div className="mt-12 grid border-y border-[#333333]/15 lg:grid-cols-[1.15fr_0.85fr]">
+            <div className="py-9 lg:pr-14">
+              <h3 className="font-serif text-[28px]">Bring these items</h3>
+              <ul className="mt-6 grid gap-x-10 gap-y-6 sm:grid-cols-2">
+                {whatToBring.map((item) => <li className="flex gap-4" key={item.title}><item.icon className="mt-1 shrink-0 text-[#2AA7A1]" size={20} /><div><p className="font-medium">{item.title}</p><p className="mt-1 text-[14px] leading-6 text-[#333333]/65">{item.description}</p></div></li>)}
+              </ul>
+            </div>
+            <div className="border-t border-[#333333]/15 py-9 lg:border-l lg:border-t-0 lg:pl-14">
+              <h3 className="font-serif text-[28px]">How the appointment works</h3>
+              <ol className="mt-6 space-y-6">
+                {visitFlow.map((item, index) => <li className="grid grid-cols-[34px_1fr] gap-3" key={item.step}><span className="font-serif text-[18px] text-[#247F7A]">{index + 1}.</span><div><p className="font-medium">{item.title}</p><p className="mt-1 text-[14px] leading-6 text-[#333333]/65">{item.description}</p></div></li>)}
+              </ol>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="w-full px-5 py-16 sm:px-10 lg:px-16 lg:py-24">
+        <div className="mx-auto grid w-full max-w-[1400px] gap-12 lg:grid-cols-2 lg:gap-24">
+          <div><h2 className="font-serif text-[36px] leading-tight sm:text-[44px]">Fees and additional testing</h2><p className="mt-5 text-[16px] leading-8 text-[#333333]/68">Fees may include the clinic examination, partner-facility laboratory or X-ray services, repeat testing, follow-up review or late cancellation. Confirm current prices and payment methods before booking.</p><a className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-[#247F7A]" href={centreStreetIrccDetailsUrl} target="_blank" rel="noopener noreferrer">Review current Centre Street details <ExternalLink size={14} /></a></div>
+          <div><h2 className="font-serif text-[36px] leading-tight sm:text-[44px]">After the examination</h2><p className="mt-5 text-[16px] leading-8 text-[#333333]/68">Complete any required laboratory testing and chest X-ray at the designated partner facilities. Centre Street reviews the results and submits the medical information through eMedical. The clinic contacts you if repeat testing or follow-up is required.</p></div>
+        </div>
+      </section>
+
+      <section className="w-full bg-[#BFEAE7] px-5 py-16 sm:px-10 lg:px-16 lg:py-20">
+        <div className="mx-auto flex w-full max-w-[1400px] flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
+          <div><h2 className="font-serif text-[38px] leading-tight sm:text-[48px]">Book your IRCC medical exam</h2><p className="mt-3 text-[16px] leading-7 text-[#333333]/68">Use the Centre Street booking portal or call the immigration medical team for assistance.</p></div>
+          <div className="flex flex-col gap-3 sm:flex-row"><a href={centreStreetImmigrationPhoneHref} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-[#333333]/20 px-6 py-3 text-sm font-medium"><Phone size={16} />{centreStreetImmigrationPhone}</a><a href={centreStreetIrccBookingUrl} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#333333] px-6 py-3 text-sm font-medium text-white">Book at Centre Street <ExternalLink size={15} /></a></div>
+        </div>
+      </section>
     </main>
   )
 }

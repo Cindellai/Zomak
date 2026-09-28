@@ -2,16 +2,19 @@
 
 import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
+import { ArrowRight } from 'lucide-react'
+import { homeActionPrimary } from '@/components/ui/homeActionStyles'
 import type { HomepageContent } from '@/lib/sanity/homepage'
+import { locations } from '@/data/site'
 
 const STATS = [
   { value: '5K+', label: 'Patients Served' },
-  { value: '2', label: 'Clinic Locations' },
+  { value: String(locations.length), label: 'Clinic Locations' },
   { value: '10+', label: 'Healthcare Providers' },
   { value: '98%', label: 'Patient Satisfaction' },
 ]
 
-const fallbackStatement = 'We are dedicated to providing high-quality medical care tailored to your needs. Our team focuses on family health and walk-in care, ensuring every patient feels heard, supported, and confident in their care.'
+const fallbackStatement = 'One trusted network of medical clinics across Calgary and Cochrane, offering family medicine, walk-in access and selected specialist services through coordinated, patient-centred care.'
 
 export function About({ content }: { content?: HomepageContent['about'] }) {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -49,9 +52,14 @@ export function About({ content }: { content?: HomepageContent['about'] }) {
     }
   }, [])
 
-  const statement = content?.statement || fallbackStatement
+  const statement = fallbackStatement
   const words = statement.split(/\s+/)
-  const stats = content?.stats?.filter((item) => item.value && item.label) || STATS
+  const suppliedStats = content?.stats?.filter((item) => item.value && item.label) || STATS
+  const stats = suppliedStats.map((item) =>
+    item.label?.toLowerCase().includes('clinic location')
+      ? { ...item, value: String(locations.length) }
+      : item
+  )
 
   return (
     <section 
@@ -94,9 +102,10 @@ export function About({ content }: { content?: HomepageContent['about'] }) {
           <div className="relative z-20 mt-12">
             <Link
               href={content?.buttonHref || '/about'}
-              className="inline-flex items-center justify-center rounded-full bg-[#2AA7A1] px-10 py-4 text-[14px] font-normal text-white no-underline shadow-sm transition-all duration-200 hover:bg-[#228e89] hover:shadow-md"
+              className={homeActionPrimary}
             >
               {content?.buttonLabel || 'More About Us'}
+              <ArrowRight className="transition-transform group-hover:translate-x-1" size={16} aria-hidden="true" />
             </Link>
           </div>
         </div>

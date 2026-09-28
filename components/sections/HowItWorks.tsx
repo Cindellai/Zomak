@@ -5,11 +5,11 @@ import type { HomepageContent } from '@/lib/sanity/homepage'
 const STEPS = [
   {
     number: '01',
-    title: 'Contact Clinic',
+    title: 'Choose a Clinic',
     description:
-      'Contact us via phone or email to set up a convenient appointment time that works for you.',
-    cta: 'Contact Us',
-    href: '/contact',
+      'Compare locations, then call the clinic directly or get directions for walk-in care.',
+    cta: 'Choose a Clinic',
+    href: '/locations#choose-clinic',
     image: '/images/how-it-works-contact.jpg',
   },
   {
@@ -49,7 +49,9 @@ export function HowItWorks({ content }: { content?: HomepageContent['howItWorks'
         title: step.title!,
         description: step.description!,
         cta: step.cta || 'Learn more',
-        href: step.href || '/contact',
+        href: index === 0 && (!step.href || step.href === '/contact')
+          ? '/locations#choose-clinic'
+          : step.href || '/contact',
         image:
           step.title!.toLowerCase() === 'receive care'
             ? '/images/how-it-works-receive-care.jpg'

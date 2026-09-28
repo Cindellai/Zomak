@@ -5,7 +5,7 @@ import { projectId } from './env'
 
 export type HomepageContent = {
   serviceCards?: Array<{ title?: string; slug?: string; category?: string; summary?: string; imageUrl?: string; imageAlt?: string }>
-  testimonials?: Array<{ category?: string; headline?: string; quote?: string; source?: string; rating?: number }>
+  testimonials?: Array<{ category?: string; headline?: string; quote?: string; source?: string; rating?: number; googleProfileUrl?: string; locationName?: string }>
   hero?: {
     title?: string
     accentTitle?: string
@@ -73,8 +73,8 @@ export async function getHomepageContent(): Promise<HomepageContent | null> {
         "serviceCards": *[_type == "service" && featuredOnHomepage == true] | order(title asc){
           title, "slug": slug.current, category, summary, "imageUrl": image.asset->url, imageAlt
         },
-        "testimonials": *[_type == "testimonial" && featuredOnHomepage != false] | order(_createdAt asc)[0...8]{
-          category, headline, quote, source, rating
+        "testimonials": *[_type == "testimonial" && featuredOnHomepage != false && verifiedForPublication == true && defined(googleProfileUrl)] | order(_createdAt asc)[0...8]{
+          category, headline, quote, source, rating, googleProfileUrl, "locationName": location->name
         },
         "hero": homeHero{
           title,

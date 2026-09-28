@@ -2,6 +2,8 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
 import { articles } from '@/data/articles'
+import { JsonLd } from '@/components/seo/JsonLd'
+import { absoluteUrl, pageMetadata } from '@/lib/seo'
 
 type BlogPageProps = {
   params: Promise<{
@@ -21,10 +23,7 @@ export async function generateMetadata({ params }: BlogPageProps) {
     return {}
   }
 
-  return {
-    title: `${article.title} | ZOMAK Medical`,
-    description: article.summary
-  }
+  return pageMetadata({ pathname: `/blog/${article.slug}`, title: `${article.title} | ZOMAK Medical`, description: article.summary, image: article.image })
 }
 
 export default async function BlogPage({ params }: BlogPageProps) {
@@ -40,6 +39,17 @@ export default async function BlogPage({ params }: BlogPageProps) {
 
   return (
     <article className="min-h-screen bg-[#F4F6F7] text-[#333333] antialiased">
+      <JsonLd data={{
+        '@context': 'https://schema.org',
+        '@type': 'Article',
+        headline: article.title,
+        description: article.summary,
+        image: article.image,
+        datePublished: new Date(article.date).toISOString(),
+        author: { '@type': 'Organization', name: 'ZOMAK Medical', url: absoluteUrl('/') },
+        publisher: { '@type': 'MedicalOrganization', name: 'ZOMAK Medical', url: absoluteUrl('/'), logo: { '@type': 'ImageObject', url: absoluteUrl('/images/home-zomak-logo.jpg') } },
+        mainEntityOfPage: absoluteUrl(`/blog/${article.slug}`)
+      }} />
       {/* 1. Immersive Full-Bleed Top Banner Layer */}
       <header className="relative h-[58vh] min-h-[360px] w-full overflow-hidden bg-[#333333]">
         <img

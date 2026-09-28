@@ -1,66 +1,36 @@
 'use client'
 
-import { useEffect, useState, ReactNode, useRef } from 'react'
+import { useState, ReactNode } from 'react'
 import Link from 'next/link'
 import {
   ArrowUpRight,
   ChevronDown,
+  CircleCheck,
   ClipboardList,
-  Clock3,
+  DollarSign,
+  ExternalLink,
   FileText,
-  MapPin,
   Phone,
-  Search,
-  ChevronLeft,
-  ChevronRight
+  Search
 } from 'lucide-react'
 
 import { locations } from '@/data/site'
-import { visaMedicalCountries } from '@/data/visa-medicals'
+import {
+  centreStreetImmigrationPhone,
+  centreStreetImmigrationPhoneHref,
+  offsiteTestingNotice,
+  visaMedicalCountries
+} from '@/data/visa-medicals'
 
 export default function VisaMedicalsPage() {
   const [searchQuery, setSearchQuery] = useState('')
-  const [introVisible, setIntroVisible] = useState(false)
-  const introRef = useRef<HTMLElement>(null)
-  const carouselRef = useRef<HTMLDivElement>(null)
-
-  const visaMedicalLocations = locations.filter((location) =>
-    location.services.includes('Visa Medical Experts')
-  )
+  const centreStreet = locations.find((location) =>
+    location.slug === 'centre-street-north-medical-clinic'
+  )!
 
   const filteredCountries = visaMedicalCountries.filter((entry) =>
     entry.country.toLowerCase().includes(searchQuery.toLowerCase())
   )
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const intro = introRef.current
-
-      if (!intro || introVisible || window.scrollY < 80) return
-
-      const rect = intro.getBoundingClientRect()
-      const triggerPoint = window.innerHeight * 0.72
-
-      if (rect.top < triggerPoint && rect.bottom > 0) {
-        setIntroVisible(true)
-        window.removeEventListener('scroll', handleScroll)
-      }
-    }
-
-    window.addEventListener('scroll', handleScroll, { passive: true })
-
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
-
-  const scrollCarousel = (direction: 'left' | 'right') => {
-    if (carouselRef.current) {
-      const scrollAmount = 380
-      carouselRef.current.scrollBy({
-        left: direction === 'left' ? -scrollAmount : scrollAmount,
-        behavior: 'smooth'
-      })
-    }
-  }
 
   return (
     <section className="min-h-screen overflow-hidden bg-[#F4F6F7] font-sans text-[#333333] antialiased">
@@ -78,8 +48,8 @@ export default function VisaMedicalsPage() {
           {/* Symmetrical Left Typography & Rotating Right Seal */}
           <div className="absolute inset-x-0 bottom-8 z-10 mx-auto flex max-w-[1400px] flex-col gap-7 px-6 sm:bottom-12 sm:flex-row sm:items-end sm:justify-between sm:px-10 lg:px-16">
             <h1 className="max-w-2xl text-[42px] font-normal leading-tight text-white sm:text-7xl md:text-[84px]">
-              Professional <br />
-              <span className="text-white">Visa Medicals</span>
+              Visa Medicals <br />
+              <span className="text-white">in Calgary</span>
             </h1>
 
             {/* Rotating Circle Badge */}
@@ -113,7 +83,6 @@ export default function VisaMedicalsPage() {
 
         {/* ================= TALL EDITORIAL SECOND SECTION ================= */}
         <section
-          ref={introRef}
           className="flex flex-col justify-center border-b border-[#333333]/10 py-24 sm:py-36 md:py-44"
         >
           <div className="mx-auto max-w-4xl space-y-8 text-center sm:space-y-12">
@@ -121,25 +90,26 @@ export default function VisaMedicalsPage() {
 
             {/* Headline with Balanced wrapping and gorgeous typographic hierarchy */}
             <h2
-              className={`mx-auto max-w-3xl text-[34px] font-normal leading-tight text-[#333333] transition-all duration-700 ease-out sm:text-5xl md:text-6xl lg:text-7xl ${
-                introVisible
-                  ? 'translate-y-0 opacity-100'
-                  : 'translate-y-8 opacity-0'
-              }`}
+              className="mx-auto max-w-3xl text-[34px] font-normal leading-tight text-[#333333] sm:text-5xl md:text-6xl lg:text-7xl"
             >
-              Seamless medical clearances built on trusted clinic expertise
+              International visa medical requirements vary by country
             </h2>
 
             {/* Editorial Paragraph */}
             <p
-              className={`mx-auto max-w-2xl text-[16px] font-normal leading-8 text-[#333333]/70 transition-all delay-150 duration-700 ease-out sm:text-xl ${
-                introVisible
-                  ? 'translate-y-0 opacity-100'
-                  : 'translate-y-8 opacity-0'
-              }`}
+              className="mx-auto max-w-2xl text-[16px] font-normal leading-8 text-[#333333]/70 sm:text-xl"
             >
-              We provide streamlined clinical charting, quick on-site lab diagnostics, and secure direct submission lines to foreign immigration portals.
+              International visa medicals follow the requirements of the destination country and are separate from Canadian IRCC Immigration Medical Examinations. Both services are available only at ZOMAK Centre Street. {offsiteTestingNotice}
             </p>
+
+            <div className="flex flex-col justify-center gap-3 sm:flex-row">
+              <a className="inline-flex items-center justify-center gap-2 rounded-full bg-[#333333] px-6 py-3 text-sm text-white no-underline transition hover:bg-[#2AA7A1]" href={centreStreetImmigrationPhoneHref}>
+                <Phone size={15} /> Call Centre Street
+              </a>
+              <Link className="inline-flex items-center justify-center gap-2 rounded-full border border-[#333333]/20 px-6 py-3 text-sm text-[#333333] no-underline transition hover:border-[#2AA7A1] hover:text-[#247F7A]" href="/immigration-medical-exam-calgary">
+                Canadian IRCC examinations
+              </Link>
+            </div>
 
           </div>
         </section>
@@ -169,125 +139,63 @@ export default function VisaMedicalsPage() {
             <div className="divide-y divide-[#333333]/10 pt-2">
               <InfoRow 
                 icon={<FileText size={16} className="text-[#2AA7A1]" />}
-                label="Bring Primary Identification" 
-                text="Most visa medicals require an unexpired passport or valid driver's license for identity confirmation." 
+                label="What to bring"
+                text="Bring the identification accepted for your destination, all visa instructions and forms, case or reference numbers, a medication list, relevant medical reports, and any photographs requested by that country."
               />
               <InfoRow 
                 icon={<ClipboardList size={16} className="text-[#2AA7A1]" />}
-                label="Bring Required Forms" 
-                text="Bring all visa instructions, agency forms, case numbers, and related medical paperwork." 
+                label="Confirm your exact requirements"
+                text="Tell Centre Street your destination country and visa category before the visit. Requirements differ by country and may change."
               />
               <InfoRow 
-                icon={<Clock3 size={16} className="text-[#2AA7A1]" />}
-                label="Standard Turnaround" 
-                text="Most listed results are ready within 3 days, depending on the testing required." 
+                icon={<DollarSign size={16} className="text-[#2AA7A1]" />}
+                label="Fees that may apply"
+                text="Fees may include the clinic examination, required partner-facility laboratory or X-ray services, repeat testing, follow-up review, or late cancellation. Confirm current amounts and payment arrangements with Centre Street before booking."
+              />
+              <InfoRow
+                icon={<CircleCheck size={16} className="text-[#2AA7A1]" />}
+                label="What happens after the examination"
+                text="Complete any required testing at the partner facilities identified by the clinic. Results and documents are handled according to the destination country's instructions, and Centre Street will contact you if repeat testing, follow-up, or another document is required."
               />
             </div>
           </div>
         </section>
 
-        {/* ================= AVAILABLE LOCATIONS (CAROUSEL) ================= */}
-        <section className="relative left-1/2 w-screen -translate-x-1/2 border-b border-[#333333]/10 bg-white py-14 sm:py-20 lg:py-24">
-          <div className="mx-auto max-w-[1400px] px-6 sm:px-10 lg:px-16">
-          <div className="mb-10 flex flex-col gap-6 md:flex-row md:items-end md:justify-between lg:mb-14">
-            <div className="space-y-3">
-              <span className="text-sm font-normal text-[#2AA7A1]">
-                Available Locations
-              </span>
-              <h3 className="max-w-[680px] text-[32px] font-normal leading-tight text-[#333333] sm:text-4xl">
-                Book visa medicals at these ZOMAK clinics
-              </h3>
+        <section className="relative left-1/2 w-screen -translate-x-1/2 border-b border-[#333333]/10 bg-[#EAF7F6]">
+          <div className="grid min-h-[620px] w-full lg:grid-cols-2">
+            <div className="relative min-h-[360px] lg:min-h-full">
+              <img src={centreStreet.heroImageUrl} alt={centreStreet.heroImageAlt} className="absolute inset-0 h-full w-full object-cover" />
             </div>
-            
-            <div className="flex w-full items-center justify-between gap-6 md:w-auto md:justify-end">
-              <p className="hidden max-w-[380px] text-lg font-light leading-relaxed text-[#333333]/70 lg:block">
-                Tell the clinic your destination country when booking so the team can prepare.
+
+            <div className="flex flex-col justify-center px-6 py-14 sm:px-10 lg:px-16 lg:py-20 xl:px-20">
+              <h2 className="max-w-[680px] font-serif text-[40px] font-normal leading-[1.06] sm:text-[52px]">
+                International visa medicals at Centre Street
+              </h2>
+              <p className="mt-6 max-w-[620px] text-[17px] leading-8 text-[#333333]/70">
+                Tell the clinic your destination country and visa category when booking. The team will confirm the required documents, preparation, current fees and appointment availability.
               </p>
-              {/* Carousel Navigation Buttons */}
-              <div className="flex gap-2">
-                <button 
-                  onClick={() => scrollCarousel('left')}
-                className="flex size-11 items-center justify-center rounded-full border border-[#333333]/16 bg-white text-[#333333] shadow-sm transition hover:border-transparent hover:bg-[#2AA7A1] hover:text-white active:scale-95"
-                  aria-label="Scroll left"
-                >
-                  <ChevronLeft size={18} />
-                </button>
-                <button 
-                  onClick={() => scrollCarousel('right')}
-                className="flex size-11 items-center justify-center rounded-full border border-[#333333]/16 bg-[#333333] text-white shadow-sm transition hover:bg-[#2AA7A1] active:scale-95"
-                  aria-label="Scroll right"
-                >
-                  <ChevronRight size={18} />
-                </button>
+
+              <div className="mt-9 border-y border-[#333333]/15">
+                <div className="grid gap-1 border-b border-[#333333]/15 py-5 sm:grid-cols-[130px_1fr] sm:gap-5">
+                  <p className="font-medium">Clinic</p>
+                  <p className="text-[#333333]/68">ZOMAK Centre Street</p>
+                </div>
+                <div className="grid gap-1 border-b border-[#333333]/15 py-5 sm:grid-cols-[130px_1fr] sm:gap-5">
+                  <p className="font-medium">Address</p>
+                  <p className="text-[#333333]/68">{formatLocationAddress(centreStreet)}</p>
+                </div>
+                <div className="grid gap-1 py-5 sm:grid-cols-[130px_1fr] sm:gap-5">
+                  <p className="font-medium">Phone</p>
+                  <a className="text-[#333333]/68 underline decoration-[#333333]/20 underline-offset-4 hover:text-[#247F7A]" href={centreStreetImmigrationPhoneHref}>{centreStreetImmigrationPhone}</a>
+                </div>
+              </div>
+
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+                <a className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#333333] px-6 py-3 text-sm font-medium text-white no-underline transition hover:bg-[#2AA7A1]" href={centreStreetImmigrationPhoneHref}><Phone size={15} />Call Centre Street</a>
+                <a className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-[#333333]/20 px-6 py-3 text-sm font-medium text-[#333333] no-underline transition hover:border-[#2AA7A1] hover:text-[#247F7A]" href="https://csnmc.ca/visa-medicals/" rel="noopener noreferrer" target="_blank">Visa-medical information <ExternalLink size={14} /></a>
+                <Link className="inline-flex min-h-12 items-center justify-center gap-2 px-3 py-3 text-sm font-medium text-[#333333] no-underline hover:text-[#247F7A]" href={`/locations/${centreStreet.slug}`}>View clinic <ArrowUpRight size={14} /></Link>
               </div>
             </div>
-          </div>
-
-          {/* Carousel Viewport */}
-          <div 
-            ref={carouselRef}
-            className="-mx-6 flex snap-x snap-mandatory gap-5 overflow-x-auto px-6 pb-8 [scrollbar-width:none] sm:-mx-10 sm:px-10 lg:-mx-16 lg:px-16 [&::-webkit-scrollbar]:hidden"
-            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-          >
-            {visaMedicalLocations.map((location) => (
-              <article
-                className="group flex min-w-[calc(100vw-2.5rem)] max-w-[390px] snap-start flex-col overflow-hidden rounded-2xl border border-[#333333]/10 bg-white shadow-[0_2px_12px_rgba(51,51,51,0.02)] transition-all duration-300 hover:-translate-y-1.5 hover:border-[#2AA7A1]/20 hover:shadow-[0_20px_40px_-10px_rgba(42,167,161,0.06)] sm:min-w-[360px] lg:min-w-[380px]"
-                key={location.slug}
-              >
-                {/* Clinic Cover Image - Clean (Pill Overlays Removed) */}
-                <div className="relative aspect-[1.55/1] overflow-hidden bg-[#F4F6F7] sm:aspect-[1.65/1]">
-                  <img
-                    src={location.heroImageUrl}
-                    alt={location.heroImageAlt}
-                    className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#333333]/10 via-transparent to-transparent" />
-                </div>
-
-                {/* Content Block Details - Modern Typography (Pills Removed) */}
-                <div className="flex flex-1 flex-col justify-between p-5 sm:p-8">
-                  <div>
-                    {/* Minimalist Location Tag */}
-                   
-
-                    <div className="space-y-3">
-                      <h4 className="text-xl font-normal text-[#333333] transition-colors duration-200 group-hover:text-[#2AA7A1] sm:text-2xl">
-                        {location.name}
-                      </h4>
-                      <p className="text-sm font-light leading-relaxed text-[#333333]/60">
-                        {formatLocationAddress(location)}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Foot Actions Area */}
-                  <div className="mt-7 flex items-center justify-between gap-4 border-t border-[#333333]/5 pt-5 sm:mt-8">
-                    {location.phone ? (
-                      <a
-                        className="inline-flex min-w-0 items-center gap-2 text-sm font-normal text-[#333333] no-underline transition-colors hover:text-[#2AA7A1]"
-                        href={`tel:${location.phone.replaceAll(' ', '')}`}
-                      >
-                        <Phone size={14} className="text-[#2AA7A1]" />
-                        {location.phone}
-                      </a>
-                    ) : (
-                      <span className="inline-flex min-w-0 items-center gap-2 text-sm font-normal text-[#333333]/55">
-                        <Phone size={14} className="text-[#2AA7A1]" />
-                        Phone to confirm
-                      </span>
-                    )}
-                    <Link
-                      className="inline-flex items-center gap-1.5 text-sm font-normal text-[#2AA7A1] no-underline transition-all hover:gap-3"
-                      href={`/locations/${location.slug}`}
-                    >
-                      View clinic
-                      <ArrowUpRight size={14} />
-                    </Link>
-                  </div>
-                </div>
-              </article>
-            ))}
-          </div>
           </div>
         </section>
 
@@ -383,7 +291,7 @@ export default function VisaMedicalsPage() {
                     <div className="md:col-span-4 space-y-6">
                       <div className="space-y-1">
                         <h4 className="text-sm font-normal text-[#2AA7A1]">
-                          During Testing
+                          Appointment and Partner Testing
                         </h4>
                         <p className="text-sm text-[#333333]/80 font-light leading-relaxed">
                           {entry.during}

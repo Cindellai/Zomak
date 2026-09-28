@@ -7,14 +7,14 @@
   "metaDescription": "A unified ZOMAK Medical platform for clinic locations, booking, directions, and priority healthcare services.",
   "homeHero": {
     "_type": "object",
-    "title": "ZOMAK Medical,",
-    "accentTitle": "Care made simple",
-    "description": "One trusted digital home for ZOMAK clinics, intuitive booking, directions, service pages, and future patient care workflows.",
-    "imageAlt": "Modern clinic care environment for coordinated patient services",
-    "primaryLabel": "Book appointment",
-    "primaryHref": "/contact",
+    "title": "Walk-In Clinics and Family Doctors Across Calgary and Cochrane",
+    "accentTitle": "",
+    "description": "Find same-day medical care or walk-in, register with a family physician, complete an immigration or visa medical, or access referral-based specialist care through five convenient ZOMAK locations.",
+    "imageAlt": "ZOMAK Medical clinic network serving Calgary and Cochrane",
+    "primaryLabel": "Find a Clinic",
+    "primaryHref": "/locations",
     "secondaryLabel": "Browse Services",
-    "secondaryHref": "/services/family-practice"
+    "secondaryHref": "/doctors?filter=accepting-new-patients#provider-directory"
   },
   "homeWalkIns": {
     "_type": "object",
@@ -28,7 +28,7 @@
   "homeAbout": {
     "_type": "object",
     "eyebrow": "About Us",
-    "statement": "We are dedicated to providing high-quality medical care tailored to your needs. Our team focuses on family health and walk-in care, ensuring every patient feels heard, supported, and confident in their care.",
+    "statement": "One trusted network of medical clinics across Calgary and Cochrane, offering family medicine, walk-in access and selected specialist services through coordinated, patient-centred care.",
     "leftImageAlt": "Doctor consulting with patient",
     "rightImageAlt": "Medical instruments and tools",
     "buttonLabel": "More About Us",
@@ -50,7 +50,7 @@
       { "_key": "internal", "_type": "object", "service": { "_type": "reference", "_ref": "service.internal-medicine-specialist-care" }, "displayTitle": "Internal Medicine" },
       { "_key": "aesthetics", "_type": "object", "service": { "_type": "reference", "_ref": "service.botox" }, "displayTitle": "Aesthetics" },
       { "_key": "family", "_type": "object", "service": { "_type": "reference", "_ref": "service.family-practice-walk-in-care" } },
-      { "_key": "homecare", "_type": "object", "service": { "_type": "reference", "_ref": "service.zomak-home-care" }, "displayTitle": "Zomak Home Care", "href": "/services/zomak-home-care" }
+      { "_key": "homecare", "_type": "object", "service": { "_type": "reference", "_ref": "service.zomak-home-care" }, "displayTitle": "ZOMAK Home Care", "href": "/services/zomak-home-care" }
     ]
   },
   "homeFamilyPractice": {
@@ -77,9 +77,9 @@
   },
   "homeAesthetics": {
     "_type": "object",
-    "eyebrow": "Now offering",
-    "heading": "Aesthetics at Zomak Medical Clinic - Griffin Road",
-    "description": "Explore personalized Botox, fillers, PRP treatments for hair and facials, Vampire Breast Lift, and Vampire Wing Lift services.",
+    "eyebrow": "Medical Aesthetics",
+    "heading": "Consultation-led aesthetics at Griffin Road",
+    "description": "Botox, fillers and PRP services are available at ZOMAK Griffin Road. Review treatment options, suitability, preparation and booking details in the Medical Aesthetics section.",
     "imageAlt": "Patient discussing personalized facial aesthetics treatment with a provider",
     "buttonLabel": "Explore Aesthetics",
     "buttonHref": "/services/aesthetics"
