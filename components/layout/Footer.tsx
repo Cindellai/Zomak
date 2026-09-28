@@ -13,7 +13,6 @@ const resourceLinks = [
   { label: 'Doctors', href: '/doctors' },
   { label: 'Visa Medicals', href: '/visa-medical-calgary' },
   { label: 'IRCC Panel Physicians', href: '/ircc-panel-physician-calgary' },
-  { label: 'Patient FAQ', href: '/#faq' }
 ]
 
 export function Footer() {

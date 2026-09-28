@@ -56,7 +56,6 @@ export default function AboutPage() {
 
           <div className="mt-16 flex flex-col gap-3 border-t border-[#333333]/15 pt-10 sm:flex-row sm:flex-wrap">
             <Link href="/locations#choose-clinic" className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#333333] px-7 py-3 text-sm font-medium text-white no-underline transition hover:bg-[#2AA7A1]">Find a clinic</Link>
-            <Link href="/services/family-practice" className="inline-flex min-h-12 items-center justify-center rounded-full border border-[#333333]/20 px-7 py-3 text-sm font-medium text-[#333333] no-underline transition hover:border-[#2AA7A1] hover:text-[#247F7A]">Explore services</Link>
           </div>
         </div>
       </article>

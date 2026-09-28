@@ -44,7 +44,10 @@ export default function Navbar() {
 
   return <header className="fixed inset-x-0 top-0 z-[80] bg-white/95 backdrop-blur-md">
     <nav className="mx-auto flex h-16 max-w-[1500px] items-center justify-between px-5 sm:px-8 lg:px-10 xl:px-14">
-      <Link href="/" className="shrink-0 text-[25px] font-bold text-[#333333] no-underline" style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}>ZOMAK</Link>
+      <Link href="/" aria-label="ZOMAK Medical home" className="flex shrink-0 items-center gap-2 text-[#333333] no-underline">
+        <img src="/images/zomak-logo-transparent.png" alt="" className="size-10 object-contain" />
+        <span className="text-[25px] font-bold" style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}>ZOMAK</span>
+      </Link>
       <div className="hidden items-center gap-4 text-[13px] font-medium text-[#333333] xl:flex xl:gap-6 xl:text-[14px]">
         <Dropdown label="Locations" name="locations" openMenu={openMenu} setOpenMenu={setOpenMenu} links={locationLinks} />
         <Dropdown label="Services" name="services" openMenu={openMenu} setOpenMenu={setOpenMenu} links={serviceLinks} />

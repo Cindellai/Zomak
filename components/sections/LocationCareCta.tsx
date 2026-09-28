@@ -20,7 +20,7 @@ export function LocationCareCta({
           <div className="flex flex-col justify-center px-7 py-12 sm:px-10 lg:px-14 lg:py-16 xl:px-16">
             <div className="h-[92px] w-[92px] overflow-hidden bg-white">
               <img
-                src="/images/zomak-logo.jpg"
+                src="/images/zomak-logo-transparent.png"
                 alt="ZOMAK Medical Clinic logo"
                 className="h-full w-full scale-[1.04] object-contain"
               />
