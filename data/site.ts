@@ -13,24 +13,6 @@ export const clinicHours = [
 export const clinicHoursSummary = 'Monday to Friday 9:00 a.m. to 6:00 p.m.; Saturday 10:00 a.m. to 3:00 p.m.; Sunday Closed.'
 export const walkInCapacityNotice = 'Walk-ins are available, subject to daily capacity and provider availability.'
 
-const revitalizeServices = [
-  'P-Shot (Priapus Shot)',
-  'Bocox',
-  'Shockwave for Erectile Dysfunction',
-  'Trimix',
-  'O-Shot (Orgasm Shot)',
-  'PRP Treatment for Hair and Facials',
-  'Vampire Breast Lift',
-  'Vampire Wing Lift'
-]
-
-const homeCareServices = [
-  'Respite Care',
-  'Elderly Care',
-  'Client Directed Homecare Invoicing Program',
-  'Personal Care'
-]
-
 const serviceCategories = {
   aesthetics: 'Aesthetics',
   internalMedicine: 'Internal Medicine',

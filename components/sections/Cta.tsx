@@ -2,7 +2,6 @@ import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import { homeActionPrimary } from '@/components/ui/homeActionStyles'
 
-import { cta } from '@/lib/routes'
 import type { HomepageContent } from '@/lib/sanity/homepage'
 
 export function CTA({ content }: { content?: HomepageContent['finalCta'] }) {

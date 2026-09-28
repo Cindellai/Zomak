@@ -126,7 +126,6 @@ export function Locations({ content }: { content?: HomepageContent['locations'] 
           {/* Right column — Premium Framed Canvas Photo Asset */}
           <div className="hidden lg:col-span-6 lg:block lg:pl-4">
             <div className="sticky top-28 relative aspect-[4/5] w-full overflow-hidden rounded-[2rem] bg-[#F4F6F7] shadow-[0_24px_70px_rgba(16,42,50,0.08)]">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={locations[openIndex]?.heroImageUrl || content?.imageUrl}
                 alt={locations[openIndex]?.heroImageAlt || content?.imageAlt || locations[openIndex]?.name}

@@ -6,8 +6,6 @@ import Navbar from '@/components/layout/Navbar'
 import { SiteChrome } from '@/components/layout/SiteChrome'
 import { InteractionAnalytics } from '@/components/analytics/InteractionAnalytics'
 import { getSiteUrl, isProductionIndexingEnabled } from '@/lib/seo'
-// Ignore missing type declarations for global CSS side-effect import
-// @ts-ignore
 import './globals.css'
 
 export const metadata: Metadata = {

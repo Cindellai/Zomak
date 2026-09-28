@@ -1,6 +1,6 @@
 'use client'
 
-import { Minus, Plus, X } from 'lucide-react'
+import { Plus, X } from 'lucide-react'
 import { useState } from 'react'
 import type { HomepageContent } from '@/lib/sanity/homepage'
 

@@ -1,4 +1,3 @@
-import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
 import { LocationCareCta } from '@/components/sections/LocationCareCta'
@@ -29,8 +28,6 @@ export async function generateMetadata({ params }: LocationPageProps) {
   if (!location) {
     return {}
   }
-
-  const editableLocation = await getEditableWalkInStatus(slug)
 
   return pageMetadata({ pathname: `/locations/${location.slug}`, title: location.pageTitle, description: location.metaDescription, image: location.heroImageUrl })
 }

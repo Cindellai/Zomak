@@ -6,9 +6,9 @@ import { useRef } from 'react'
 import type { Location } from '@/data/site'
 
 export function ServiceLocationsCarousel({ locations }: { locations: Location[] }) {
-  if (!locations?.length) return null
-
   const scrollRef = useRef<HTMLDivElement>(null)
+
+  if (!locations?.length) return null
 
   const scroll = (direction: 'left' | 'right') => {
     const node = scrollRef.current

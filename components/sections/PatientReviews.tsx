@@ -1,7 +1,6 @@
 'use client'
 
-import { Star, ArrowLeft, ArrowRight } from 'lucide-react'
-import { useState } from 'react'
+import { Star } from 'lucide-react'
 import type { HomepageContent } from '@/lib/sanity/homepage'
 
 export function PatientReviews({
@@ -11,7 +10,6 @@ export function PatientReviews({
   content?: HomepageContent['reviews']
   testimonials?: HomepageContent['testimonials']
 }) {
-  const [start, setStart] = useState(0)
   const visible = 4
   const cmsReviews = testimonials?.filter((review) => review.quote && review.source && review.googleProfileUrl)
   const reviewData = cmsReviews?.length
@@ -27,8 +25,6 @@ export function PatientReviews({
       }))
     : []
   if (!reviewData.length) return null
-  const canPrev = start > 0
-  const canNext = start + visible < reviewData.length
 
   return (
     <section className="bg-[#F4F6F7] px-5 py-16 sm:px-10 sm:py-24 lg:px-16 lg:py-32 border-t border-[#333333]/12">
@@ -60,7 +56,7 @@ export function PatientReviews({
 
         {/* 2. Refined Review Cards Grid */}
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {reviewData.slice(start, start + visible).map((review) => (
+          {reviewData.slice(0, visible).map((review) => (
             <article
               key={review.category}
               className="flex min-h-[360px] flex-col justify-between rounded-2xl bg-white p-7 border border-[#333333]/12 shadow-sm transition-all duration-300 hover:shadow-md hover:border-[#333333]/20"
