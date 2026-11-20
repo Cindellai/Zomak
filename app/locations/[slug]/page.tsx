@@ -143,7 +143,6 @@ export default async function LocationPage({ params }: LocationPageProps) {
         href={directionsUrl}
         actionLabel="Directions"
         phone={clinic.phone}
-        topClassName="top-0"
       />
       <header className="grid overflow-hidden bg-white lg:min-h-[calc(100svh-42px)] lg:grid-cols-2">
         <div className="relative z-0 min-h-[340px] bg-[#293538] sm:min-h-[500px] lg:min-h-0 lg:w-[calc(100%+72px)]">
