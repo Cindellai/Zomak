@@ -2,13 +2,13 @@ import { notFound } from 'next/navigation'
 
 import { LocationCareCta } from '@/components/sections/LocationCareCta'
 import { JsonLd } from '@/components/seo/JsonLd'
-import { WalkInStatusBanner } from '@/components/sections/WalkInStatusBanner'
+import { LiveWalkInStatusBanner } from '@/components/sections/LiveWalkInStatusBanner'
 import { GriffinAesthetics } from '@/components/sections/GriffinAesthetics'
 import { LocationProviders } from '@/components/sections/LocationProviders'
 import { LocationServicesCarousel } from '@/components/sections/LocationServicesCarousel'
 import { providers } from '@/data/providers'
 import { locations, services } from '@/data/site'
-import { getEditableWalkInStatus } from '@/lib/sanity/walkIns'
+import { getEditableWalkInStatus, getLiveWalkInStatus } from '@/lib/sanity/walkIns'
 import { absoluteUrl, pageMetadata } from '@/lib/seo'
 
 type LocationPageProps = {
@@ -40,7 +40,10 @@ export default async function LocationPage({ params }: LocationPageProps) {
     notFound()
   }
 
-  const editableLocation = await getEditableWalkInStatus(location.slug)
+  const [editableLocation, liveWalkIn] = await Promise.all([
+    getEditableWalkInStatus(location.slug),
+    getLiveWalkInStatus(location.slug)
+  ])
   const clinic = {
     ...location,
     ...Object.fromEntries(Object.entries(editableLocation || {}).filter(([, value]) => value !== undefined && value !== null && value !== '')),
@@ -49,11 +52,6 @@ export default async function LocationPage({ params }: LocationPageProps) {
     heroImageAlt: editableLocation?.heroImageAlt || location.heroImageAlt,
     philosophy: editableLocation?.philosophy
   }
-  const liveWaitTimesEnabled = process.env.NEXT_PUBLIC_LIVE_WAIT_TIMES_ENABLED === 'true'
-  const walkInStatus = liveWaitTimesEnabled
-    ? clinic.walkInStatus
-    : 'Call to confirm walk-in availability'
-  const waitTime = liveWaitTimesEnabled ? clinic.waitTime : ''
   const displayClinicName = removeTitleDash(clinic.name)
 
   const allowedServiceTitles = filterLocationServices(clinic.slug, clinic.services)
@@ -139,9 +137,9 @@ export default async function LocationPage({ params }: LocationPageProps) {
     <section className="bg-white text-ink">
       <JsonLd data={locationSchema} />
       <JsonLd data={faqSchema} />
-      <WalkInStatusBanner
-        status={walkInStatus}
-        waitTime={waitTime}
+      <LiveWalkInStatusBanner
+        slug={clinic.slug}
+        initial={liveWalkIn}
         href={directionsUrl}
         actionLabel="Directions"
         phone={clinic.phone}
@@ -275,7 +273,7 @@ export default async function LocationPage({ params }: LocationPageProps) {
         clinicName={displayClinicName}
         directionsHref={directionsUrl}
         phone={clinic.phone}
-        walkInStatus={walkInStatus}
+        walkInStatus={liveWalkIn.status}
         image={clinic.slug === 'lewisburg' ? '/images/locations/lewisburg-exterior.jpg' : undefined}
         imageAlt={clinic.slug === 'lewisburg' ? 'Exterior of Zomak Medical Clinic Lewisburg' : undefined}
       />

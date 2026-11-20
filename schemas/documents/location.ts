@@ -19,6 +19,7 @@ export const location = defineType({
       name: 'walkInStatus',
       title: 'Walk-in Live Status',
       type: 'string',
+      hidden: true,
       description: 'Update this throughout the day. It appears in the sticky banner on this clinic page.',
       initialValue: 'Walk-ins now',
       options: {
@@ -30,6 +31,7 @@ export const location = defineType({
       name: 'waitTime',
       title: 'Estimated Walk-in Wait',
       type: 'string',
+      hidden: true,
       description: 'The current estimated wait shown beside the live status. Publish the clinic document after updating.',
       initialValue: 'Short wait',
       options: {
